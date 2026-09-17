@@ -55,10 +55,10 @@ npm run dev                     # ts-node with reload
 Add a model:
 
 ```bash
-npm run new-model -- amari       # copies models/_template → models/amari
-# edit models/amari/model.yaml (discord ids, ig handle, zernio profile, timezone)
-npm run import-captions -- amari # pulls her real captions via Apify into voice/caption-examples.md
-npm run setup-server -- amari    # creates her private category + channels + role
+npm run new-model -- jane       # copies models/_template → models/jane
+# edit models/jane/model.yaml (discord ids, ig handle, zernio profile, timezone)
+npm run import-captions -- jane # pulls her real captions via Apify into voice/caption-examples.md
+npm run setup-server -- jane    # creates her private category + channels + role
 ```
 
 ## Knowledge graph (optional but recommended)

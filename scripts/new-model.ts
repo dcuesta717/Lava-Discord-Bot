@@ -1,6 +1,6 @@
 /**
  * Copy models/_template → models/<slug> and stamp the slug/display name.
- *   npm run new-model -- amari "Amari Preeti" AMA
+ *   npm run new-model -- jane "Jane Doe" JAN
  */
 import { cpSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';

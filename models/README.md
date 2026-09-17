@@ -1,6 +1,6 @@
 # models/
 
-One folder per model. The folder name is the slug used everywhere (`/caption model:amari`, custom ids, DB rows).
+One folder per model. The folder name is the slug used everywhere (`/caption model:jane`, custom ids, DB rows).
 
 ```
 models/<slug>/

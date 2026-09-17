@@ -3,7 +3,7 @@
 ```
  Discord (one Lava guild)                                   Staff-only channels
  ┌────────────────────────────────────────────┐             ┌──────────────────────────┐
- │ 📁 Amari (private)  📁 Model 2  … 📁 Model 15│             │ #live-alerts  (Dan, Marissa)│
+ │ 📁 Jane (private)  📁 Model 2  … 📁 Model 15│             │ #live-alerts  (Dan, Marissa)│
  │  #general  🎬board  #custom  #notification  │             │ #content-requests-inbox   │
  │  #resources  🔊call                          │             │ #reels-inbox  #ops-log    │
  │ #agency-lounge (all models + owners)        │             └────────────▲─────────────┘

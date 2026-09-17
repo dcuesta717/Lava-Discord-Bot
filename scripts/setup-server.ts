@@ -1,11 +1,13 @@
 /**
  * Create a model's private category + channels + role in the Lava guild and print the ids to paste into model.yaml.
- *   npm run setup-server -- amari <model_discord_user_id>
+ *   npm run setup-server -- jane <model_discord_user_id>
  * Template mirrors Nivo HQ (docs/source-analysis §2.1). Idempotent-ish: skips channels that already exist by name.
  */
 import { ChannelType, Client, GatewayIntentBits, PermissionFlagsBits, type CategoryChannel, type Guild, type OverwriteResolvable } from 'discord.js';
 import { loadEnv } from '../src/config/env.js';
 import { loadModels } from '../src/config/models.js';
+import { openDb } from '../src/db/client.js';
+import { Settings } from '../src/lib/settings.js';
 
 const [slug, userId] = process.argv.slice(2);
 const env = loadEnv();
@@ -15,9 +17,13 @@ if (!model || !userId) {
   process.exit(1);
 }
 
+const db = openDb(env.DATABASE_URL);
+const settings = new Settings(db);
+await settings.load().catch(() => undefined); // fine if the bot has never booted yet
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 await client.login(env.DISCORD_TOKEN);
 const guild: Guild = await client.guilds.fetch(model.discord.guild_id ?? env.DISCORD_GUILD_ID);
+const staffIds = [...new Set([guild.ownerId, ...settings.getList('owners'), ...env.OWNER_IDS, ...env.BOT_ADMIN_IDS, ...model.discord.manager_ids])];
 await guild.roles.fetch();
 await guild.channels.fetch();
 
@@ -29,7 +35,7 @@ const overwrites: OverwriteResolvable[] = [
   { id: guild.roles.everyone.id, deny: [PermissionFlagsBits.ViewChannel] },
   { id: role.id, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.AddReactions, PermissionFlagsBits.UseApplicationCommands] },
   { id: client.user!.id, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ManageThreads, PermissionFlagsBits.CreatePublicThreads, PermissionFlagsBits.SendMessagesInThreads, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AddReactions] },
-  ...[...env.OWNER_IDS, ...env.BOT_ADMIN_IDS, ...model.discord.manager_ids].map((id) => ({ id, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.ManageMessages] })),
+  ...staffIds.map((id) => ({ id, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.ManageMessages] })),
 ];
 
 const catName = model.display_name;
@@ -76,4 +82,5 @@ discord:
     resources: "${ids.resources}"
 `);
 client.destroy();
+await db.end({ timeout: 1 });
 process.exit(0);

@@ -4,7 +4,7 @@ One guild ("Lava HQ"). Models never see each other's categories. `scripts/setup-
 
 ```
 📁 STAFF                          (Dan, Marissa, Aaron, bot)
- ├ #live-alerts                   "🔴 Amari is LIVE" / "⚫ ended · 47 min"; insights reminders escalate here
+ ├ #live-alerts                   "🔴 Jane is LIVE" / "⚫ ended · 47 min"; insights reminders escalate here
  ├ #content-requests-inbox        upload pings from the Drive watcher; also fine for staff to draft requests before /request
  ├ #reels-inbox                   paste "<slug> <url> [note]" → bot classifies + posts to her board
  ├ #ops-log                       every bot action (also in bot.event_log in Supabase)

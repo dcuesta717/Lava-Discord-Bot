@@ -17,7 +17,7 @@ A single Discord bot for an OnlyFans/creator management agency (Lava Mgmt). ~15 
 - TypeScript, ESM, Node 20. `npm run typecheck` must pass before commit.
 - One module = one folder under `src/modules/<name>/` with `index.ts` exporting `register(ctx: BotContext)`. Modules register commands, component handlers and crons through the context; they never import each other directly — use `ctx.bus` events.
 - Slash commands are defined in `src/discord/commands/*.ts` and registered by `scripts/register-commands.ts`.
-- Component custom ids follow `module:action:modelSlug:entityId` (e.g. `reels:on_drive:amari:123`).
+- Component custom ids follow `module:action:modelSlug:entityId` (e.g. `reels:on_drive:jane:123`).
 - Model timezone (`model.yaml → timezone`) governs every cron for that model.
 - Logs: `ctx.log.info({ model, module }, 'message')` (pino). Also mirror important actions to the `#ops-log` channel via `ctx.ops()`.
 

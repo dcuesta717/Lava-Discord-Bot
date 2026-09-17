@@ -1,7 +1,7 @@
 /**
  * Pull a model's real Instagram/TikTok captions through Apify into models/<slug>/voice/caption-examples.md,
  * top performers first, so the caption generator learns from what actually worked.
- *   npm run import-captions -- amari [limit=80]
+ *   npm run import-captions -- jane [limit=80]
  * Uses socials.instagram / socials.tiktok from model.yaml. Idempotent: rewrites the "## Imported" section only.
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
