@@ -48,6 +48,7 @@ export function register(ctx: BotContext) {
   ctx.client.once(Events.ClientReady, async () => {
     await ctx.ready; // #bot-dev etc. exist once setup is done
     resumeInterrupted().catch((err) => ctx.log.warn({ err }, 'onboarding resume failed'));
+    postMissingReviews().catch((err) => ctx.log.warn({ err }, 'review backfill failed'));
     try {
       const rows = await sql<OnboardingRow[]>`SELECT * FROM bot.model_onboarding WHERE status = 'committed'`;
       for (const r of rows) {
@@ -72,6 +73,21 @@ export function register(ctx: BotContext) {
     }
   });
 
+  /** Models that are live but whose research was never shown to the owners in Discord (older onboardings). */
+  async function postMissingReviews() {
+    const rows = await sql<{ slug: string }[]>`SELECT slug FROM bot.model_onboarding WHERE status = 'live' AND (research->>'reviewed') IS NULL`;
+    for (const r of rows) {
+      const model = ctx.models.get(r.slug);
+      if (!model) continue;
+      const f = model.files();
+      if (!f.profile) continue;
+      await postReview(r.slug, model.display_name, [
+        { path: `models/${r.slug}/profile.md`, content: f.profile },
+        { path: `models/${r.slug}/voice/voice.md`, content: f.voice },
+      ]);
+    }
+  }
+
   /** A deploy/restart in the middle of /model add leaves a row at started|structured|researched — finish it. */
   async function resumeInterrupted() {
     const rows = await sql<OnboardingRow[]>`SELECT * FROM bot.model_onboarding WHERE status IN ('started','structured','researched') AND updated_at > now() - interval '3 hours'`;
@@ -88,6 +104,35 @@ export function register(ctx: BotContext) {
       }
     }
   }
+
+  // Weekly: re-research every creator so profiles, imported captions and sourcing never go stale (voice.md untouched).
+  ctx.cron('models:weekly-refresh', '0 6 * * 0', ctx.env.DEFAULT_TIMEZONE, async () => {
+    if (!ctx.api.apify.enabled || !github.enabled) return;
+    const lines: string[] = [];
+    for (const model of ctx.models.all()) {
+      if (!model.socials.instagram) continue;
+      try {
+        const { research, stats, profile, posts } = await runResearch({ displayName: model.display_name, instagram: model.socials.instagram, tiktok: model.socials.tiktok, timezone: model.timezone });
+        const existingProfile = (await github.read(`models/${model.slug}/profile.md`)) ?? '';
+        const existingExamples = (await github.read(`models/${model.slug}/voice/caption-examples.md`)) ?? tmpl('voice/caption-examples.md');
+        await github.commitFiles(
+          [
+            { path: `models/${model.slug}/profile.md`, content: renderProfile({ name: model.display_name, instagram: model.socials.instagram, tiktok: model.socials.tiktok, research, stats, profile }, keepStaffTail(existingProfile), ctx.env.DEFAULT_TIMEZONE) },
+            { path: `models/${model.slug}/voice/caption-examples.md`, content: withImportedSection(existingExamples, importedSection(posts)) },
+            { path: `models/${model.slug}/sourcing/reels-sources.yaml`, content: renderSourcing(research, model.socials.tiktok, ctx.env.DEFAULT_TIMEZONE) },
+          ],
+          `Weekly refresh: ${model.display_name} (${model.slug})`,
+        );
+        await sql`UPDATE bot.model_onboarding SET research = ${sql.json({ research, stats, profile: { ...profile, latestPosts: undefined }, reviewed: true } as never)}, updated_at = now() WHERE slug = ${model.slug}`;
+        lines.push(`${model.display_name}: ${stats.posts} posts · ${stats.posts_per_week}/wk · lanes ${research.lanes.map((l) => l.slug).join('/') || '—'}`);
+      } catch (err) {
+        ctx.log.warn({ err, model: model.slug }, 'weekly refresh failed');
+        lines.push(`${model.display_name}: failed`);
+      }
+    }
+    if (lines.length) await ctx.send(ctx.ch('daily_report') || ctx.ch('bot_dev'), { content: `🔄 **weekly profile refresh** — ${lines.join(' · ')}`, allowedMentions: { parse: [] } });
+    await ctx.ops(MODULE, 'weekly-refresh', { data: { models: lines.length } });
+  });
 
   ctx.client.on(Events.GuildMemberAdd, async (member: GuildMember) => {
     const rows = await sql<{ slug: string; discord: { role_id?: string } }[]>`SELECT slug, discord FROM bot.model_onboarding WHERE user_id = ${member.id}`.catch(() => []);
@@ -412,6 +457,7 @@ export function register(ctx: BotContext) {
       components: [reviewButtons(slug)],
       allowedMentions: { parse: [] },
     });
+    await sql`UPDATE bot.model_onboarding SET research = research || ${sql.json({ reviewed: true } as never)} WHERE slug = ${slug}`.catch(() => undefined);
   }
 
   function reviewButtons(slug: string) {

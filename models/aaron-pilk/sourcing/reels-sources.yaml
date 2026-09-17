@@ -9,7 +9,7 @@ tiktok:
     - pitching
     - ai
   seed_accounts: []
-  min_views: 200000
+  min_views: 30000
   results_per_query: 20
 instagram:
   hashtags:
@@ -22,5 +22,5 @@ instagram:
     - cats
     - topgolf
   seed_accounts: []
-  min_views: 50000
+  min_views: 5000
   results_per_query: 20

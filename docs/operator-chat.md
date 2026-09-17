@@ -25,7 +25,10 @@ Every module registers its capabilities with `ctx.action(name, {...})`; the oper
 
 | action | does |
 |---|---|
-| `onboard_model` | full onboarding (channels → research → GitHub commit). Confirms once first. |
+| `onboard_model` | full onboarding (channels → research → files). Confirms once first. Posts her report in #new-girl-reviews. |
+| `show_model_profile`, `kickoff_model`, `remove_model` | show her report with Approve/Notes/Redo; run her scout+picks+report now; off-board |
+| `add_owner`, `remove_owner` | manage owners |
+| `scout_reels_for_model` | her personal reels board scout |
 | `list_models`, `set_model_lanes` | who is onboarded; change a girl's folders |
 | `run_library_scout`, `send_library_picks`, `add_library_source`, `add_library_video`, `library_stats` | the Content Library |
 | `list_events`, `add_event`, `send_event_ideas` | the calendar |
