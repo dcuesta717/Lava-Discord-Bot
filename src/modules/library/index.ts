@@ -109,6 +109,8 @@ export function register(ctx: BotContext) {
     if (!ctx.api.apify.enabled) return;
     const summary = await scout();
     await ctx.ops(MODULE, 'scouted', { data: summary, text: `${summary.posted} posted across ${summary.genres} folders` });
+    const picks = await deliverPicks();
+    if (picks.delivered) await ctx.ops(MODULE, 'picks-delivered', { data: picks });
   });
 
   // ── inbox: paste links, get them filed ─────────────────────────────────────
@@ -164,7 +166,8 @@ export function register(ctx: BotContext) {
           .addSubcommand((s) => s.setName('list').setDescription('Show the scout list').addStringOption((o) => o.setName('folder').setDescription('Folder').addChoices(...genreChoices()))),
       )
       .addSubcommand((s) => s.setName('scout').setDescription('Run the scout now (owners)').addStringOption((o) => o.setName('folder').setDescription('One folder only').addChoices(...genreChoices())))
-      .addSubcommand((s) => s.setName('stats').setDescription('What’s in the library and what’s hot')),
+      .addSubcommand((s) => s.setName('stats').setDescription('What’s in the library and what’s hot'))
+      .addSubcommand((s) => s.setName('picks').setDescription('Send each creator her top picks from the library now (owners)').addStringOption((o) => o.setName('model').setDescription('One creator (slug)'))),
     async (i) => {
       const group = i.options.getSubcommandGroup(false);
       const sub = i.options.getSubcommand();
@@ -218,6 +221,13 @@ export function register(ctx: BotContext) {
         return i.editReply(`scouted ${s.genres} folder(s): ${s.candidates} candidates → ${s.posted} posted, ${s.dupes} already in the library, ${s.skipped} not library material${s.errors ? `, ${s.errors} source errors` : ''}`);
       }
 
+      if (sub === 'picks') {
+        if (!ctx.isOwner(i.user.id)) return i.reply({ content: 'owners only', flags: MessageFlags.Ephemeral });
+        await i.deferReply({ flags: MessageFlags.Ephemeral });
+        const r = await deliverPicks(i.options.getString('model') ?? undefined);
+        return i.editReply(`picks: ${r.delivered} video(s) sent to ${r.models} creator(s)${r.skipped ? ` · ${r.skipped} creator(s) had no lanes or nothing new` : ''}`);
+      }
+
       if (sub === 'stats') {
         const counts = await sql<{ genre: string; n: number; fire: number }[]>`SELECT genre, COUNT(*)::int AS n, COALESCE(SUM(up),0)::int AS fire FROM bot.library_items GROUP BY genre`;
         const hot = await sql<ItemRow[]>`SELECT * FROM bot.library_items ORDER BY (up - down) DESC, copies DESC, created_at DESC LIMIT 5`;
@@ -247,11 +257,11 @@ export function register(ctx: BotContext) {
   ctx.component('library:up', vote(1));
   ctx.component('library:down', vote(-1));
 
-  ctx.component('library:copy', async (i, parts) => {
+  ctx.component('library:copy', async (i, parts, model) => {
     const id = Number(parts[3]);
     const item = await byId(id);
     if (!item) return;
-    const mine = ctx.models.all().find((m) => m.discord.user_id === i.user.id);
+    const mine = model ?? ctx.models.all().find((m) => m.discord.user_id === i.user.id);
     if (mine) {
       await sendToBoard(item, mine.slug, i.user.id);
       return i.reply({ content: `sent to your reels board ✅ — it’s in <#${mine.discord.channels.reels_board}> with a brief`, flags: MessageFlags.Ephemeral });
@@ -525,6 +535,44 @@ export function register(ctx: BotContext) {
       ctx.log.warn({ err, url }, 'download failed');
       return undefined;
     }
+  }
+
+  // ── routed drops: her top picks in her own channel ─────────────────────────
+  /** For each model with lanes: newest high-scoring library items in her lanes she has not received → her #general with a Copy button. */
+  async function deliverPicks(only?: string) {
+    const r = { models: 0, delivered: 0, skipped: 0 };
+    const n = cfg.scout.picks_per_model;
+    if (!n) return r;
+    for (const model of ctx.models.all()) {
+      if (only && model.slug !== only) continue;
+      if (!model.lanes.length) {
+        r.skipped++;
+        continue;
+      }
+      const items = await sql<ItemRow[]>`
+        SELECT i.* FROM bot.library_items i
+        WHERE (i.genre = ANY(${model.lanes}) OR i.tags && ${model.lanes})
+          AND i.created_at > now() - interval '3 days'
+          AND NOT EXISTS (SELECT 1 FROM bot.library_deliveries d WHERE d.item_id = i.id AND d.model_slug = ${model.slug})
+        ORDER BY COALESCE(i.score, 0) DESC, (i.up - i.down) DESC, i.created_at DESC
+        LIMIT ${n}`;
+      if (!items.length) {
+        r.skipped++;
+        continue;
+      }
+      const lines = items.map((it, k) => `**${k + 1}. ${it.title}** · ${genre(it.genre)?.emoji ?? ''} ${genre(it.genre)?.name ?? it.genre}\n${it.why ? `_why:_ ${it.why}\n` : ''}${it.copy_brief ? `_do:_ ${it.copy_brief}\n` : ''}${threadUrl(it) ?? it.source_url}`);
+      const rows = items.map((it) =>
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder().setCustomId(`library:copy:${model.slug}:${it.id}`).setLabel(`Copy #${items.indexOf(it) + 1} to my board`).setEmoji('📋').setStyle(ButtonStyle.Primary),
+        ),
+      );
+      const sent = await ctx.send(model.discord.channels.general, { content: [`🔥 **today's picks for you** — trending in your lanes, tap to put one on your board`, ...lines].join('\n\n').slice(0, 1990), components: rows.slice(0, 5), allowedMentions: { parse: [] } });
+      if (!sent) continue;
+      for (const it of items) await sql`INSERT INTO bot.library_deliveries (item_id, model_slug) VALUES (${it.id}, ${model.slug}) ON CONFLICT DO NOTHING`;
+      r.models++;
+      r.delivered += items.length;
+    }
+    return r;
   }
 
   // ── structure ──────────────────────────────────────────────────────────────

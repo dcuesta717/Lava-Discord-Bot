@@ -6,7 +6,8 @@
 # Hashtags here are defaults; `/library source add` can add more per genre too.
 
 scout:
-  cron: "0 9 * * *"          # daily, DEFAULT_TIMEZONE
+  cron: "0 7 * * *"          # daily 7 AM, DEFAULT_TIMEZONE — Dan: "every day at 7 AM"
+  picks_per_model: 3         # after the scout, each model gets her top picks (her lanes) in her #general
   per_hashtag: 15            # Apify results per hashtag per run
   per_account: 6             # Apify results per seed account per run
   newer_than: "7 days"

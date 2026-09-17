@@ -25,6 +25,7 @@ const schema = z.object({
       classify_top: z.number().int().min(1).max(20).default(8),
       keep: z.number().int().min(1).max(10).default(3),
       min_score: z.number().min(0).max(1).default(0.55),
+      picks_per_model: z.number().int().min(0).max(10).default(3),
     })
     .default({}),
   genres: z.array(genreSchema).min(1).max(20), // 20 = Discord's forum-tag limit (every genre is also a tag)

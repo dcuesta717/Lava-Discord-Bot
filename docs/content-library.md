@@ -37,7 +37,9 @@ how to copy it: golf cart, phone on the dash, text "rate my swing 1-10", 3 swing
 
 **Scout (daily, `scout.cron` in genres.yaml, DEFAULT_TIMEZONE).** Per genre: seed accounts (`/library source add folder:golf value:@handle @handle2`) + hashtags (`genres.yaml` + `#tags` added the same way) → Apify (`apify/instagram-scraper`, `resultsType: reels` — verified: hashtag + profile pages return real reels with play/like/comment counts) → recent reels → ranked by `(comments×5 + likes + views/100) × recency` → top `classify_top` go to Claude one at a time with the cover frame → those with `keep` and `score ≥ min_score` → top `keep` posted. Seed accounts with weight < 0.3 (repeatedly 👎'd) are skipped.
 
-`/library scout` runs it now (owners). `/library stats` shows counts per folder and the hottest posts. `/library source list` shows the scout lists.
+**Routed drops (7 AM, right after the scout).** Every model whose `model.yaml → lanes` is set gets her top `picks_per_model` (default 3) new library videos from her lanes in her `#💬-general-chat` — title, why, how to copy, link to the library post, and a **📋 Copy #n to my board** button. Nothing is sent twice (`bot.library_deliveries`). `/library picks [model]` sends them now.
+
+`/library scout` runs the scout now (owners). `/library stats` shows counts per folder and the hottest posts. `/library source list` shows the scout lists.
 
 ## Classification
 
