@@ -3,7 +3,7 @@
  *   npm run setup-server -- jane <model_discord_user_id>
  * Template mirrors Nivo HQ (docs/source-analysis §2.1). Idempotent-ish: skips channels that already exist by name.
  */
-import { ChannelType, Client, GatewayIntentBits, PermissionFlagsBits, type CategoryChannel, type Guild, type OverwriteResolvable } from 'discord.js';
+import { ChannelType, Client, GatewayIntentBits, OverwriteType, PermissionFlagsBits, type CategoryChannel, type Guild, type OverwriteResolvable } from 'discord.js';
 import { loadEnv } from '../src/config/env.js';
 import { loadModels } from '../src/config/models.js';
 import { openDb } from '../src/db/client.js';
@@ -32,10 +32,10 @@ const role = guild.roles.cache.find((r) => r.name === roleName) ?? (await guild.
 await guild.members.fetch(userId).then((m) => m.roles.add(role)).catch(() => console.warn('could not add role to user — is she in the server yet?'));
 
 const overwrites: OverwriteResolvable[] = [
-  { id: guild.roles.everyone.id, deny: [PermissionFlagsBits.ViewChannel] },
-  { id: role.id, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.AddReactions, PermissionFlagsBits.UseApplicationCommands] },
-  { id: client.user!.id, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ManageThreads, PermissionFlagsBits.CreatePublicThreads, PermissionFlagsBits.SendMessagesInThreads, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AddReactions] },
-  ...staffIds.map((id) => ({ id, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.ManageMessages] })),
+  { id: guild.roles.everyone.id, type: OverwriteType.Role, deny: [PermissionFlagsBits.ViewChannel] },
+  { id: role.id, type: OverwriteType.Role, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.AddReactions, PermissionFlagsBits.UseApplicationCommands] },
+  { id: client.user!.id, type: OverwriteType.Member, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ManageThreads, PermissionFlagsBits.CreatePublicThreads, PermissionFlagsBits.SendMessagesInThreads, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AddReactions] },
+  ...staffIds.map((id) => ({ id, type: OverwriteType.Member, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.ManageMessages] })),
 ];
 
 const catName = model.display_name;
@@ -60,7 +60,7 @@ for (const s of spec) {
     continue;
   }
   const perms: OverwriteResolvable[] = s.readOnlyForModel
-    ? overwrites.map((o) => (o.id === role.id ? { id: role.id, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessagesInThreads, PermissionFlagsBits.AddReactions], deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.CreatePublicThreads] } : o))
+    ? overwrites.map((o) => (o.id === role.id ? { id: role.id, type: OverwriteType.Role, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessagesInThreads, PermissionFlagsBits.AddReactions], deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.CreatePublicThreads] } : o))
     : overwrites;
   const ch = await guild.channels.create({ name: s.name, type: s.type, parent: category.id, permissionOverwrites: perms });
   ids[s.key] = ch.id;

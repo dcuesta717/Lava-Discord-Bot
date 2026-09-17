@@ -2,6 +2,7 @@ import {
   ChannelType,
   Events,
   MessageFlags,
+  OverwriteType,
   PermissionFlagsBits,
   SlashCommandBuilder,
   type CategoryChannel,
@@ -72,19 +73,22 @@ export function register(ctx: BotContext) {
     const me = ctx.client.user!.id;
     const owners = ctx.ownerIds();
 
+    // Explicit types: discord.js cannot tell a raw user id from a role id unless the user is cached.
+    const R = OverwriteType.Role;
+    const M = OverwriteType.Member;
     const staffOverwrites: OverwriteResolvable[] = [
-      { id: guild.roles.everyone.id, deny: [PermissionFlagsBits.ViewChannel] },
-      { id: me, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.AddReactions, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.ManageMessages] },
-      ...owners.map((id) => ({ id, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.AddReactions, PermissionFlagsBits.ManageMessages] })),
+      { id: guild.roles.everyone.id, type: R, deny: [PermissionFlagsBits.ViewChannel] },
+      { id: me, type: M, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.AddReactions, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.ManageMessages] },
+      ...owners.map((id) => ({ id, type: M, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.AddReactions, PermissionFlagsBits.ManageMessages] })),
     ];
     const agencyOverwrites: OverwriteResolvable[] = [
-      { id: guild.roles.everyone.id, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AddReactions, PermissionFlagsBits.AttachFiles] },
-      { id: me, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AttachFiles] },
+      { id: guild.roles.everyone.id, type: R, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AddReactions, PermissionFlagsBits.AttachFiles] },
+      { id: me, type: M, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AttachFiles] },
     ];
     const announceOverwrites: OverwriteResolvable[] = [
-      { id: guild.roles.everyone.id, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AddReactions], deny: [PermissionFlagsBits.SendMessages] },
-      { id: me, allow: [PermissionFlagsBits.SendMessages] },
-      ...owners.map((id) => ({ id, allow: [PermissionFlagsBits.SendMessages] })),
+      { id: guild.roles.everyone.id, type: R, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AddReactions], deny: [PermissionFlagsBits.SendMessages] },
+      { id: me, type: M, allow: [PermissionFlagsBits.SendMessages] },
+      ...owners.map((id) => ({ id, type: M, allow: [PermissionFlagsBits.SendMessages] })),
     ];
 
     const staffCat = await ensureCategory(guild, 'staff', 'STAFF', staffOverwrites);
