@@ -173,9 +173,9 @@ export function register(ctx: BotContext) {
       if (days > withinDays) continue;
       out.push(occurrence(e, d, days, cfg.defaults, 'yaml'));
     }
-    const custom = await sql<{ name: string; on_date: string | Date; lead_days: number; ideas: number; lanes: string[]; angle: string }[]>`SELECT * FROM bot.events WHERE on_date >= ${now.toISODate()}`;
+    const custom = await sql<{ name: string; on_date: string; lead_days: number; ideas: number; lanes: string[]; angle: string }[]>`SELECT name, on_date::text AS on_date, lead_days, ideas, lanes, angle FROM bot.events WHERE on_date >= ${now.toISODate()}`;
     for (const c of custom) {
-      const d = DateTime.fromJSDate(new Date(c.on_date)).setZone(ctx.env.DEFAULT_TIMEZONE).startOf('day');
+      const d = DateTime.fromISO(c.on_date, { zone: ctx.env.DEFAULT_TIMEZONE }).startOf('day');
       const days = Math.round(d.diff(now.startOf('day'), 'days').days);
       if (days > withinDays) continue;
       out.push({ key: `${c.name}@${d.toISODate()}`, name: c.name, date: d, days, leadDays: c.lead_days, ideas: c.ideas, lanes: c.lanes, angle: c.angle, source: 'db' });

@@ -46,6 +46,7 @@ export function register(ctx: BotContext) {
 
   // ── boot: welcome models that went live with this deploy; hand the role to late joiners ───────────────────
   ctx.client.once(Events.ClientReady, async () => {
+    await ctx.ready; // #bot-dev etc. exist once setup is done
     try {
       const rows = await sql<OnboardingRow[]>`SELECT * FROM bot.model_onboarding WHERE status = 'committed'`;
       for (const r of rows) {
@@ -274,6 +275,7 @@ export function register(ctx: BotContext) {
       if (!model) {
         // researched earlier without a token — write the whole folder now
         const ids = row!.discord as unknown as Awaited<ReturnType<typeof ensureModelStructure>>;
+        if (!ids?.channels?.general) throw new Error('her channels were never created — run /model add again');
         files.length = 0;
         files.push(...renderFiles({ slug, name, userId: row!.user_id, instagram, tiktok, timezone, ids, research, stats, profile, posts }, ctx.env.DEFAULT_TIMEZONE));
       }

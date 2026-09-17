@@ -17,6 +17,8 @@ export interface CaptionStats {
 
 const EMOJI = /\p{Extended_Pictographic}/gu;
 const HASHTAG = /#\w+/g;
+const hasEmoji = (c: string) => /\p{Extended_Pictographic}/u.test(c); // non-global: RegExp#test on a /g regex is stateful
+const hasHashtag = (c: string) => /#\w+/.test(c);
 
 export function captionStats(posts: ReelCandidate[]): CaptionStats {
   const caps = posts.map((p) => (p.caption ?? '').trim()).filter(Boolean);
@@ -25,8 +27,8 @@ export function captionStats(posts: ReelCandidate[]): CaptionStats {
     n: caps.length,
     medianChars: med(caps.map((c) => c.length)),
     medianWords: med(caps.map((c) => c.split(/\s+/).filter(Boolean).length)),
-    hashtagRate: caps.length ? caps.filter((c) => HASHTAG.test(c)).length / caps.length : 0,
-    emojiRate: caps.length ? caps.filter((c) => EMOJI.test(c)).length / caps.length : 0,
+    hashtagRate: caps.length ? caps.filter(hasHashtag).length / caps.length : 0,
+    emojiRate: caps.length ? caps.filter(hasEmoji).length / caps.length : 0,
     lowercaseRate: caps.length ? caps.filter((c) => c === c.toLowerCase()).length / caps.length : 0,
     medianEmoji: med(caps.map((c) => (c.match(EMOJI) ?? []).length)),
     medianHashtags: med(caps.map((c) => (c.match(HASHTAG) ?? []).length)),

@@ -154,8 +154,12 @@ export async function runAgent(
 export function parseJson<T>(raw: string): T {
   const fenced = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
   const body = (fenced ? fenced[1] : raw).trim();
-  const start = body.indexOf('{') >= 0 ? body.indexOf('{') : body.indexOf('[');
-  const end = Math.max(body.lastIndexOf('}'), body.lastIndexOf(']'));
+  // take the EARLIEST opener ({ or [) and its matching closer — a top-level array must not be cut at the first '{'
+  const opens = [body.indexOf('{'), body.indexOf('[')].filter((i) => i >= 0);
+  if (!opens.length) throw new Error('no JSON in response');
+  const start = Math.min(...opens);
+  const closer = body[start] === '[' ? ']' : '}';
+  const end = body.lastIndexOf(closer);
   return JSON.parse(body.slice(start, end + 1)) as T;
 }
 

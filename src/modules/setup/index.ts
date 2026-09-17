@@ -43,6 +43,8 @@ export function register(ctx: BotContext) {
       await ensureStructure();
     } catch (err) {
       ctx.log.error({ err }, 'self-setup failed (bot still runs; fix permissions and restart)');
+    } finally {
+      ctx.markReady();
     }
   });
 

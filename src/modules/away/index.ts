@@ -39,7 +39,11 @@ export function register(ctx: BotContext) {
   const faq = () => (existsSync(FAQ_FILE) ? readFileSync(FAQ_FILE, 'utf8') : '(no FAQ file yet)');
 
   // ── her channel: question or @owner → wait for a human, then cover ─────────
-  ctx.client.on(Events.MessageCreate, async (msg: Message) => {
+  ctx.client.on(Events.MessageCreate, (msg: Message) => {
+    onMessage(msg).catch((err) => ctx.log.warn({ err }, 'away listener failed'));
+  });
+
+  async function onMessage(msg: Message) {
     if (msg.author.bot) return;
     if (msg.channel.type === ChannelType.DM) return handleDm(msg);
     if (!msg.inGuild() || mode() === 'off') return;
@@ -52,7 +56,7 @@ export function register(ctx: BotContext) {
     if (!asksOwner && !looksLikeQuestion) return;
     if (mode() === 'on') return cover(model, msg.channelId, msg.id);
     await ctx.timers.schedule('away:reply', model.slug, new Date(Date.now() + delayMin() * 60_000), { channelId: msg.channelId, messageId: msg.id });
-  });
+  }
 
   ctx.timers.on('away:reply', async (t) => {
     if (mode() === 'off') return;
@@ -151,6 +155,7 @@ export function register(ctx: BotContext) {
       .addStringOption((o) => o.setName('owner_name').setDescription('Whose absence the bot announces (default Dan)')),
     async (i) => {
       if (!ctx.isOwner(i.user.id)) return i.reply({ content: 'owners only', flags: MessageFlags.Ephemeral });
+      await i.deferReply({ flags: MessageFlags.Ephemeral });
       const m = i.options.getString('mode');
       const d = i.options.getInteger('delay');
       const n = i.options.getString('owner_name');
@@ -159,7 +164,7 @@ export function register(ctx: BotContext) {
       if (n) await ctx.settings.set('away.owner_name', n.trim());
       if (m || d || n) await ctx.ops(MODULE, 'settings', { actor: i.user.id, data: { mode: mode(), delay: delayMin(), owner: ownerName() } });
       const [{ n: today }] = await sql<{ n: number }[]>`SELECT COUNT(*)::int AS n FROM bot.away_replies WHERE created_at > now() - interval '1 day'`;
-      return i.reply({ content: `away-reply is **${mode()}**${mode() === 'auto' ? ` (waits ${delayMin()} min for a human)` : ''} · covering for **${ownerName()}** · ${today} reply/escalation(s) in the last 24h — see <#${ctx.ch('questions')}>. Edit what it may answer in \`knowledge/faq.md\`.`, flags: MessageFlags.Ephemeral });
+      return i.editReply(`away-reply is **${mode()}**${mode() === 'auto' ? ` (waits ${delayMin()} min for a human)` : ''} · covering for **${ownerName()}** · ${today} reply/escalation(s) in the last 24h — see <#${ctx.ch('questions')}>. Edit what it may answer in \`knowledge/faq.md\`.`);
     },
   );
 }

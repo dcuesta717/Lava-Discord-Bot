@@ -31,10 +31,12 @@ export async function ensureModelStructure(guild: Guild, opts: { slug: string; d
     { id: opts.botId, type: MEMBER, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ManageThreads, PermissionFlagsBits.CreatePublicThreads, PermissionFlagsBits.SendMessagesInThreads, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AddReactions, PermissionFlagsBits.ReadMessageHistory] },
     ...[...new Set(opts.staffIds)].filter((id) => id !== opts.botId).map((id): OverwriteResolvable => ({ id, type: MEMBER, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AddReactions, PermissionFlagsBits.CreatePublicThreads, PermissionFlagsBits.SendMessagesInThreads, PermissionFlagsBits.Connect, PermissionFlagsBits.Speak] })),
   ]);
-  const boardOverwrites: OverwriteResolvable[] = overwrites.map((o) =>
-    o.id === role.id
-      ? { id: role.id, type: ROLE, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessagesInThreads, PermissionFlagsBits.AddReactions], deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.CreatePublicThreads] }
-      : o,
+  const boardOverwrites: OverwriteResolvable[] = clamp(
+    overwrites.map((o) =>
+      o.id === role.id
+        ? { id: role.id, type: ROLE, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.SendMessagesInThreads, PermissionFlagsBits.AddReactions], deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.CreatePublicThreads] }
+        : o,
+    ),
   );
 
   const created: string[] = [];
@@ -56,7 +58,7 @@ export async function ensureModelStructure(guild: Guild, opts: { slug: string; d
 
   const ids: Record<string, string> = {};
   for (const s of spec) {
-    const name = s.name.replace(/️/g, '');
+    const name = s.name.replace(/\uFE0F/g, ''); // Discord strips variation selectors from channel names
     const existing = guild.channels.cache.find((c) => c.parentId === category!.id && c.name === name);
     if (existing) {
       ids[s.key] = existing.id;

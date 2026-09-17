@@ -98,6 +98,7 @@ export function register(ctx: BotContext) {
 
   // ── boot: make sure the folders exist ──────────────────────────────────────
   ctx.client.once(Events.ClientReady, async () => {
+    await ctx.ready;
     try {
       await ensureLibrary();
     } catch (err) {
@@ -119,7 +120,11 @@ export function register(ctx: BotContext) {
   });
 
   // ── inbox: paste links, get them filed ─────────────────────────────────────
-  ctx.client.on(Events.MessageCreate, async (msg: Message) => {
+  ctx.client.on(Events.MessageCreate, (msg: Message) => {
+    onInbox(msg).catch((err) => ctx.log.warn({ err }, 'library inbox failed'));
+  });
+
+  async function onInbox(msg: Message) {
     if (msg.author.bot || !inboxId() || msg.channelId !== inboxId()) return;
     const urls = [...msg.content.matchAll(URL_RE)].map((m) => m[0]).filter((u) => SOCIAL_RE.test(u));
     if (!urls.length) return;
@@ -127,14 +132,14 @@ export function register(ctx: BotContext) {
     await msg.react('⏳').catch(() => undefined);
     if (!ctx.api.apify.enabled) {
       await msg.react('🚫').catch(() => undefined);
-      await msg.reply({ content: "I can't download videos yet — `APIFY_TOKEN` isn't set. Ping the tech team and re-paste after.", allowedMentions: { parse: [] } });
+      await msg.reply({ content: "I can't download videos yet — `APIFY_TOKEN` isn't set. Ping the tech team and re-paste after.", allowedMentions: { parse: [] } }).catch(() => undefined);
       return;
     }
     const r = await ingest(urls, { origin: 'inbox', addedBy: msg.author.id, hint });
     await msg.reactions.cache.get('⏳')?.users.remove(ctx.client.user!.id).catch(() => undefined);
     await msg.react(r.posted.length ? '✅' : r.dupes ? '♻️' : '🚫').catch(() => undefined);
     await msg.reply({ content: summarize(r), allowedMentions: { parse: [] } }).catch(() => undefined);
-  });
+  }
 
   // ── /library ───────────────────────────────────────────────────────────────
   const genreChoices = () => genres().map((g) => ({ name: `${g.emoji} ${g.name}`, value: g.slug }));
@@ -203,27 +208,32 @@ export function register(ctx: BotContext) {
           }
           return i.reply({ content: lines.join('\n').slice(0, 1900), flags: MessageFlags.Ephemeral });
         }
+        await i.deferReply({ flags: MessageFlags.Ephemeral });
         const values = i.options.getString('value', true).split(/[\s,]+/).filter(Boolean);
         const parsed = values.map((v) => ({ kind: v.startsWith('#') ? 'hashtag' : 'account', value: v.replace(/^[@#]/, '').replace(/^https?:\/\/(www\.)?instagram\.com\//, '').replace(/\/.*$/, '').toLowerCase() })).filter((p) => p.value);
-        if (!parsed.length) return i.reply({ content: 'give me @handles or #hashtags', flags: MessageFlags.Ephemeral });
+        if (!parsed.length) return i.editReply('give me @handles or #hashtags');
         if (sub === 'add') {
           for (const p of parsed)
             await sql`INSERT INTO bot.library_sources (genre, kind, value, added_by) VALUES (${slug}, ${p.kind}, ${p.value}, ${i.user.id}) ON CONFLICT (genre, kind, value) DO NOTHING`;
           await ctx.ops(MODULE, 'source-added', { actor: i.user.id, data: { genre: slug, sources: parsed } });
-          return i.reply({ content: `added to ${genre(slug)?.name}: ${parsed.map((p) => (p.kind === 'hashtag' ? '#' : '@') + p.value).join(' ')} — the scout picks them up tomorrow (or run \`/library scout\`)`, flags: MessageFlags.Ephemeral });
+          return i.editReply(`added to ${genre(slug)?.name}: ${parsed.map((p) => (p.kind === 'hashtag' ? '#' : '@') + p.value).join(' ')} — the scout picks them up tomorrow (or run \`/library scout\`)`);
         }
         for (const p of parsed) await sql`DELETE FROM bot.library_sources WHERE genre = ${slug} AND kind = ${p.kind} AND value = ${p.value}`;
-        return i.reply({ content: `removed from ${genre(slug)?.name}: ${parsed.map((p) => (p.kind === 'hashtag' ? '#' : '@') + p.value).join(' ')}`, flags: MessageFlags.Ephemeral });
+        return i.editReply(`removed from ${genre(slug)?.name}: ${parsed.map((p) => (p.kind === 'hashtag' ? '#' : '@') + p.value).join(' ')}`);
       }
 
       if (sub === 'scout') {
         if (!ctx.isOwner(i.user.id)) return i.reply({ content: 'owners only', flags: MessageFlags.Ephemeral });
         if (!ctx.api.apify.enabled) return i.reply({ content: '`APIFY_TOKEN` is not set yet.', flags: MessageFlags.Ephemeral });
-        await i.deferReply({ flags: MessageFlags.Ephemeral });
         const only = i.options.getString('folder') ?? undefined;
-        const s = await scout(only);
-        await ctx.ops(MODULE, 'scouted', { actor: i.user.id, data: s });
-        return i.editReply(`scouted ${s.genres} folder(s): ${s.candidates} candidates → ${s.posted} posted, ${s.dupes} already in the library, ${s.skipped} not library material${s.errors ? `, ${s.errors} source errors` : ''}`);
+        await i.reply({ content: `running the scout${only ? ` for ${only}` : ''} — this takes a few minutes; the summary lands in <#${ctx.ch('ops_log')}> and picks go out to the girls after.`, flags: MessageFlags.Ephemeral });
+        void (async () => {
+          const s = await scout(only);
+          await ctx.ops(MODULE, 'scouted', { actor: i.user.id, data: s, text: `${s.genres} folder(s): ${s.candidates} candidates → ${s.posted} posted, ${s.dupes} dupes, ${s.skipped} skipped${s.errors ? `, ${s.errors} source errors` : ''}` });
+          const p = await deliverPicks();
+          if (p.delivered) await ctx.ops(MODULE, 'picks-delivered', { data: p });
+        })().catch((err) => ctx.log.error({ err }, 'manual scout failed'));
+        return;
       }
 
       if (sub === 'picks') {
@@ -311,6 +321,7 @@ export function register(ctx: BotContext) {
 
   // ── buttons ────────────────────────────────────────────────────────────────
   const vote = (dir: 1 | -1) => async (i: ButtonInteraction | StringSelectMenuInteraction, parts: string[]) => {
+    await i.deferUpdate();
     const id = Number(parts[3]);
     const item = await byId(id);
     if (!item) return;
@@ -320,38 +331,40 @@ export function register(ctx: BotContext) {
                                    down = (SELECT COUNT(*)::int FROM bot.library_votes WHERE item_id = ${id} AND vote = -1)
       WHERE id = ${id} RETURNING up, down`;
     if (item.author) await sql`UPDATE bot.library_sources SET weight = LEAST(2, GREATEST(0, weight + ${dir * 0.1})) WHERE kind = 'account' AND value = ${item.author.toLowerCase()}`;
-    await i.update({ components: [buttons(id, up, down, item.copies)] });
+    await i.editReply({ components: [buttons(id, up, down, item.copies)] });
   };
   ctx.component('library:up', vote(1));
   ctx.component('library:down', vote(-1));
 
   ctx.component('library:copy', async (i, parts, model) => {
+    await i.deferReply({ flags: MessageFlags.Ephemeral });
     const id = Number(parts[3]);
     const item = await byId(id);
-    if (!item) return;
+    if (!item) return i.editReply('that video is gone from the library');
     const mine = model ?? ctx.models.all().find((m) => m.discord.user_id === i.user.id);
     if (mine) {
       await sendToBoard(item, mine.slug, i.user.id);
-      return i.reply({ content: `sent to your reels board ✅ — it’s in <#${mine.discord.channels.reels_board}> with a brief`, flags: MessageFlags.Ephemeral });
+      return i.editReply(`sent to your reels board ✅ — it’s in <#${mine.discord.channels.reels_board}> with a brief`);
     }
-    if (!ctx.isOwner(i.user.id)) return i.reply({ content: 'ask Dan or Marissa to send this to your board (your Discord isn’t linked to a model yet)', flags: MessageFlags.Ephemeral });
+    if (!ctx.isOwner(i.user.id)) return i.editReply('ask Dan or Marissa to send this to your board (your Discord isn’t linked to a model yet)');
     const models = ctx.models.all();
-    if (!models.length) return i.reply({ content: 'no models onboarded yet — once one is, this sends the video to her board', flags: MessageFlags.Ephemeral });
+    if (!models.length) return i.editReply('no models onboarded yet — once one is, this sends the video to her board');
     const menu = new StringSelectMenuBuilder()
       .setCustomId(`library:copyto:${NO_MODEL}:${id}`)
       .setPlaceholder('send to which model?')
       .addOptions(models.slice(0, 25).map((m) => ({ label: m.display_name, value: m.slug })));
-    return i.reply({ content: 'send this to…', components: [new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(menu)], flags: MessageFlags.Ephemeral });
+    return i.editReply({ content: 'send this to…', components: [new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(menu)] });
   });
 
   ctx.component('library:copyto', async (i, parts) => {
     if (!i.isStringSelectMenu()) return;
+    await i.deferUpdate();
     const id = Number(parts[3]);
     const item = await byId(id);
     const model = ctx.models.get(i.values[0]);
     if (!item || !model) return;
     await sendToBoard(item, model.slug, i.user.id);
-    await i.update({ content: `sent to ${model.display_name}’s board ✅`, components: [] });
+    await i.editReply({ content: `sent to ${model.display_name}’s board ✅`, components: [] });
   });
 
   // ── shared ─────────────────────────────────────────────────────────────────
@@ -503,7 +516,6 @@ export function register(ctx: BotContext) {
       const forum = await ctx.client.channels.fetch(forumId(slug)).catch(() => null);
       if (!forum || forum.type !== ChannelType.GuildForum) continue;
       const tagIds = [c.genre, ...(c.also ?? [])]
-        .filter((s) => s !== slug)
         .map((s) => forum.availableTags.find((t) => t.name === genre(s)?.name)?.id)
         .filter((t): t is string => Boolean(t));
       const thread = await forum.threads

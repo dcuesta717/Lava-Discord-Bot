@@ -117,6 +117,9 @@ function explainDiscordError(err: unknown): string {
   return msg;
 }
 
+process.on('unhandledRejection', (err) => log.error({ err }, 'unhandled rejection'));
+process.on('uncaughtException', (err) => log.error({ err }, 'uncaught exception'));
+
 main().catch((err: unknown) => {
   const msg = err instanceof Error ? err.message : String(err);
   console.error(`BOOT FAILED: ${msg}`);

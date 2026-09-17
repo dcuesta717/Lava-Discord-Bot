@@ -62,6 +62,9 @@ export class BotContext {
   readonly components = new Map<string, ComponentHandler>();
   readonly modals = new Map<string, ModalHandler>();
   readonly crons: CronJob[] = [];
+  /** Resolves once modules/setup has created (or verified) the STAFF/AGENCY channels — other boot hooks await this before using ctx.ch(). */
+  readonly ready: Promise<void>;
+  private markReadyFn!: () => void;
 
   constructor(
     readonly client: Client,
@@ -72,7 +75,13 @@ export class BotContext {
     readonly log: Logger,
     readonly api: Integrations,
     readonly settings: Settings,
-  ) {}
+  ) {
+    this.ready = new Promise<void>((resolve) => (this.markReadyFn = resolve));
+  }
+
+  markReady() {
+    this.markReadyFn();
+  }
 
   /** Staff/agency channel id: bot-created (settings) first, .env override second. */
   ch(name: 'live_alerts' | 'content_requests_inbox' | 'reels_inbox' | 'questions' | 'daily_report' | 'ops_log' | 'bot_dev' | 'agency_lounge' | 'announcements'): string {
@@ -146,10 +155,14 @@ export class BotContext {
     return ch && ch.isTextBased() ? ch : undefined;
   }
 
+  /** Send to a channel by id. Never throws — a missing channel or permission is logged, not fatal. */
   async send(channelId: string, payload: string | MessageCreateOptions): Promise<Message | undefined> {
     const ch = await this.channel(channelId);
     if (!ch || !('send' in ch)) return undefined;
-    return ch.send(payload);
+    return ch.send(payload).catch((err) => {
+      this.log.warn({ err, channelId }, 'send failed');
+      return undefined;
+    });
   }
 
   /** Mirror an important action to #ops-log and the event_log table. */
