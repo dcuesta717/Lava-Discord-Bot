@@ -1,5 +1,5 @@
 import YAML from 'yaml';
-import { ChannelType, Events, MessageFlags, SlashCommandBuilder, type ChatInputCommandInteraction, type GuildMember } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, Events, MessageFlags, ModalBuilder, SlashCommandBuilder, TextInputBuilder, TextInputStyle, type ChatInputCommandInteraction, type GuildMember } from 'discord.js';
 import type { BotContext } from '../../discord/context.js';
 import { loadLibrary } from '../../config/library.js';
 import type { InstagramProfile, ReelCandidate } from '../../integrations/apify.js';
@@ -7,7 +7,7 @@ import { GitHub, type RepoFile } from '../../integrations/github.js';
 import { importedSection, withImportedSection } from '../../lib/caption-examples.js';
 import { ensureModelStructure } from '../../lib/model-structure.js';
 import { loadPrompt } from '../../lib/prompts.js';
-import { computeStats, renderFiles, renderProfile, renderSourcing, keepStaffTail, tmpl, today, type Research, type Stats } from './render.js';
+import { computeStats, renderFiles, renderProfile, renderSourcing, renderVoice, keepStaffTail, tmpl, today, STAFF_MARKER, type Research, type Stats } from './render.js';
 
 /**
  * Model onboarding — the front door for a new creator, from Discord, no laptop:
@@ -62,7 +62,7 @@ export function register(ctx: BotContext) {
             `Browse the 🎬 CONTENT LIBRARY folders for ideas anytime — tap 📋 Copy this on anything you want on your board.`,
           ].join('\n'),
         }).catch(() => undefined);
-        await ctx.send(ctx.ch('bot_dev'), { content: `✅ **${model.display_name}** is live (models/${model.slug}). Review her \`profile.md\` + \`voice/voice.md\` in GitHub — the voice file is a draft until Dan/Marissa sign off.`, allowedMentions: { parse: [] } });
+        await ctx.send(ctx.ch('bot_dev'), { content: `✅ **${model.display_name}** is live. Her research and voice draft are in <#${ctx.ch('onboarding') || ctx.ch('bot_dev')}> waiting for an owner's ✅.`, allowedMentions: { parse: [] } });
         await sql`UPDATE bot.model_onboarding SET status = 'live', updated_at = now() WHERE slug = ${r.slug}`;
         await ctx.ops(MODULE, 'live', { model });
         ctx.bus.emit('model:live', { model }); // reels scout + library picks + first report, right now instead of tomorrow 7 AM
@@ -317,12 +317,13 @@ export function register(ctx: BotContext) {
       await ctx.ops(MODULE, 'onboarded', { actor: o.actorId, data: { slug, sha, posts: stats.posts, lanes: research.lanes.map((l) => l.slug) } });
 
       const lanes = research.lanes.map((l) => `${l.slug} (${Math.round(l.confidence * 100)}%)`).join(', ');
+      await postReview(slug, name, files).catch((err) => ctx.log.warn({ err, slug }, 'review post failed'));
       return [
-        `✅ **${name}** onboarded → \`models/${slug}/\` committed (${sha.slice(0, 7)}). She goes live when Railway finishes redeploying (~2 min) — I'll post a welcome in <#${ids.channels.general}>.`,
+        `✅ **${name}** is onboarded. Her channels are up and she goes live in about 2 minutes — I'll welcome her in <#${ids.channels.general}> and drop her first videos, picks and numbers right after.`,
         `**Research:** ${stats.posts} posts analysed · ${stats.posts_per_week.toFixed(1)} posts/week · ${research.one_liner}`,
-        `**Lanes:** ${lanes || '_none found — set with /model lanes_'}`,
+        `**Lanes:** ${lanes || '_none found — tell me which folders she belongs in_'}`,
         `**What wins:** ${research.formats_that_win.slice(0, 3).map((f) => f.format).join(' · ')}`,
-        `**Review in GitHub:** \`profile.md\` (the research), \`voice/voice.md\` (DRAFT — 10 min with her to confirm), \`notes.md\` (questions to ask her: ${(research.gaps ?? []).length}).`,
+        `📋 **Her full research + voice draft is in <#${ctx.ch('onboarding') || ctx.ch('bot_dev')}>** — read it there and tap ✅ Approve, ✏️ Notes (tell me what's wrong or what you know about her) or 🔁 Redo.`,
         inGuild ? '' : `⚠️ <@${user.id}> isn't in the server yet — invite her; her role and channels attach automatically when she joins.`,
       ]
         .filter(Boolean)
@@ -394,6 +395,148 @@ export function register(ctx: BotContext) {
     await ctx.ops(MODULE, 'lanes', { model, actor: i.user.id, data: { lanes } });
     return i.editReply(`✅ ${model.display_name} → lanes: ${lanes.join(', ')} (${sha.slice(0, 7)}; live after the redeploy)`);
   }
+
+  // ── owner review in Discord (owners never open GitHub) ─────────────────────
+  /** Post her profile + voice draft into #new-girl-reviews with Approve / Notes / Redo buttons. */
+  async function postReview(slug: string, name: string, files: RepoFile[]) {
+    const ch = ctx.ch('onboarding') || ctx.ch('bot_dev');
+    if (!ch) return;
+    const profile = files.find((f) => f.path.endsWith('/profile.md'))?.content ?? '';
+    const voice = files.find((f) => f.path.endsWith('/voice/voice.md'))?.content ?? '';
+    await ctx.send(ch, { content: `🧾 **${name} — research report** (read it, then use the buttons at the bottom)`, allowedMentions: { parse: [] } });
+    for (const part of chunk(discordify(profile.split(STAFF_MARKER)[0]), 1900)) await ctx.send(ch, { content: part, allowedMentions: { parse: [] } });
+    await ctx.send(ch, { content: `🗣️ **${name} — how she writes (voice draft)** — this is what the caption writer will imitate. Fix anything that's off.`, allowedMentions: { parse: [] } });
+    for (const part of chunk(discordify(voice), 1900)) await ctx.send(ch, { content: part, allowedMentions: { parse: [] } });
+    await ctx.send(ch, {
+      content: `**${name}** — what do you think?\n✅ Approve = the voice is her, captions can use it · ✏️ Notes = tell me what's wrong or what you know about her, I'll fix the files · 🔁 Redo = research her again from scratch`,
+      components: [reviewButtons(slug)],
+      allowedMentions: { parse: [] },
+    });
+  }
+
+  function reviewButtons(slug: string) {
+    return new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder().setCustomId(`models:approve:${slug}`).setLabel('Approve').setEmoji('✅').setStyle(ButtonStyle.Success),
+      new ButtonBuilder().setCustomId(`models:notes:${slug}`).setLabel('Notes').setEmoji('✏️').setStyle(ButtonStyle.Primary),
+      new ButtonBuilder().setCustomId(`models:redo:${slug}`).setLabel('Redo research').setEmoji('🔁').setStyle(ButtonStyle.Secondary),
+    );
+  }
+
+  /** Markdown → what Discord renders well: keep headings/bold/lists, drop html comments and the staff marker. */
+  function discordify(md: string) {
+    return md
+      .replace(/<!--[\s\S]*?-->/g, '')
+      .replace(/^# (.*)$/gm, '# $1')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  }
+
+  ctx.component('models:approve', async (i, parts) => {
+    if (!ctx.isOwner(i.user.id)) return i.reply({ content: 'owners only', flags: MessageFlags.Ephemeral });
+    await i.deferReply();
+    const slug = parts[2];
+    if (!github.enabled) return i.editReply('GitHub write is not set up — ask the tech team');
+    const path = `models/${slug}/voice/voice.md`;
+    const voice = await github.read(path);
+    if (!voice) return i.editReply(`I can't find the voice file for ${slug}`);
+    const stamped = voice.replace(/^> DRAFT written by the bot[^\n]*$/m, `> ✅ Approved by ${i.user.displayName} on ${today(ctx.env.DEFAULT_TIMEZONE)}. Edit with ✏️ Notes in #new-girl-reviews or /model refresh.`);
+    await github.commitFiles([{ path, content: stamped }], `${slug}: voice approved by ${i.user.tag}`);
+    await sql`UPDATE bot.model_onboarding SET research = research || ${sql.json({ approved_by: i.user.id, approved_at: new Date().toISOString() } as never)}, updated_at = now() WHERE slug = ${slug}`;
+    await ctx.ops(MODULE, 'voice-approved', { model: ctx.models.get(slug), actor: i.user.id, data: { slug } });
+    await i.message.edit({ components: [] }).catch(() => undefined);
+    return i.editReply(`✅ ${ctx.models.get(slug)?.display_name ?? slug}'s voice approved by ${i.user.displayName} — captions will use it as-is.`);
+  });
+
+  ctx.component('models:notes', async (i, parts) => {
+    if (!i.isButton()) return;
+    if (!ctx.isOwner(i.user.id)) return i.reply({ content: 'owners only', flags: MessageFlags.Ephemeral });
+    const modal = new ModalBuilder()
+      .setCustomId(`models:notesmodal:${parts[2]}`)
+      .setTitle('What should I fix or add?')
+      .addComponents(
+        new ActionRowBuilder<TextInputBuilder>().addComponents(
+          new TextInputBuilder().setCustomId('notes').setLabel('Your notes (plain English)').setStyle(TextInputStyle.Paragraph).setPlaceholder("e.g. she's a golf girl not funny · she never uses hashtags · she lives in Miami · add: gym content").setRequired(true).setMaxLength(2000),
+        ),
+      );
+    await i.showModal(modal);
+  });
+
+  ctx.modal('models:notesmodal', async (i, parts) => {
+    await i.deferReply();
+    const slug = parts[2];
+    const notes = i.fields.getTextInputValue('notes');
+    if (!github.enabled) return i.editReply('GitHub write is not set up — ask the tech team');
+    try {
+      const [profile, voice] = await Promise.all([github.read(`models/${slug}/profile.md`), github.read(`models/${slug}/voice/voice.md`)]);
+      if (!profile || !voice) return i.editReply(`I can't find the files for ${slug}`);
+      const out = await ctx.api.claude.json<{ profile: string; voice: string; lanes: string[]; summary: string }>(loadPrompt('model.apply-notes', { owner: i.user.displayName, notes, profile, voice }), { maxTokens: 8000, temperature: 0.2 });
+      if (!out?.profile || !out?.voice) return i.editReply('I could not apply those notes — try rephrasing');
+      const files: RepoFile[] = [
+        { path: `models/${slug}/profile.md`, content: out.profile },
+        { path: `models/${slug}/voice/voice.md`, content: out.voice },
+      ];
+      const valid = new Set(loadLibrary().genres.map((g) => g.slug));
+      const lanes = (out.lanes ?? []).filter((l) => valid.has(l));
+      const yamlPath = `models/${slug}/model.yaml`;
+      const raw = await github.read(yamlPath);
+      if (raw && lanes.length) {
+        const doc = YAML.parseDocument(raw);
+        doc.set('lanes', lanes);
+        files.push({ path: yamlPath, content: doc.toString() });
+      }
+      const sha = await github.commitFiles(files, `${slug}: owner notes applied (${i.user.tag})\n\n${notes.slice(0, 500)}`);
+      await sql`UPDATE bot.model_onboarding SET research = research || ${sql.json({ notes: notes.slice(0, 2000), notes_by: i.user.id } as never)}, updated_at = now() WHERE slug = ${slug}`;
+      await ctx.ops(MODULE, 'notes-applied', { model: ctx.models.get(slug), actor: i.user.id, data: { slug, sha } });
+      await postReview(slug, ctx.models.get(slug)?.display_name ?? slug, files).catch(() => undefined);
+      return i.editReply(`✏️ applied: ${out.summary}${lanes.length ? ` · lanes now: ${lanes.join(', ')}` : ''}. Updated report is below — ✅ when it's right. (Changes are live after the next restart, ~2 min.)`);
+    } catch (err) {
+      ctx.log.error({ err, slug }, 'apply notes failed');
+      return i.editReply(`❌ couldn't apply the notes: ${err instanceof Error ? err.message.slice(0, 200) : String(err)}`);
+    }
+  });
+
+  ctx.component('models:redo', async (i, parts) => {
+    if (!ctx.isOwner(i.user.id)) return i.reply({ content: 'owners only', flags: MessageFlags.Ephemeral });
+    await i.deferReply();
+    const slug = parts[2];
+    const model = ctx.models.get(slug);
+    const row = (await sql<OnboardingRow[]>`SELECT * FROM bot.model_onboarding WHERE slug = ${slug}`)[0];
+    const instagram = model?.socials.instagram || row?.instagram || '';
+    if (!instagram || !ctx.api.apify.enabled || !github.enabled) return i.editReply('cannot redo right now (missing handle or a connection)');
+    try {
+      const name = model?.display_name ?? row!.display_name;
+      const { research, stats, profile, posts } = await runResearch({ displayName: name, instagram, tiktok: model?.socials.tiktok || row?.tiktok || '', timezone: model?.timezone ?? row!.timezone });
+      const existingProfile = (await github.read(`models/${slug}/profile.md`)) ?? '';
+      const files: RepoFile[] = [
+        { path: `models/${slug}/profile.md`, content: renderProfile({ name, instagram, tiktok: model?.socials.tiktok || '', research, stats, profile }, keepStaffTail(existingProfile), ctx.env.DEFAULT_TIMEZONE) },
+        { path: `models/${slug}/voice/voice.md`, content: renderVoice(name, research, stats, ctx.env.DEFAULT_TIMEZONE) },
+        { path: `models/${slug}/sourcing/reels-sources.yaml`, content: renderSourcing(research, model?.socials.tiktok || '', ctx.env.DEFAULT_TIMEZONE) },
+      ];
+      const sha = await github.commitFiles(files, `Redo research for ${name} (${slug}) — ${i.user.tag}`);
+      await sql`UPDATE bot.model_onboarding SET research = ${sql.json({ research, stats, profile: { ...profile, latestPosts: undefined } } as never)}, commit_sha = ${sha}, updated_at = now() WHERE slug = ${slug}`;
+      await postReview(slug, name, files);
+      await i.editReply(`🔁 re-researched ${name} from ${stats.posts} posts — new report below.`);
+    } catch (err) {
+      await i.editReply(`❌ redo failed: ${err instanceof Error ? err.message.slice(0, 200) : String(err)}`);
+    }
+  });
+
+  ctx.action('show_model_profile', {
+    description: "Post a creator's research report and voice draft in the current channel (with Approve / Notes / Redo buttons). Use when an owner wants to see or review what the bot knows about her.",
+    input: { type: 'object', properties: { slug: { type: 'string' } }, required: ['slug'] },
+    ownersOnly: true,
+    run: async (input) => {
+      const slug = String(input.slug).toLowerCase();
+      const model = ctx.models.get(slug);
+      if (!model) return `unknown model ${slug}`;
+      const f = model.files();
+      await postReview(slug, model.display_name, [
+        { path: `models/${slug}/profile.md`, content: f.profile || '(no profile yet — run a refresh)' },
+        { path: `models/${slug}/voice/voice.md`, content: f.voice || '(no voice file yet)' },
+      ]);
+      return `posted ${model.display_name}'s report in <#${ctx.ch('onboarding') || ctx.ch('bot_dev')}>`;
+    },
+  });
 
   // ── research ───────────────────────────────────────────────────────────────
   async function runResearch(o: { displayName: string; instagram: string; tiktok: string; timezone: string }) {
@@ -469,4 +612,18 @@ function clean(handle: string) {
     .replace(/^https?:\/\/(www\.)?(instagram|tiktok)\.com\/@?/, '')
     .replace(/[/?].*$/, '')
     .toLowerCase();
+}
+
+function chunk(text: string, max: number): string[] {
+  if (text.length <= max) return [text];
+  const parts: string[] = [];
+  let cur = '';
+  for (const line of text.split('\n')) {
+    if ((cur + '\n' + line).length > max) {
+      if (cur) parts.push(cur);
+      cur = line.length > max ? line.slice(0, max) : line;
+    } else cur = cur ? `${cur}\n${line}` : line;
+  }
+  if (cur) parts.push(cur);
+  return parts;
 }

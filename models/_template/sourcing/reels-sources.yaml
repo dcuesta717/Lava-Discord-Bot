@@ -4,11 +4,11 @@
 tiktok:
   hashtags: []            # e.g. [grwm, fitcheck, streetinterview]
   seed_accounts: []       # creators with the same lane and slightly bigger audience
-  min_views: 200000
+  min_views: 30000
   results_per_query: 20
 
 instagram:
   hashtags: []
   seed_accounts: []
-  min_views: 100000
+  min_views: 5000
   results_per_query: 20

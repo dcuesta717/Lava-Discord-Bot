@@ -276,8 +276,8 @@ export function renderSourcing(r: Research, tiktok: string, tz = 'America/New_Yo
     `# Seeded by /model add on ${today(tz)} from her lanes. Keep it tight: 5–10 seed accounts in her exact lane beat 50 hashtags.`,
     '',
     YAML.stringify({
-      tiktok: { hashtags: tiktok ? tags.slice(0, 5) : [], seed_accounts: [], min_views: 200000, results_per_query: 20 },
-      instagram: { hashtags: tags, seed_accounts: [], min_views: 50000, results_per_query: 20 },
+      tiktok: { hashtags: tiktok ? tags.slice(0, 5) : [], seed_accounts: [], min_views: 30000, results_per_query: 20 },
+      instagram: { hashtags: tags, seed_accounts: [], min_views: 5000, results_per_query: 20 },
     }),
   ].join('\n');
 }

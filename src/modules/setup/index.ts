@@ -27,6 +27,7 @@ const STAFF: { key: string; name: string; topic: string }[] = [
   { key: 'live_alerts', name: 'live-alerts', topic: '🔴 who is live right now · insights reminders escalate here' },
   { key: 'content_requests_inbox', name: 'content-requests-inbox', topic: 'upload pings from the Drive watcher · draft requests here before /request' },
   { key: 'reels_inbox', name: 'reels-inbox', topic: 'paste "<model-slug> <reel url> [note]" → bot classifies + posts to her board' },
+  { key: 'onboarding', name: 'new-girl-reviews', topic: '🧾 every new creator: her research + voice draft, with Approve / Notes / Redo buttons — no GitHub needed' },
   { key: 'questions', name: 'girls-questions', topic: '🤖 what the bot answered for Dan while away, and 🚨 what it flagged for a human (knowledge/faq.md decides)' },
   { key: 'daily_report', name: 'daily-report', topic: '☀️ 7 AM: who posted yesterday, engagement leaderboard, follower movers, content mix per creator (/report to run now)' },
   { key: 'ops_log', name: 'ops-log', topic: 'every bot action (also in Supabase bot.event_log)' },
