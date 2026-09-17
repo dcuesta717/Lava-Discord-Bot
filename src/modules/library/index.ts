@@ -21,6 +21,7 @@ import {
   type StringSelectMenuInteraction,
 } from 'discord.js';
 import type { BotContext } from '../../discord/context.js';
+import type { Model } from '../../config/models.js';
 import { loadLibrary, type Genre, type LibraryConfig } from '../../config/library.js';
 import { canonicalUrl, type ReelCandidate } from '../../integrations/apify.js';
 import { fetchImageAsBase64, type ImageInput } from '../../integrations/anthropic.js';
@@ -117,6 +118,10 @@ export function register(ctx: BotContext) {
       return 0;
     });
     if (trends) await ctx.ops(MODULE, 'trends-alerted', { data: { trends } });
+  });
+
+  ctx.bus.on('model:live', ({ model }: { model: Model }) => {
+    deliverPicks(model.slug).catch((err) => ctx.log.warn({ err, model: model.slug }, 'kickoff picks failed'));
   });
 
   // ── inbox: paste links, get them filed ─────────────────────────────────────

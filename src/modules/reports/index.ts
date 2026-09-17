@@ -63,6 +63,15 @@ export function register(ctx: BotContext) {
     });
   }
 
+  ctx.bus.on('model:live', ({ model }: { model: Model }) => {
+    (async () => {
+      if (!ctx.api.apify.enabled || !model.socials.instagram) return;
+      await snapshotModel(model);
+      const text = await modelReport(model);
+      if (text) await ctx.send(model.discord.channels.notification || model.discord.channels.general, { content: `${text}\n_(this is what you'll get here every morning at 7)_` });
+    })().catch((err) => ctx.log.warn({ err, model: model.slug }, 'kickoff report failed'));
+  });
+
   ctx.cron('reports:owners', REPORT_CRON, ctx.env.DEFAULT_TIMEZONE, async () => {
     const parts = await ownersDigest();
     for (const p of parts) await ctx.send(ctx.ch('daily_report') || ctx.ch('live_alerts'), { content: p, allowedMentions: { parse: [] } });

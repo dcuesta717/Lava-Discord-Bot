@@ -65,6 +65,7 @@ export function register(ctx: BotContext) {
         await ctx.send(ctx.ch('bot_dev'), { content: `✅ **${model.display_name}** is live (models/${model.slug}). Review her \`profile.md\` + \`voice/voice.md\` in GitHub — the voice file is a draft until Dan/Marissa sign off.`, allowedMentions: { parse: [] } });
         await sql`UPDATE bot.model_onboarding SET status = 'live', updated_at = now() WHERE slug = ${r.slug}`;
         await ctx.ops(MODULE, 'live', { model });
+        ctx.bus.emit('model:live', { model }); // reels scout + library picks + first report, right now instead of tomorrow 7 AM
       }
     } catch (err) {
       ctx.log.warn({ err }, 'model welcome pass failed');
@@ -201,6 +202,18 @@ export function register(ctx: BotContext) {
     ownersOnly: true,
     slow: true,
     run: (input, actor) => offboard(String(input.slug).toLowerCase(), actor.userId),
+  });
+  ctx.action('kickoff_model', {
+    description: "Run everything for one creator right now instead of waiting for the morning jobs: her reels scout (board), her library picks, her analytics snapshot + report.",
+    input: { type: 'object', properties: { slug: { type: 'string' } }, required: ['slug'] },
+    ownersOnly: true,
+    slow: true,
+    run: async (input) => {
+      const model = ctx.models.get(String(input.slug));
+      if (!model) return `unknown model ${String(input.slug)} — is she onboarded and has the redeploy finished?`;
+      ctx.bus.emit('model:live', { model });
+      return `kicked off for ${model.display_name}: reels scout → her board, library picks → her #general, snapshot → her #notification. Results land in her channels over the next few minutes.`;
+    },
   });
   ctx.action('list_models', {
     description: 'List onboarded creators (slug, name, Instagram, lanes) and onboardings in progress.',

@@ -75,12 +75,13 @@ export class Apify {
     const n = cfg.results_per_query ?? 20;
     const directUrls = [
       ...(cfg.hashtags ?? []).map((h) => `https://www.instagram.com/explore/tags/${h.replace('#', '')}/`),
-      ...(cfg.seed_accounts ?? []).map((a) => `https://www.instagram.com/${a.replace('@', '')}/reels/`),
+      ...(cfg.seed_accounts ?? []).map((a) => `https://www.instagram.com/${a.replace('@', '')}/`),
     ];
-    // Input keys follow apify/instagram-scraper. ⚠ ASSUMED for other actors.
+    if (!directUrls.length) return [];
+    // apify/instagram-scraper, verified 2026-09: resultsType "reels" returns Video items (with videoUrl + counts) for both hashtag and profile pages.
     const run = await this.client.actor(this.instagramActor).call({
       directUrls,
-      resultsType: 'posts',
+      resultsType: 'reels',
       resultsLimit: n,
       onlyPostsNewerThan: '14 days',
     });

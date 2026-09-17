@@ -51,18 +51,45 @@ export function register(ctx: BotContext) {
   const byId = async (id: number) => (await sql<ReelRow[]>`SELECT * FROM bot.reels WHERE id = ${id}`)[0];
 
   // ── daily scout ─────────────────────────────────────────────────────────────
+  /** Her personal scout: sourcing/reels-sources.yaml seeds → Apify → Claude → her board. Daily at 10 her time, and right after she goes live. */
+  async function scoutModel(model: Model): Promise<number> {
+    if (!ctx.api.apify.enabled) return 0;
+    const src = (model.files().sourcing ?? {}) as SourcingConfig;
+    const candidates: ReelCandidate[] = [];
+    if (src.tiktok && ((src.tiktok.hashtags?.length ?? 0) + (src.tiktok.seed_accounts?.length ?? 0)) > 0) candidates.push(...(await ctx.api.apify.tiktok(src.tiktok).catch(() => [])));
+    if (src.instagram && ((src.instagram.hashtags?.length ?? 0) + (src.instagram.seed_accounts?.length ?? 0)) > 0) candidates.push(...(await ctx.api.apify.instagram(src.instagram).catch(() => [])));
+    const fresh: ReelCandidate[] = [];
+    for (const c of candidates) if (c.url && !(await exists(model.slug, c.url))) fresh.push(c);
+    if (!fresh.length) return 0;
+    const posted = await classifyAndPost(model, fresh.slice(0, 30));
+    await ctx.ops(MODULE, 'scouted', { model, data: { candidates: fresh.length, posted } });
+    return posted;
+  }
+
+  ctx.bus.on('model:live', ({ model }: { model: Model }) => {
+    scoutModel(model)
+      .then(async (n) => {
+        if (n) await ctx.send(model.discord.channels.general, { content: `🎬 first batch is on your 🎬-reels-copy-board — ${n} video${n === 1 ? '' : 's'} to recreate, picked for your lanes. Tap a button on each one when you've done it.` });
+      })
+      .catch((err) => ctx.log.warn({ err, model: model.slug }, 'kickoff reels scout failed'));
+  });
+
+  ctx.action('scout_reels_for_model', {
+    description: "Run one creator's personal reels scout now (her sourcing seeds → videos to recreate on her 🎬-reels-copy-board).",
+    input: { type: 'object', properties: { slug: { type: 'string' } }, required: ['slug'] },
+    ownersOnly: true,
+    slow: true,
+    run: async (input) => {
+      const model = ctx.models.get(String(input.slug));
+      if (!model) return `unknown model ${String(input.slug)}`;
+      const n = await scoutModel(model);
+      return `${model.display_name}: ${n} reel(s) posted to her board${n ? '' : ' (no new candidates — add seeds in sourcing/reels-sources.yaml or lanes)'}`;
+    },
+  });
+
   for (const model of ctx.models.all()) {
     ctx.cron(`reels:scout:${model.slug}`, '0 10 * * *', model.timezone, async () => {
-      if (!ctx.api.apify.enabled) return;
-      const src = model.files().sourcing as SourcingConfig;
-      const candidates: ReelCandidate[] = [];
-      if (src.tiktok) candidates.push(...(await ctx.api.apify.tiktok(src.tiktok).catch(() => [])));
-      if (src.instagram) candidates.push(...(await ctx.api.apify.instagram(src.instagram).catch(() => [])));
-      const fresh: ReelCandidate[] = [];
-      for (const c of candidates) if (c.url && !(await exists(model.slug, c.url))) fresh.push(c);
-      if (!fresh.length) return;
-      const posted = await classifyAndPost(model, fresh.slice(0, 30));
-      await ctx.ops(MODULE, 'scouted', { model, data: { candidates: fresh.length, posted } });
+      await scoutModel(model);
     });
 
     ctx.cron(`reels:nudge:${model.slug}`, '0 11 * * 5', model.timezone, async () => {

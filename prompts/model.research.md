@@ -40,6 +40,8 @@ Return JSON only:
 }
 ```
 
+Output rules: valid JSON only — escape every double quote inside strings (captions often contain them) and never put comments or trailing commas in the JSON.
+
 Rules: the `lanes` and `ideas` must be things she can film with what she visibly has (locations, friends, gear). Prefer formats that got comments over formats that got views. `perfect_examples` must be verbatim captions from below. Keep everything IG-safe.
 
 {{tiktok_block}}

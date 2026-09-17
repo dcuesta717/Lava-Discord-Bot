@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { jsonrepair } from 'jsonrepair';
 
 export interface ClaudeOpts {
   system?: string;
@@ -83,10 +84,20 @@ export class Claude {
       .trim();
   }
 
-  /** Ask for JSON and parse it, tolerating a ```json fence. */
+  /**
+   * Ask for JSON and parse it, tolerating a ```json fence, prose around it, and small syntax slips (jsonrepair).
+   * If it still does not parse, asks once more with the error and temperature 0.
+   */
   async json<T>(prompt: string, opts: ClaudeOpts = {}, images?: ImageInput[]): Promise<T> {
-    const raw = images?.length ? await this.vision(prompt, images, { temperature: 0, ...opts }) : await this.text(prompt, { temperature: 0, ...opts });
-    return parseJson<T>(raw);
+    const ask = (p: string, o: ClaudeOpts) => (images?.length ? this.vision(p, images, { temperature: 0, ...o }) : this.text(p, { temperature: 0, ...o }));
+    const raw = await ask(prompt, opts);
+    try {
+      return parseJson<T>(raw);
+    } catch (err) {
+      const why = err instanceof Error ? err.message : String(err);
+      const retry = await ask(`${prompt}\n\nYour previous answer was not valid JSON (${why.slice(0, 120)}). Return ONLY the JSON, no prose, with every double quote inside a string escaped as \\" and no trailing commas.`, { ...opts, temperature: 0 });
+      return parseJson<T>(retry);
+    }
   }
 }
 
@@ -160,7 +171,17 @@ export function parseJson<T>(raw: string): T {
   const start = Math.min(...opens);
   const closer = body[start] === '[' ? ']' : '}';
   const end = body.lastIndexOf(closer);
-  return JSON.parse(body.slice(start, end + 1)) as T;
+  const slice = body.slice(start, end + 1);
+  try {
+    return JSON.parse(slice) as T;
+  } catch (err) {
+    // unescaped quotes in verbatim captions, trailing commas, comments — repair before giving up
+    try {
+      return JSON.parse(jsonrepair(slice)) as T;
+    } catch {
+      throw err;
+    }
+  }
 }
 
 export async function fetchImageAsBase64(url: string): Promise<ImageInput> {

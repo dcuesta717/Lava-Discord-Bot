@@ -24,6 +24,7 @@
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.5",
     "googleapis": "^144.0.0",
+    "jsonrepair": "^3.15.0",
     "luxon": "^3.5.0",
     "pino": "^9.4.0",
     "pino-pretty": "^11.2.2",
