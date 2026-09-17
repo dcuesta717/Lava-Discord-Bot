@@ -26,4 +26,4 @@ jobs:
         with: { ssh-private-key: "${{ secrets.SSH_KEY }}" }
       - run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} '
-            cd ~/lava-discord-bot && git pull --ff-only && npm ci && npm run build && npm run register-commands && pm2 restart lava-bot || pm2 start dist/index.js --name lava-bot'
+            cd ~/lava-discord-bot && git pull --ff-only && npm ci && npm run build && npm run register-commands && pm2 restart lava-bot || pm2 start dist/src/index.js --name lava-bot'

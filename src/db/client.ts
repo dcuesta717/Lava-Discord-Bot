@@ -1,7 +1,6 @@
 import postgres, { type Sql } from 'postgres';
 import { readdirSync, readFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 
 /**
  * Supabase Postgres via postgres.js. DATABASE_URL is the project's connection string
@@ -12,7 +11,8 @@ import { fileURLToPath } from 'node:url';
  */
 export type DB = Sql;
 
-const here = dirname(fileURLToPath(import.meta.url));
+// Migrations are plain .sql files that tsc does not copy to dist/, so resolve them from the repo root (same as prompts/ and models/).
+const MIGRATIONS_DIR = join(process.cwd(), 'src', 'db', 'migrations');
 
 export function openDb(url: string): DB {
   const isLocal = /localhost|127\.0\.0\.1/.test(url);
@@ -32,7 +32,7 @@ export async function migrate(sql: DB): Promise<string[]> {
   await sql.unsafe(`CREATE SCHEMA IF NOT EXISTS bot`);
   await sql.unsafe(`CREATE TABLE IF NOT EXISTS bot._migrations (name TEXT PRIMARY KEY, applied_at TIMESTAMPTZ NOT NULL DEFAULT now())`);
   const applied = new Set((await sql<{ name: string }[]>`SELECT name FROM bot._migrations`).map((r) => r.name));
-  const dir = join(here, 'migrations');
+  const dir = MIGRATIONS_DIR;
   const ran: string[] = [];
   for (const file of readdirSync(dir).filter((f) => f.endsWith('.sql')).sort()) {
     if (applied.has(file)) continue;
