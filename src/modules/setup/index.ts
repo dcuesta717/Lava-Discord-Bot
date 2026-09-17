@@ -61,15 +61,45 @@ export function register(ctx: BotContext) {
       const extra = ctx.settings.getList('owners');
       if (sub === 'list') return i.reply({ content: `owners: ${ctx.ownerIds().map((id) => `<@${id}>`).join(' ') || '(none)'}`, flags: MessageFlags.Ephemeral, allowedMentions: { parse: [] } });
       const user = i.options.getUser('user', true);
+      await i.deferReply({ flags: MessageFlags.Ephemeral });
       const next = sub === 'add' ? [...new Set([...extra, user.id])] : extra.filter((id) => id !== user.id);
       await ctx.settings.set('owners', next);
-      await i.deferReply({ flags: MessageFlags.Ephemeral });
       await ensureStructure(); // re-apply channel permissions
       await ctx.ops(MODULE, `owners:${sub}`, { actor: i.user.id, data: { user: user.id } });
       await i.editReply(`${sub === 'add' ? 'added' : 'removed'} <@${user.id}> — owners now: ${ctx.ownerIds().map((id) => `<@${id}>`).join(' ')}`);
     },
   );
 
+  ctx.action('add_owner', {
+    description: 'Make a Discord user an owner (gets alerts, STAFF channels, can approve everything). Needs the user id from an @mention (<@123…> → digits). The user must be in the server.',
+    input: { type: 'object', properties: { discord_user_id: { type: 'string', description: 'digits of the user id' } }, required: ['discord_user_id'] },
+    ownersOnly: true,
+    run: async (input, actor) => {
+      const id = String(input.discord_user_id).replace(/[<@!>]/g, '');
+      if (!/^\d{15,22}$/.test(id)) return 'I need the person as an @mention (or their Discord user id)';
+      const guild = await ctx.client.guilds.fetch(ctx.env.DISCORD_GUILD_ID);
+      const member = await guild.members.fetch(id).catch(() => null);
+      if (!member) return `<@${id}> is not in the server yet — invite them first (Lava HQ → Invite People), then ask me again`;
+      const next = [...new Set([...ctx.settings.getList('owners'), id])];
+      await ctx.settings.set('owners', next);
+      await ensureStructure();
+      await ctx.ops(MODULE, 'owners:add', { actor: actor.userId, data: { user: id } });
+      return `added <@${id}> as an owner — owners now: ${ctx.ownerIds().map((x) => `<@${x}>`).join(' ')}`;
+    },
+  });
+  ctx.action('remove_owner', {
+    description: 'Remove a user from the owners list (the server owner can never be removed).',
+    input: { type: 'object', properties: { discord_user_id: { type: 'string' } }, required: ['discord_user_id'] },
+    ownersOnly: true,
+    run: async (input, actor) => {
+      const id = String(input.discord_user_id).replace(/[<@!>]/g, '');
+      const next = ctx.settings.getList('owners').filter((x) => x !== id);
+      await ctx.settings.set('owners', next);
+      await ensureStructure();
+      await ctx.ops(MODULE, 'owners:remove', { actor: actor.userId, data: { user: id } });
+      return `removed <@${id}> — owners now: ${ctx.ownerIds().map((x) => `<@${x}>`).join(' ')}`;
+    },
+  });
   ctx.action('list_owners', {
     description: 'Who counts as an owner (gets alerts, can approve everything).',
     input: { type: 'object', properties: {} },
