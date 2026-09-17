@@ -342,7 +342,7 @@ export function register(ctx: BotContext) {
         return [];
       });
     }
-    const found = new Set(candidates.map((c) => canonicalUrl(c.url)));
+    const found = new Set(candidates.flatMap((c) => [canonicalUrl(c.url), c.inputUrl ? canonicalUrl(c.inputUrl) : '']));
     result.failed += [...wanted.keys()].filter((c) => !found.has(c)).length;
 
     for (const cand of candidates) {

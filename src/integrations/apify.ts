@@ -7,6 +7,7 @@ import { ApifyClient } from 'apify-client';
  */
 export interface ReelCandidate {
   url: string;
+  inputUrl?: string; // the URL we asked for (IG rewrites /reel/X to /p/X)
   platform: 'tiktok' | 'instagram';
   author: string;
   caption: string;
@@ -70,12 +71,16 @@ export class Apify {
       .filter((c) => c.url && c.views >= (cfg.min_views ?? 0));
   }
 
-  /** Recent reels from one IG profile or hashtag page (Content Library scout). `newerThan` e.g. "7 days". */
+  /**
+   * Recent reels from one IG profile or hashtag page (Content Library scout). `newerThan` e.g. "7 days".
+   * Verified 2026-09 against apify/instagram-scraper: resultsType "reels" on a profile or /explore/tags/ URL returns
+   * Video items with videoUrl, videoPlayCount, likesCount, commentsCount ("posts" on a hashtag returns mostly images).
+   */
   async instagramPage(kind: 'account' | 'hashtag', value: string, limit: number, newerThan = '7 days'): Promise<ReelCandidate[]> {
     if (!this.client) return [];
     const v = value.replace(/^[@#]/, '');
-    const url = kind === 'account' ? `https://www.instagram.com/${v}/reels/` : `https://www.instagram.com/explore/tags/${v}/`;
-    const run = await this.client.actor(this.instagramActor).call({ directUrls: [url], resultsType: 'posts', resultsLimit: limit, onlyPostsNewerThan: newerThan });
+    const url = kind === 'account' ? `https://www.instagram.com/${v}/` : `https://www.instagram.com/explore/tags/${v}/`;
+    const run = await this.client.actor(this.instagramActor).call({ directUrls: [url], resultsType: 'reels', resultsLimit: limit, onlyPostsNewerThan: newerThan });
     const { items } = await this.client.dataset(run.defaultDatasetId).listItems();
     return items.map((it) => normalize(it as Record<string, unknown>, 'instagram')).filter((c) => c.url && c.videoUrl);
   }
@@ -101,14 +106,19 @@ export class Apify {
   }
 }
 
-/** Canonical form for dedupe: no query string, no trailing slash, https, no "www.". */
+/**
+ * Canonical form for dedupe: no query string, no trailing slash, https, no "www.".
+ * Instagram /reel/X, /reels/X and /p/X are the same post → always /p/X.
+ */
 export function canonicalUrl(url: string): string {
   try {
-    const u = new URL(url);
+    const u = new URL(url.trim());
     u.search = '';
     u.hash = '';
     u.hostname = u.hostname.replace(/^www\./, '');
     u.protocol = 'https:';
+    const ig = u.hostname === 'instagram.com' && u.pathname.match(/^\/(?:p|reel|reels)\/([A-Za-z0-9_-]+)/);
+    if (ig) return `https://instagram.com/p/${ig[1]}`;
     return u.toString().replace(/\/$/, '');
   } catch {
     return url.trim();
@@ -125,13 +135,15 @@ function str(v: unknown): string {
 /** Map actor-specific field names → ReelCandidate. Add aliases here as you meet new actors. */
 export function normalize(it: Record<string, unknown>, platform: 'tiktok' | 'instagram'): ReelCandidate {
   const author = (it.authorMeta as Record<string, unknown> | undefined) ?? {};
+  const likes = num(it.diggCount) || num(it.likesCount) || num(it.likes);
   return {
     url: str(it.webVideoUrl) || str(it.url) || str(it.postUrl),
+    inputUrl: str(it.inputUrl) || undefined,
     platform,
     author: str(author.name) || str(it.ownerUsername) || str(it.author),
     caption: str(it.text) || str(it.caption) || str(it.desc),
-    views: num(it.playCount) || num(it.videoPlayCount) || num(it.videoViewCount) || num(it.views),
-    likes: num(it.diggCount) || num(it.likesCount) || num(it.likes),
+    views: num(it.playCount) || num(it.videoPlayCount) || num(it.igPlayCount) || num(it.videoViewCount) || num(it.views),
+    likes: likes < 0 ? 0 : likes, // IG returns -1 when the owner hides like counts
     comments: num(it.commentCount) || num(it.commentsCount) || num(it.comments) || undefined,
     shortcode: str(it.shortCode) || str(it.id) || undefined,
     durationSec: num((it.videoMeta as Record<string, unknown> | undefined)?.duration) || num(it.videoDuration) || undefined,
