@@ -5,7 +5,7 @@ A single Discord bot for an OnlyFans/creator management agency (Lava Mgmt). ~15 
 
 ## Non-negotiables
 1. **Prompts live in `prompts/*.md`, never as string literals in `src/`.** Load them with `loadPrompt('caption.generate')`.
-2. **Per-model anything lives in `models/<slug>/`.** Never hard-code a model's name, ids, handles or voice in code. Code reads `model.yaml` + `voice/*`.
+2. **Per-model anything lives in `models/<slug>/`.** Never hard-code a model's name, ids, handles or voice in code. Code reads `model.yaml` + `voice/*`. Agency-wide genre folders live in `library/genres.yaml` the same way.
 3. **Every bot action that changes state writes a row in Postgres (Supabase project `lava-discord-bot`, schema `bot`) and (if configured) a Notion row.** Discord is the UI, not the database. All queries go through the `postgres` tagged template on `ctx.db`; new tables = a new numbered file in `src/db/migrations/` (applied automatically at boot).
 4. **Timers must be durable.** Anything scheduled (live check-ins, reminders, scheduled posts) is stored in `db` and re-armed on boot. Never rely on in-memory `setTimeout` alone.
 5. **Nothing auto-posts without a human button press.** Captions and posts always go through an approval card (`modules/posting/index.ts`, `modules/captions/index.ts`).
@@ -24,7 +24,8 @@ A single Discord bot for an OnlyFans/creator management agency (Lava Mgmt). ~15 
 ## Where things are
 - Boot & wiring → `src/index.ts`, `src/discord/client.ts`
 - Model config loader → `src/config/models.ts` (validates with zod)
-- All nine modules are implemented → `src/modules/<name>/index.ts`; each one's header comment is the spec.
+- All ten modules are implemented → `src/modules/<name>/index.ts`; each one's header comment is the spec.
+- Content Library (agency-wide genre folders) → `src/modules/library/index.ts`, genres in `library/genres.yaml`, spec in `docs/content-library.md`. Adding a genre = a yaml entry, never code.
 - Not yet wired (see README): Drive ready-to-post automation, Zernio status polling, OF earnings source.
 
 ## When adding a model

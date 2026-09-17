@@ -1,0 +1,100 @@
+# Content Library — the agency-wide inspiration folders (one Discord forum per genre, gallery view).
+# The bot creates/updates the channels from this file on boot. Add a genre = add an entry; rename the `name` and the
+# channel renames itself. Never delete a slug that has posts — set `active: false` instead.
+#
+# Seed accounts live in the database (add from Discord: /library source add), so Dan can grow them without a deploy.
+# Hashtags here are defaults; `/library source add` can add more per genre too.
+
+scout:
+  cron: "0 9 * * *"          # daily, DEFAULT_TIMEZONE
+  per_hashtag: 15            # Apify results per hashtag per run
+  per_account: 6             # Apify results per seed account per run
+  newer_than: "7 days"
+  classify_top: 8            # candidates sent to Claude per genre (ranked by engagement first)
+  keep: 3                    # max posts per genre per run (Dan: "top 3")
+  min_score: 0.55            # Claude's "worth copying" bar
+
+genres:
+  - slug: skits
+    name: Skits
+    emoji: "🎭"
+    description: Scripted bit with a setup and a punchline, usually a second person or a POV; the joke carries the video.
+    hashtags: [skit, comedyskit, povskit]
+
+  - slug: dance
+    name: Dance
+    emoji: "💃"
+    description: Dance trend / choreography / dance challenge; the movement is the content.
+    hashtags: [dancechallenge, dancetrend, dancereels]
+
+  - slug: collabs
+    name: Collabs
+    emoji: "👯"
+    description: Group of girls (2+, usually 3+) doing a bit together — friend groups, trips, group trends. Men comment on the group.
+    hashtags: [girlsquad, besties, girlstrip]
+
+  - slug: pool
+    name: Pool
+    emoji: "🏊"
+    description: At a pool — swim, float, poolside; the setting is the hook.
+    hashtags: [poolday, poolside, pooltime]
+
+  - slug: beach
+    name: Beach
+    emoji: "🏖️"
+    description: Beach / ocean / sand setting; bikini-adjacent but the beach is the point.
+    hashtags: [beachday, beachgirl, beachlife]
+
+  - slug: words-on-screen
+    name: Words on Screen
+    emoji: "💬"
+    description: Creative on-screen text ties the video together — a line, a confession, a question, a "when he…" caption; the text is what men reply to.
+    hashtags: [relatable, pov]
+
+  - slug: big-boobs
+    name: Big Boobs
+    emoji: "💋"
+    description: Content where the framing/outfit centers the chest (still IG-safe); engagement is driven by that.
+    hashtags: []          # hashtag search is junk for this lane — seed accounts only
+
+  - slug: podcast-questions
+    name: Podcast Questions
+    emoji: "🎙️"
+    description: Mic in hand — street interviews, podcast-style questions to strangers or friends, hot-take answers.
+    hashtags: [streetinterview, podcastclips, askingstrangers]
+
+  - slug: golf
+    name: Golf
+    emoji: "⛳"
+    description: Golf course / range / golf outfit content; swing videos, cart videos, golf girl aesthetic.
+    hashtags: [golfgirl, golfgirls, ladiesgolf]
+
+  - slug: gym-girl
+    name: Gym Girl
+    emoji: "🏋️"
+    description: Gym / workout / fit-check-at-the-gym; form, progress, gym humor.
+    hashtags: [gymgirl, gymgirls, gymmotivation]
+
+  - slug: funny
+    name: Funny
+    emoji: "😂"
+    description: The video is funny first — reaction, relatable humor, self-deprecating, chaos. Not a scripted skit.
+    hashtags: [funnyreels, comedyreels, relatable]
+
+  - slug: transitions
+    name: Transitions
+    emoji: "🔄"
+    description: Outfit / location / before-after transitions cut on the beat; the edit is the hook.
+    hashtags: [transition, transitionvideo, outfittransition]
+
+  - slug: car
+    name: Car
+    emoji: "🚗"
+    description: In or around a car — driving, car singing, car outfit check, car-girl aesthetic.
+    hashtags: [cargirl, cargirls, carlifestyle]
+
+  - slug: personality
+    name: Personality
+    emoji: "🌟"
+    description: Talking to camera — storytime, opinions, GRWM chat, day-in-life; she is the content, men fall for the personality.
+    hashtags: [storytime, grwm, dayinmylife]

@@ -2,7 +2,6 @@ import {
   ChannelType,
   Events,
   MessageFlags,
-  OverwriteType,
   PermissionFlagsBits,
   SlashCommandBuilder,
   type CategoryChannel,
@@ -10,6 +9,7 @@ import {
   type OverwriteResolvable,
 } from 'discord.js';
 import type { BotContext } from '../../discord/context.js';
+import { MEMBER, ROLE, clampToBot } from '../../lib/overwrites.js';
 
 /**
  * Self-setup. On every boot the bot makes sure the shared structure exists in the guild and remembers the ids
@@ -74,8 +74,8 @@ export function register(ctx: BotContext) {
     const owners = ctx.ownerIds();
 
     // Explicit types: discord.js cannot tell a raw user id from a role id unless the user is cached.
-    const R = OverwriteType.Role;
-    const M = OverwriteType.Member;
+    const R = ROLE;
+    const M = MEMBER;
     const staffOverwrites: OverwriteResolvable[] = [
       { id: guild.roles.everyone.id, type: R, deny: [PermissionFlagsBits.ViewChannel] },
       { id: me, type: M, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.AddReactions, PermissionFlagsBits.ReadMessageHistory] },
@@ -91,19 +91,7 @@ export function register(ctx: BotContext) {
       ...owners.map((id) => ({ id, type: M, allow: [PermissionFlagsBits.SendMessages] })),
     ];
 
-    // Discord rejects a create/edit when an overwrite sets a permission the bot itself does not hold,
-    // so clamp every overwrite to what the bot was invited with (no-op for Administrator).
-    const me_ = await guild.members.fetchMe();
-    const clamp = (list: OverwriteResolvable[]): OverwriteResolvable[] =>
-      me_.permissions.has(PermissionFlagsBits.Administrator)
-        ? list
-        : list.map((o) => ({
-            ...o,
-            allow: ((o as { allow?: bigint[] }).allow ?? []).filter((p) => me_.permissions.has(p)),
-            deny: ((o as { deny?: bigint[] }).deny ?? []).filter((p) => me_.permissions.has(p)),
-          }));
-    const missing = [PermissionFlagsBits.ManageChannels, PermissionFlagsBits.ManageRoles].filter((p) => !me_.permissions.has(p));
-    if (missing.length) throw new Error('bot is missing Manage Channels / Manage Roles — re-invite it with the OAuth URL in docs/discord-server-template.md');
+    const clamp = await clampToBot(guild);
 
     const staffCat = await ensureCategory(guild, 'staff', 'STAFF', clamp(staffOverwrites));
     const agencyCat = await ensureCategory(guild, 'agency', 'AGENCY', clamp(agencyOverwrites));

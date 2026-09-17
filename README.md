@@ -17,13 +17,14 @@ lava-discord-bot/
 │  ├─ integrations/           anthropic · notion · drive · apify · zernio
 │  ├─ db/                     Postgres (Supabase) client + migrations — schema `bot.*`
 │  └─ lib/                    logger, cron, time helpers
+├─ library/                   ← genres.yaml: the agency-wide Content Library folders (docs/content-library.md)
 ├─ models/                    ← ONE FOLDER PER MODEL (voice, sourcing, playbooks, config)
 │  ├─ _template/              copy this with `npm run new-model -- <slug>`
 │  └─ <slug>/
 ├─ prompts/                   ← every Claude prompt lives here as a .md file, never inline in code
 ├─ agents/                    ← playbooks for scheduled / Claude Code agents (reels scout, weekly report…)
 ├─ scripts/                   ← one-off CLI tools (new-model, register-commands, import-captions, setup-server)
-├─ docs/                      ← architecture, Discord server template, Notion schema, caption voice system, runbook
+├─ docs/                      ← architecture, Discord server template, content library, Notion schema, caption voice system, runbook
 └─ .github/workflows/         ← CI (typecheck) + deploy
 ```
 
@@ -40,6 +41,7 @@ lava-discord-bot/
 | `posting` | implemented | `/post` → preview card → ✅ → Zernio presign/upload + `POST /posts` at `when` or next best slot. Nothing posts without a tap. |
 | `earnings` | implemented | `/earnings` (manual MTD for now) → best-month / goal / $5k-step thresholds → one Claude hype line in her #general. |
 | `agency` | implemented | `#agency-lounge`: Friday shout-outs (insights sent, reels cleared, live minutes) + long-live one-liners. Never numbers. |
+| `library` | implemented | **Content Library** — agency-wide inspiration folders, one forum per genre (`library/genres.yaml`), gallery view. `#library-inbox` drops + daily Apify scout → Claude files each video with "why it works / how to copy it" → 🔥/👎 votes, 📋 Copy this → her board. See `docs/content-library.md`. |
 
 Not yet wired: Drive "Ready to Post" → `/post` automation, Zernio publish-status polling, OF earnings source (CRM export). See `docs/architecture.md` build order.
 

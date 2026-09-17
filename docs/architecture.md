@@ -35,6 +35,8 @@
 
 **Posting:** `/post` (media URL + approved caption id) → preview card in her #general → ✅ → Zernio presign/upload + `POST /posts` scheduled at `when` or next `best_times` slot → `posts` row.
 
+**Content Library:** `#library-inbox` link or daily scout (seed accounts + hashtags per genre via Apify) → rank by comments/likes/views × recency → Claude vision classify (`prompts/library.classify.md`) → forum post per genre with the mp4 re-uploaded + why/copy notes → 🔥/👎 votes nudge source weights → 📋 `library:copy` bus event → her reels board.
+
 **Earnings:** staff `/earnings` → threshold check (best month / goal / $5k step) → Claude hype line → her #general. Never the lounge.
 
 ## Build order (each is a day or less)

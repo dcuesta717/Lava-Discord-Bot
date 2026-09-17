@@ -12,7 +12,7 @@
 6. In her #general: `/live-started` → check #live-alerts → wait 40 min (or set `check_in_after_min: 1` in model.yaml to test) → buttons appear → `/live-ended`.
 
 ## Adding integrations
-- **Apify**: token in `.env`; pick actors (defaults: `clockworks/tiktok-scraper`, `apify/instagram-scraper`); if you buy different ones, extend `normalize()` in `src/integrations/apify.ts` with their field names. Run `npm run import-captions -- <slug>` first — it is the cheapest way to see the actor's output shape.
+- **Apify** (needed for the Content Library inbox + scout and per-model reels): sign up at apify.com → Settings → Integrations → copy the API token → Railway variable `APIFY_TOKEN` → Deploy. Defaults: `clockworks/tiktok-scraper`, `apify/instagram-scraper` (pay-per-result, ≈ $2.30 / 1 000). If you buy different actors, extend `normalize()` in `src/integrations/apify.ts` with their field names. `npm run import-captions -- <slug>` is the cheapest way to see an actor's output shape. Then seed the library: `/library source add folder:golf value:@handle @handle2` per folder, and `/library scout` to fill it the first time.
 - **Drive**: create a service account in Google Cloud, enable Drive API, download JSON, `base64 -i key.json` → `GOOGLE_SERVICE_ACCOUNT_B64`; share the "Lava Content" shared drive with the service-account email (Content manager).
 - **Zernio**: API key → `.env`; `curl -H "Authorization: Bearer $ZERNIO_API_KEY" https://zernio.com/api/v1/accounts` → paste each model's account ids into `model.yaml → zernio.accounts`.
 - **Notion**: internal integration token; create the databases in `docs/notion-schema.md`; share each with the integration; ids into `.env`.
@@ -30,6 +30,7 @@ Railway (`vars.DEPLOY_TARGET=railway`) or a VPS with pm2 (`vps`). Set every `.en
 - If the persona gets weird: the system prompt is `prompts/persona.system.md`; hard rules are at the top; `notes.md` is background only.
 
 ## Daily ops for Dan/Marissa
+- Library: paste any IG/TikTok link in `#📥-library-inbox` (add a word to force a folder) · `/library stats` · `/library source add` to teach the scout new accounts
 - Requests: `/request model:<slug> items:"…" deadline:"…"`
 - Reels: paste `<slug> <url>` in #reels-inbox
 - Captions: `/caption model:<slug> brief:"…"` (or she runs it in her channel)

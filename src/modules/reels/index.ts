@@ -111,6 +111,11 @@ export function register(ctx: BotContext) {
     await ctx.ops(MODULE, status, { model, actor: i.user.id, data: { id: row.id } });
     ctx.bus.emit('reel:acted', { model, reel: row, status });
   };
+  // 📋 "Copy this" on a Content Library post → her board, re-classified into her categories with a brief.
+  ctx.bus.on('library:copy', ({ model, candidate }: { model: Model; candidate: ReelCandidate }) => {
+    classifyAndPost(model, [candidate], true).catch((err) => ctx.log.warn({ err, model: model.slug }, 'library copy → board failed'));
+  });
+
   ctx.component('reels:on_drive', act('on_drive', '✅ on drive'));
   ctx.component('reels:posted', act('posted', '📤 already posted'));
   ctx.component('reels:skip', act('skipped', '❌ skipped'));

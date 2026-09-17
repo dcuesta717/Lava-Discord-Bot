@@ -1,6 +1,6 @@
 # Discord server template
 
-One guild ("Lava HQ"). Models never see each other's categories. `scripts/setup-server.ts` builds a model category; the staff section is built once by hand.
+One guild ("Lava HQ"). Models never see each other's categories. The bot builds the STAFF, AGENCY and CONTENT LIBRARY sections itself on boot (`modules/setup`, `modules/library`); `scripts/setup-server.ts` builds a model category.
 
 ```
 📁 STAFF                          (Dan, Marissa, Aaron, bot)
@@ -12,6 +12,9 @@ One guild ("Lava HQ"). Models never see each other's categories. `scripts/setup-
 📁 AGENCY                         (everyone)
  ├ #agency-lounge                 all models + owners; Friday shout-outs; long-live shout-outs; NO numbers ever
  └ #announcements                 owners post only
+📁 🎬 CONTENT LIBRARY             (everyone; bot-created from library/genres.yaml — docs/content-library.md)
+ ├ #📥-library-inbox              anyone pastes IG/TikTok links → filed into a folder with notes
+ └ ⛳-golf 🏋-gym-girl 😂-funny …  one FORUM per genre, gallery view; girls browse, 🔥 vote, 📋 Copy this → her board
 📁 <Model display name>           (her + owners + her managers + bot)     ← per model, ×15
  ├ #💬-general-chat               /live-started /live-ended /caption /my-week; persona replies here; post previews land here
  ├ 🎬-reels-copy-board            FORUM · read-only for her (can react + reply in threads) · one thread per category
