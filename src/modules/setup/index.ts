@@ -78,8 +78,8 @@ export function register(ctx: BotContext) {
     const M = OverwriteType.Member;
     const staffOverwrites: OverwriteResolvable[] = [
       { id: guild.roles.everyone.id, type: R, deny: [PermissionFlagsBits.ViewChannel] },
-      { id: me, type: M, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.AddReactions, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.ManageMessages] },
-      ...owners.map((id) => ({ id, type: M, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.AddReactions, PermissionFlagsBits.ManageMessages] })),
+      { id: me, type: M, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.AddReactions, PermissionFlagsBits.ReadMessageHistory] },
+      ...owners.map((id) => ({ id, type: M, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.AddReactions] })),
     ];
     const agencyOverwrites: OverwriteResolvable[] = [
       { id: guild.roles.everyone.id, type: R, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.AddReactions, PermissionFlagsBits.AttachFiles] },
@@ -91,12 +91,26 @@ export function register(ctx: BotContext) {
       ...owners.map((id) => ({ id, type: M, allow: [PermissionFlagsBits.SendMessages] })),
     ];
 
-    const staffCat = await ensureCategory(guild, 'staff', 'STAFF', staffOverwrites);
-    const agencyCat = await ensureCategory(guild, 'agency', 'AGENCY', agencyOverwrites);
+    // Discord rejects a create/edit when an overwrite sets a permission the bot itself does not hold,
+    // so clamp every overwrite to what the bot was invited with (no-op for Administrator).
+    const me_ = await guild.members.fetchMe();
+    const clamp = (list: OverwriteResolvable[]): OverwriteResolvable[] =>
+      me_.permissions.has(PermissionFlagsBits.Administrator)
+        ? list
+        : list.map((o) => ({
+            ...o,
+            allow: ((o as { allow?: bigint[] }).allow ?? []).filter((p) => me_.permissions.has(p)),
+            deny: ((o as { deny?: bigint[] }).deny ?? []).filter((p) => me_.permissions.has(p)),
+          }));
+    const missing = [PermissionFlagsBits.ManageChannels, PermissionFlagsBits.ManageRoles].filter((p) => !me_.permissions.has(p));
+    if (missing.length) throw new Error('bot is missing Manage Channels / Manage Roles — re-invite it with the OAuth URL in docs/discord-server-template.md');
+
+    const staffCat = await ensureCategory(guild, 'staff', 'STAFF', clamp(staffOverwrites));
+    const agencyCat = await ensureCategory(guild, 'agency', 'AGENCY', clamp(agencyOverwrites));
 
     const created: string[] = [];
-    for (const c of STAFF) if (await ensureText(guild, staffCat, c.key, c.name, c.topic, staffOverwrites)) created.push(`#${c.name}`);
-    for (const c of AGENCY) if (await ensureText(guild, agencyCat, c.key, c.name, c.topic, c.ownersOnly ? announceOverwrites : agencyOverwrites)) created.push(`#${c.name}`);
+    for (const c of STAFF) if (await ensureText(guild, staffCat, c.key, c.name, c.topic, clamp(staffOverwrites))) created.push(`#${c.name}`);
+    for (const c of AGENCY) if (await ensureText(guild, agencyCat, c.key, c.name, c.topic, clamp(c.ownersOnly ? announceOverwrites : agencyOverwrites))) created.push(`#${c.name}`);
 
     if (created.length) {
       await ctx.send(ctx.ch('bot_dev'), {
