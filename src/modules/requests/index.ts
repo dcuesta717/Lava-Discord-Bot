@@ -102,7 +102,7 @@ export function register(ctx: BotContext) {
         const files = await ctx.api.drive.newFiles(folderId, r.updated_at.toISOString()).catch(() => []);
         if (!files.length) continue;
         await sql`UPDATE bot.content_requests SET status = 'uploaded', updated_at = now() WHERE id = ${r.id}`;
-        await ctx.send(ctx.env.STAFF_REQUESTS_INBOX_CHANNEL_ID, {
+        await ctx.send(ctx.ch('content_requests_inbox'), {
           content: `📥 ${ctx.ownerMentions()} **${model.display_name}** uploaded ${files.length} file(s) for request #${r.id} → ${r.drive_url}`,
         });
         await ctx.send(model.discord.channels.resources, { content: `got the upload for request #${r.id} 🙌 team's been pinged` });

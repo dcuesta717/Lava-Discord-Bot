@@ -24,6 +24,7 @@ import type { Apify } from '../integrations/apify.js';
 import type { Zernio } from '../integrations/zernio.js';
 import type { Logger } from '../lib/logger.js';
 import type { Timers } from '../lib/timers.js';
+import type { Settings } from '../lib/settings.js';
 
 export type CommandBuilder = SlashCommandBuilder | SlashCommandOptionsOnlyBuilder | SlashCommandSubcommandsOnlyBuilder;
 export type CommandHandler = (i: ChatInputCommandInteraction, model: Model | undefined) => Promise<unknown>;
@@ -57,7 +58,27 @@ export class BotContext {
     readonly timers: Timers,
     readonly log: Logger,
     readonly api: Integrations,
+    readonly settings: Settings,
   ) {}
+
+  /** Staff/agency channel id: bot-created (settings) first, .env override second. */
+  ch(name: 'live_alerts' | 'content_requests_inbox' | 'reels_inbox' | 'ops_log' | 'bot_dev' | 'agency_lounge' | 'announcements'): string {
+    const envKey: Record<string, string> = {
+      live_alerts: this.env.STAFF_LIVE_ALERTS_CHANNEL_ID,
+      content_requests_inbox: this.env.STAFF_REQUESTS_INBOX_CHANNEL_ID,
+      reels_inbox: this.env.STAFF_REELS_INBOX_CHANNEL_ID,
+      ops_log: this.env.STAFF_OPS_LOG_CHANNEL_ID,
+      bot_dev: '',
+      agency_lounge: this.env.AGENCY_LOUNGE_CHANNEL_ID,
+      announcements: '',
+    };
+    return envKey[name] || this.settings.getString(`channels.${name}`);
+  }
+
+  /** Owners = guild owner + /owners list + .env OWNER_IDS + admins. */
+  ownerIds(): string[] {
+    return [...new Set([this.settings.getString('guild.owner_id'), ...this.settings.getList('owners'), ...this.env.OWNER_IDS, ...this.env.BOT_ADMIN_IDS].filter(Boolean))];
+  }
 
   command(builder: CommandBuilder, handler: CommandHandler) {
     this.commands.set(builder.name, { builder, handler });
@@ -87,11 +108,11 @@ export class BotContext {
   }
 
   isAdmin(userId: string) {
-    return this.env.BOT_ADMIN_IDS.includes(userId);
+    return this.env.BOT_ADMIN_IDS.includes(userId) || userId === this.settings.getString('guild.owner_id');
   }
 
   isOwner(userId: string) {
-    return this.env.OWNER_IDS.includes(userId) || this.isAdmin(userId);
+    return this.ownerIds().includes(userId);
   }
 
   /** Staff for a model = owners + that model's managers. */
@@ -115,10 +136,10 @@ export class BotContext {
   async ops(module: string, event: string, opts: { model?: Model; actor?: string; data?: unknown; text?: string } = {}) {
     await logEvent(this.db, { module, model: opts.model?.slug, actor: opts.actor, event, data: opts.data }).catch((err) => this.log.warn({ err }, 'event_log write failed'));
     const line = `\`${module}\` **${event}**${opts.model ? ` · ${opts.model.display_name}` : ''}${opts.text ? ` — ${opts.text}` : ''}`;
-    await this.send(this.env.STAFF_OPS_LOG_CHANNEL_ID, { content: line.slice(0, 1900) });
+    await this.send(this.ch('ops_log'), { content: line.slice(0, 1900) });
   }
 
   ownerMentions() {
-    return this.env.OWNER_IDS.map((id) => `<@${id}>`).join(' ');
+    return this.ownerIds().map((id) => `<@${id}>`).join(' ');
   }
 }

@@ -49,7 +49,7 @@ export function register(ctx: BotContext) {
       const [has] = await sql`SELECT 1 FROM bot.weekly_metrics WHERE model_slug = ${model.slug} AND week_start = ${start.toISODate()}`;
       if (has) return;
       await ctx.send(model.discord.channels.notification, { content: `<@${model.discord.user_id}> still need that insights screenshot for **${label}** when u get a sec 🙏` });
-      await ctx.send(ctx.env.STAFF_LIVE_ALERTS_CHANNEL_ID, { content: `📉 ${model.display_name} hasn't sent insights for ${label} yet` });
+      await ctx.send(ctx.ch('live_alerts'), { content: `📉 ${model.display_name} hasn't sent insights for ${label} yet` });
     });
   }
 

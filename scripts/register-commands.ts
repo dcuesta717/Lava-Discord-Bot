@@ -15,6 +15,8 @@ import { Apify } from '../src/integrations/apify.js';
 import { Zernio } from '../src/integrations/zernio.js';
 import { log } from '../src/lib/logger.js';
 import { Timers } from '../src/lib/timers.js';
+import { Settings } from '../src/lib/settings.js';
+import { register as setup } from '../src/modules/setup/index.js';
 import { register as persona } from '../src/modules/persona/index.js';
 import { register as live } from '../src/modules/live/index.js';
 import { register as insights } from '../src/modules/insights/index.js';
@@ -34,8 +36,8 @@ const ctx = new BotContext(client, env, new ModelRegistry(loadModels()), db, new
   drive: new Drive('', log),
   apify: new Apify('', '', ''),
   zernio: new Zernio(''),
-});
-for (const mod of [persona, live, insights, requests, reels, captions, posting, earnings, agency]) mod(ctx);
+}, new Settings(db));
+for (const mod of [setup, persona, live, insights, requests, reels, captions, posting, earnings, agency]) mod(ctx);
 for (const job of ctx.crons) job.stop();
 await db.end({ timeout: 1 });
 

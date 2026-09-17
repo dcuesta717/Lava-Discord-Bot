@@ -9,9 +9,8 @@ import type { BotContext } from '../../discord/context.js';
 const MODULE = 'agency';
 
 export function register(ctx: BotContext) {
-  const lounge = ctx.env.AGENCY_LOUNGE_CHANNEL_ID;
-  if (!lounge) return;
   const sql = ctx.db;
+  const lounge = () => ctx.ch('agency_lounge'); // resolved lazily: the setup module creates it on first boot
 
   ctx.cron('agency:shoutouts', '0 17 * * 5', ctx.env.DEFAULT_TIMEZONE, async () => {
     const name = (slug: string) => ctx.models.get(slug)?.display_name.split(' ')[0] ?? slug;
@@ -33,11 +32,12 @@ export function register(ctx: BotContext) {
       lives.length ? `🔴 most live time: ${lives.join(', ')}` : '',
       `have a good weekend, rest up, film something silly 🫡`,
     ].filter(Boolean);
-    await ctx.send(lounge, { content: lines.join('\n') });
+    if (!lounge()) return;
+    await ctx.send(lounge(), { content: lines.join('\n') });
     await ctx.ops(MODULE, 'shoutouts');
   });
 
   ctx.bus.on('live:ended', async ({ model, mins }: { model: { display_name: string }; mins: number }) => {
-    if (mins >= 60) await ctx.send(lounge, { content: `🔴 ${model.display_name.split(' ')[0]} just did a ${mins}-minute live. respect.` });
+    if (mins >= 60 && lounge()) await ctx.send(lounge(), { content: `🔴 ${model.display_name.split(' ')[0]} just did a ${mins}-minute live. respect.` });
   });
 }

@@ -73,7 +73,7 @@ export function register(ctx: BotContext) {
 
   // ── manual drops: "<slug> <url> [category]" in #reels-inbox ─────────────────
   ctx.client.on(Events.MessageCreate, async (msg: Message) => {
-    if (msg.author.bot || msg.channelId !== ctx.env.STAFF_REELS_INBOX_CHANNEL_ID) return;
+    if (msg.author.bot || msg.channelId !== ctx.ch('reels_inbox')) return;
     const m = msg.content.match(/^(\S+)\s+(https?:\/\/\S+)\s*(.*)$/);
     if (!m) return;
     const model = ctx.models.get(m[1]);

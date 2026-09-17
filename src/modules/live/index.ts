@@ -53,7 +53,7 @@ export function register(ctx: BotContext) {
       await ctx.timers.schedule('live:timeout', model.slug, minutesFromNow(model.live.auto_end_after_min), { sessionId: Number(sessionId) });
 
       await i.reply(`**Live started** — team notified ✅`);
-      const alert = await ctx.send(ctx.env.STAFF_LIVE_ALERTS_CHANNEL_ID, {
+      const alert = await ctx.send(ctx.ch('live_alerts'), {
         content: `🔴 ${ctx.ownerMentions()} **${model.display_name} is LIVE** on ${platform} · started ${fmtLocal(nowIso(), model.timezone)}`,
       });
       if (alert) await sql`UPDATE bot.live_sessions SET alert_message_id = ${alert.id} WHERE id = ${sessionId}`;
@@ -113,7 +113,7 @@ export function register(ctx: BotContext) {
     await sql`UPDATE bot.live_sessions SET ended_at = now(), ended_by = ${by} WHERE id = ${session.id} AND ended_at IS NULL`;
     await ctx.timers.cancelWhere(['live:checkin', 'live:timeout'], model.slug, 'sessionId', Number(session.id));
     const mins = Math.round((Date.now() - session.started_at.getTime()) / 60_000);
-    await ctx.send(ctx.env.STAFF_LIVE_ALERTS_CHANNEL_ID, {
+    await ctx.send(ctx.ch('live_alerts'), {
       content: `⚫ **${model.display_name} ended live** · ${mins} min · ${by === 'timeout' ? 'auto-ended (no answer)' : by === 'button' ? 'via check-in button' : 'via /live-ended'}`,
     });
     await ctx.ops(MODULE, 'ended', { model, actor, data: { sessionId: session.id, by, mins } });

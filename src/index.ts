@@ -12,7 +12,9 @@ import { Apify } from './integrations/apify.js';
 import { Zernio } from './integrations/zernio.js';
 import { log } from './lib/logger.js';
 import { Timers } from './lib/timers.js';
+import { Settings } from './lib/settings.js';
 
+import { register as setup } from './modules/setup/index.js';
 import { register as persona } from './modules/persona/index.js';
 import { register as live } from './modules/live/index.js';
 import { register as insights } from './modules/insights/index.js';
@@ -32,6 +34,8 @@ async function main() {
   const ran = await migrate(db);
   if (ran.length) log.info({ ran }, 'migrations applied');
   const timers = new Timers(db, log);
+  const settings = new Settings(db);
+  await settings.load();
   const client = createClient();
 
   const ctx = new BotContext(client, env, models, db, timers, log, {
@@ -51,10 +55,10 @@ async function main() {
     drive: new Drive(env.GOOGLE_SERVICE_ACCOUNT_B64, log),
     apify: new Apify(env.APIFY_TOKEN, env.APIFY_TIKTOK_ACTOR, env.APIFY_INSTAGRAM_ACTOR),
     zernio: new Zernio(env.ZERNIO_API_KEY),
-  });
+  }, settings);
 
   // Modules register commands / components / crons / timer handlers on the context.
-  for (const mod of [persona, live, insights, requests, reels, captions, posting, earnings, agency]) mod(ctx);
+  for (const mod of [setup, persona, live, insights, requests, reels, captions, posting, earnings, agency]) mod(ctx);
 
   attachRouter(ctx);
 
