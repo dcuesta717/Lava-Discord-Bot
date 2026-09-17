@@ -26,6 +26,8 @@ import { loadLibrary, type Genre, type LibraryConfig } from '../../config/librar
 import { canonicalUrl, type ReelCandidate } from '../../integrations/apify.js';
 import { fetchImageAsBase64, type ImageInput } from '../../integrations/anthropic.js';
 import { MEMBER, ROLE, clampToBot } from '../../lib/overwrites.js';
+import { marketFilter } from '../../lib/market-filter.js';
+import { industryLens } from '../../lib/industry.js';
 import { loadPrompt } from '../../lib/prompts.js';
 
 /**
@@ -234,7 +236,7 @@ export function register(ctx: BotContext) {
         await i.reply({ content: `running the scout${only ? ` for ${only}` : ''} — this takes a few minutes; the summary lands in <#${ctx.ch('ops_log')}> and picks go out to the girls after.`, flags: MessageFlags.Ephemeral });
         void (async () => {
           const s = await scout(only);
-          await ctx.ops(MODULE, 'scouted', { actor: i.user.id, data: s, text: `${s.genres} folder(s): ${s.candidates} candidates → ${s.posted} posted, ${s.dupes} dupes, ${s.skipped} skipped${s.errors ? `, ${s.errors} source errors` : ''}` });
+          await ctx.ops(MODULE, 'scouted', { actor: i.user.id, data: s, text: `${s.genres} folder(s): ${s.candidates} candidates → ${s.posted} posted, ${s.dupes} dupes, ${s.skipped} skipped, ${s.filtered} off-market${s.errors ? `, ${s.errors} source errors` : ''}` });
           const p = await deliverPicks();
           if (p.delivered) await ctx.ops(MODULE, 'picks-delivered', { data: p });
         })().catch((err) => ctx.log.error({ err }, 'manual scout failed'));
@@ -271,7 +273,7 @@ export function register(ctx: BotContext) {
       if (!ctx.api.apify.enabled) return 'APIFY_TOKEN is not set';
       const s = await scout(input.folder ? String(input.folder) : undefined);
       const p = await deliverPicks();
-      return `scouted ${s.genres} folder(s): ${s.candidates} candidates → ${s.posted} posted, ${s.dupes} already in, ${s.skipped} not library material; picks: ${p.delivered} sent to ${p.models} creator(s)`;
+      return `scouted ${s.genres} folder(s): ${s.candidates} candidates → ${s.posted} posted, ${s.dupes} already in, ${s.skipped} not library material, ${s.filtered} off-market (language/region); picks: ${p.delivered} sent to ${p.models} creator(s)`;
     },
   });
   ctx.action('send_library_picks', {
@@ -443,7 +445,12 @@ export function register(ctx: BotContext) {
 
     for (const cand of candidates) {
       try {
-        const c = await classify(cand, opts.hint);
+        const mf = marketFilter(cand.caption, cand.hashtags);
+        if (!mf.ok && opts.origin === 'scout') {
+          result.skipped++;
+          continue;
+        }
+        const c = await classify(cand, [opts.hint, mf.ok ? '' : `note: automatic market filter flagged this (${mf.reason}) — keep only if it is clearly English-language content for the Western market`].filter(Boolean).join(' · '));
         if (!c) {
           result.failed++;
           continue;
@@ -481,7 +488,7 @@ export function register(ctx: BotContext) {
     ].join('\n');
     const images: ImageInput[] = [];
     if (cand.thumbnailUrl) await fetchImageAsBase64(cand.thumbnailUrl).then((img) => images.push(img)).catch(() => undefined);
-    const prompt = loadPrompt('library.classify', { genres: desc, hint: hint ? `HINT from the person who saved it: ${hint}` : '', candidates: line });
+    const prompt = loadPrompt('library.classify', { genres: desc, industry: industryLens(), hint: hint ? `HINT from the person who saved it: ${hint}` : '', candidates: line });
     const out = await ctx.api.claude.json<Classified[] | Classified>(prompt, { maxTokens: 600 }, images.length ? images : undefined);
     const c = Array.isArray(out) ? out[0] : out;
     if (!c || typeof c.genre !== 'string') return undefined;
@@ -542,7 +549,7 @@ export function register(ctx: BotContext) {
 
   /** Daily: every genre's seed accounts + hashtags → rank → Claude → post the top few. */
   async function scout(only?: string) {
-    const s = { genres: 0, candidates: 0, posted: 0, dupes: 0, skipped: 0, errors: 0 };
+    const s = { genres: 0, candidates: 0, posted: 0, dupes: 0, skipped: 0, filtered: 0, errors: 0 };
     const sources = await sql<{ genre: string; kind: 'account' | 'hashtag'; value: string; weight: number }[]>`SELECT genre, kind, value, weight FROM bot.library_sources WHERE weight >= 0.3`;
     for (const g of genres()) {
       if (only && g.slug !== only) continue;
@@ -575,6 +582,12 @@ export function register(ctx: BotContext) {
         }
         fresh.push(c);
       }
+      // market fit first (English / Western market) — never pay to classify what the agency can't use
+      const before = fresh.length;
+      const kept = fresh.filter((c) => marketFilter(c.caption, c.hashtags).ok);
+      s.filtered += before - kept.length;
+      fresh.length = 0;
+      fresh.push(...kept);
       s.candidates += fresh.length;
       await recordSignals(g.slug, fresh).catch((err) => ctx.log.warn({ err }, 'trend signals failed'));
       fresh.sort((a, b) => engagement(b) - engagement(a));

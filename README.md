@@ -17,8 +17,8 @@ lava-discord-bot/
 │  ├─ integrations/           anthropic · notion · drive · apify · zernio
 │  ├─ db/                     Postgres (Supabase) client + migrations — schema `bot.*`
 │  └─ lib/                    logger, cron, time helpers
-├─ library/                   ← genres.yaml: the agency-wide Content Library folders (docs/content-library.md)
-├─ knowledge/                 ← events.yaml (holidays & moments), faq.md (what the bot may answer for Dan)
+├─ library/                   ← genres.yaml (Content Library folders) + market-exclude.txt (off-market terms) — docs/content-library.md
+├─ knowledge/                 ← industry.md (OF-on-social playbook injected into scout/research/ideas prompts), events.yaml (holidays & moments), faq.md (what the bot may answer for Dan)
 ├─ models/                    ← ONE FOLDER PER MODEL (voice, sourcing, playbooks, config)
 │  ├─ _template/              copy this with `npm run new-model -- <slug>`
 │  └─ <slug>/

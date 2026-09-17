@@ -1,0 +1,39 @@
+// Content Library market filter — one term per line, case-insensitive substring match on caption + hashtags.
+// Anything matching is skipped BEFORE classification (docs/content-library.md). Owners: add terms for markets our girls
+// don't serve. Keep it about market fit (language, platform, audience) — non-Latin scripts (Chinese, Japanese, Korean,
+// Hindi, Arabic, Thai, Russian, …) are filtered automatically, and Claude separately drops non-English / non-Western-market
+// videos, so this list is for English-tagged content that still targets another market.
+// platforms / market tags
+douyin
+kuaishou
+bilibili
+xiaohongshu
+#tiktokindia
+#indianreels
+#bollywood
+#tollywood
+#kollywood
+#kpop
+#jpop
+#cdrama
+#kdrama
+// dress-code / cultural markers the owners asked to exclude
+hijab
+hijabi
+abaya
+bhabhi
+saree
+// other-language tags on otherwise English posts
+#español
+#espanol
+#português
+#portugues
+#deutsch
+#français
+#francais
+#italiano
+#türkçe
+#русский
+#tiếng
+#bahasa
+#tagalog

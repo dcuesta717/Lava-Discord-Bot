@@ -5,6 +5,7 @@ import type { Model } from '../../config/models.js';
 import { loadEvents, nextOccurrence, type EventDef } from '../../config/events.js';
 import { loadLibrary } from '../../config/library.js';
 import { loadPrompt } from '../../lib/prompts.js';
+import { industryLens } from '../../lib/industry.js';
 
 /**
  * Events → ideas (Dan: "on Memorial Day they need video ideas for that specific thing, five or six at a time").
@@ -240,6 +241,7 @@ export function register(ctx: BotContext) {
     const files = model.files();
     const out = await ctx.api.claude.json<Idea[]>(
       loadPrompt('event.ideas', {
+        industry: industryLens(3500),
         event_name: occ.name,
         days_until: String(occ.days),
         event_date: occ.date.toFormat('cccc, LLLL d'),

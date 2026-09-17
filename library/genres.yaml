@@ -19,38 +19,38 @@ genres:
   - slug: skits
     name: Skits
     emoji: "🎭"
-    description: Scripted bit with a setup and a punchline, usually a second person or a POV; the joke carries the video.
-    hashtags: [skit, comedyskit, povskit]
+    description: Scripted bit with a setup and a punchline, usually a second person or a POV; the joke carries the video and men share it.
+    hashtags: [skit, comedyskit, pov]
 
   - slug: dance
     name: Dance
     emoji: "💃"
-    description: Dance trend / choreography / dance challenge; the movement is the content.
+    description: Dance trend / choreography / dance challenge with a trending sound; the movement is the content.
     hashtags: [dancechallenge, dancetrend, dancereels]
 
   - slug: collabs
     name: Collabs
     emoji: "👯"
-    description: Group of girls (2+, usually 3+) doing a bit together — friend groups, trips, group trends. Men comment on the group.
-    hashtags: [girlsquad, besties, girlstrip]
+    description: Group of girls (2+, usually 3+) doing a bit together — friend groups, trips, group trends. Men comment on the group and pick a favorite.
+    hashtags: [girlsquad, girlstrip, besties]
 
   - slug: pool
     name: Pool
     emoji: "🏊"
-    description: At a pool — swim, float, poolside; the setting is the hook.
+    description: At a pool — swim, float, poolside; the setting is the hook, swimwear is allowed, captions stay clean.
     hashtags: [poolday, poolside, pooltime]
 
   - slug: beach
     name: Beach
     emoji: "🏖️"
-    description: Beach / ocean / sand setting; bikini-adjacent but the beach is the point.
+    description: Beach / ocean / sand setting; swimwear-adjacent but the beach and a bit (question, joke, reveal) are the point.
     hashtags: [beachday, beachgirl, beachlife]
 
   - slug: words-on-screen
     name: Words on Screen
     emoji: "💬"
-    description: Creative on-screen text ties the video together — a line, a confession, a question, a "when he…" caption; the text is what men reply to.
-    hashtags: [relatable, pov]
+    description: Creative on-screen text ties the video together — a confession, a question, a "when he…", "rate me", "which one"; the text is what men reply to.
+    hashtags: [relatable, pov, girlsbelike]
 
   - slug: big-boobs
     name: Big Boobs
@@ -61,41 +61,41 @@ genres:
   - slug: podcast-questions
     name: Podcast Questions
     emoji: "🎙️"
-    description: Mic in hand — street interviews, podcast-style questions to strangers or friends, hot-take answers.
-    hashtags: [streetinterview, podcastclips, askingstrangers]
+    description: Mic in hand — street interviews, podcast-style questions to strangers or friends, hot-take answers men argue with in the comments.
+    hashtags: [streetinterview, podcastquestions, askingstrangers]
 
   - slug: golf
     name: Golf
     emoji: "⛳"
-    description: Golf course / range / golf outfit content; swing videos, cart videos, golf girl aesthetic.
-    hashtags: [golfgirl, golfgirls, ladiesgolf]
+    description: Golf course / range / golf outfit content; swing videos, cart videos, "rate my swing", golf-girl humor in a male space.
+    hashtags: [golfgirl, golfgirls, golfoutfit]
 
   - slug: gym-girl
     name: Gym Girl
     emoji: "🏋️"
-    description: Gym / workout / fit-check-at-the-gym; form, progress, gym humor.
-    hashtags: [gymgirl, gymgirls, gymmotivation]
+    description: Gym / workout / fit-check-at-the-gym; form, progress, gym humor, "things men do at the gym".
+    hashtags: [gymgirl, gymgirls, gymfit]
 
   - slug: funny
     name: Funny
     emoji: "😂"
-    description: The video is funny first — reaction, relatable humor, self-deprecating, chaos. Not a scripted skit.
-    hashtags: [funnyreels, comedyreels, relatable]
+    description: The video is funny first — reaction, relatable humor, self-deprecating, chaos men send to a friend. Not a scripted skit.
+    hashtags: [funnyreels, comedyreels, girlsbelike]
 
   - slug: transitions
     name: Transitions
     emoji: "🔄"
-    description: Outfit / location / before-after transitions cut on the beat; the edit is the hook.
-    hashtags: [transition, transitionvideo, outfittransition]
+    description: Outfit / location / before-after transitions cut on the beat; casual → glam reveals; the edit is the hook.
+    hashtags: [transition, outfittransition, fitcheck]
 
   - slug: car
     name: Car
     emoji: "🚗"
-    description: In or around a car — driving, car singing, car outfit check, car-girl aesthetic.
-    hashtags: [cargirl, cargirls, carlifestyle]
+    description: In or around a car — driving, car singing, car outfit check, car-girl aesthetic, cars & coffee.
+    hashtags: [cargirl, cargirls, carsandcoffee]
 
   - slug: personality
     name: Personality
     emoji: "🌟"
-    description: Talking to camera — storytime, opinions, GRWM chat, day-in-life; she is the content, men fall for the personality.
-    hashtags: [storytime, grwm, dayinmylife]
+    description: Talking to camera — storytime, hot takes, GRWM chat, day-in-life with something withheld; she is the content, men fall for the personality.
+    hashtags: [storytime, grwm, hottake]

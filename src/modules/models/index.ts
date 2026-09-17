@@ -7,6 +7,7 @@ import { GitHub, type RepoFile } from '../../integrations/github.js';
 import { importedSection, withImportedSection } from '../../lib/caption-examples.js';
 import { ensureModelStructure } from '../../lib/model-structure.js';
 import { loadPrompt } from '../../lib/prompts.js';
+import { industryLens } from '../../lib/industry.js';
 import { computeStats, renderFiles, renderProfile, renderSourcing, renderVoice, keepStaffTail, tmpl, today, STAFF_MARKER, type Research, type Stats } from './render.js';
 
 /**
@@ -620,6 +621,7 @@ export function register(ctx: BotContext) {
           .join('\n')}`
       : '';
     const prompt = loadPrompt('model.research', {
+      industry: industryLens(4500),
       display_name: o.displayName,
       instagram: o.instagram,
       followers: profile.followers.toLocaleString(),

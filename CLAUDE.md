@@ -26,6 +26,7 @@ A single Discord bot for an OnlyFans/creator management agency (Lava Mgmt). ~15 
 - Model config loader → `src/config/models.ts` (validates with zod)
 - All ten modules are implemented → `src/modules/<name>/index.ts`; each one's header comment is the spec.
 - Content Library (agency-wide genre folders) → `src/modules/library/index.ts`, genres in `library/genres.yaml`, spec in `docs/content-library.md`. Adding a genre = a yaml entry, never code.
+- Market fit: `src/lib/market-filter.ts` (non-Latin script + `library/market-exclude.txt`) drops off-market scout candidates before Claude; `knowledge/industry.md` is the agency's playbook (what works for OF creators on IG/TikTok, what "library material" means, operators to study) and is injected as `{{industry}}` via `src/lib/industry.ts`. Content rules change there, not in prompts.
 - Not yet wired (see README): Drive ready-to-post automation, Zernio status polling, OF earnings source.
 
 ## When adding a model

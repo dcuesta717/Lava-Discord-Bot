@@ -47,6 +47,13 @@ how to copy it: golf cart, phone on the dash, text "rate my swing 1-10", 3 swing
 
 Tuning: edit the genre `description` lines in `genres.yaml` (they are the only definitions the model sees) and the rules in the prompt. Watch `/library stats` — a folder with lots of 👎 means its description is wrong or its seeds are bad.
 
+## Market fit — English / Western female-creator content only
+
+The library is for what the agency's US girls can replicate for a male, English-speaking audience. Two layers keep everything else out:
+
+1. **`src/lib/market-filter.ts` — deterministic, before Claude.** Skips a candidate when more than 10 % of the letters in caption + hashtags are non-Latin script (CJK, Devanagari, Arabic, Thai, Cyrillic, …) or when it matches a term in **`library/market-exclude.txt`** (one per line, case-insensitive substring, `//` comments; `#tag` lines are literal hashtags — e.g. regional platforms, `#tiktokindia`, `hijab`, `#español`). Scout candidates that fail are dropped (`filtered` / "off-market" in the ops summary) and never cost an Apify-classify call. Inbox drops are *not* blocked — Claude gets a note that the filter flagged it and decides. Edit the txt file to tune; no code.
+2. **`knowledge/industry.md` — the agency's playbook, injected as `{{industry}}`** into `library.classify`, `model.research` and `event.ideas` (`src/lib/industry.ts`). It defines what "library material" means (woman creator for a male audience, English, Western market, IG-safe, replicable, a nameable reason men engage; not beauty tutorials, couple vlogs, ads), what performs (7–15 s, sends/shares, comment bait, niche + femininity, collabs, podcast questions, trending sounds), the per-folder lens, and the operators worth studying (Creators Inc, Aruna Talent, Owen Lynch / @owenllynch, Grace Charis). Update it when the market moves — it is the bot's memory of the industry.
+
 ## Cost
 
 Apify `apify/instagram-scraper` is pay-per-result (≈ $2.30 / 1 000 results at the time of writing). Defaults: 14 genres × (3 hashtags × 15 + N accounts × 6). With ~5 seed accounts per genre that is ≈ 1 000 results/day ≈ $2–3/day, so budget **$50–90/month**; halve it with `per_hashtag: 8` or a `0 9 * * 1,3,5` cron. Claude classification is ~120 small vision calls/day, well under $1/day.
