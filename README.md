@@ -63,15 +63,15 @@ npm run import-captions -- jane # pulls her real captions via Apify into voice/c
 npm run setup-server -- jane    # creates her private category + channels + role
 ```
 
-## Knowledge graph (optional but recommended)
+## Knowledge graph (graphify)
+
+`graphify-out/` (graph.json + GRAPH_REPORT.md) is **committed** and refreshed every night by the `graphify` GitHub Action, so any Claude session can orient with `graphify query "…"` / `graphify explain "…"` instead of reading files — fewer tokens, fewer wrong guesses.
 
 ```bash
-uv tool install graphifyy && graphify install
-graphify hook install            # rebuilds graphify-out/ on every commit
-# then in Claude Code:  /graphify .
+uv tool install graphifyy        # once, on your machine
+graphify query "where do library videos get posted"
+graphify update . --force        # after big local changes (no LLM); the nightly job does this too
 ```
-
-`graphify-out/` is git-ignored; it exists so Claude Code can answer "where is X handled" across ~15 model folders without grepping.
 
 ## Roles
 

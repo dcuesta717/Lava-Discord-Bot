@@ -1,0 +1,36 @@
+# Keeps graphify-out/ (the repo's knowledge graph — see CLAUDE.md) fresh so Claude Code / Cowork can query it instead of grepping.
+# Runs daily and on demand; the code graph needs no LLM. Add an ANTHROPIC_API_KEY repo secret to get named communities in GRAPH_REPORT.md.
+name: graphify
+on:
+  schedule:
+    - cron: '0 6 * * *' # 06:00 UTC = 2am New York
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: graphify
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv tool install graphifyy
+      - name: rebuild code graph (no LLM)
+        run: graphify update . --force
+      - name: cluster + label communities
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            graphify cluster-only . --no-viz --backend=claude || graphify cluster-only . --no-viz --no-label
+          else
+            graphify cluster-only . --no-viz --no-label
+          fi
+      - name: commit if changed
+        run: |
+          git config user.name "graphify-bot"
+          git config user.email "graphify-bot@users.noreply.github.com"
+          git add graphify-out/GRAPH_REPORT.md graphify-out/graph.json graphify-out/manifest.json graphify-out/.graphify_analysis.json graphify-out/.graphify_labels.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "graph unchanged"; exit 0; fi
+          git commit -m "graphify: daily refresh [skip ci]"
+          git push

@@ -31,5 +31,8 @@ A single Discord bot for an OnlyFans/creator management agency (Lava Mgmt). ~15 
 ## When adding a model
 Run `npm run new-model -- <slug>`, fill `models/<slug>/model.yaml`, run `npm run import-captions -- <slug>`, then `npm run setup-server -- <slug>`. Do not create channels by hand.
 
-## Knowledge graph
-If `graphify` is installed, run `/graphify .` after large changes; `graphify-out/GRAPH_REPORT.md` is a good orientation read.
+## Knowledge graph (graphify) — use it before grepping
+`graphify-out/` is committed and refreshed daily by `.github/workflows/graphify.yml` (also `workflow_dispatch`). Start with `graphify-out/GRAPH_REPORT.md`, then
+`graphify query "<question>"`, `graphify explain "<Symbol>"`, `graphify path "A" "B"`, `graphify god-nodes` (install once: `uv tool install graphifyy`).
+After a big change run `graphify update . --force && graphify cluster-only . --no-viz --no-label` and commit `graphify-out/` (or wait for the nightly job).
+Railway ignores commits that only touch `graphify-out/`, `docs/`, README/CLAUDE or `.github/` (watch patterns), so graph refreshes never redeploy the bot.

@@ -1,6 +1,11 @@
 node_modules/
 dist/
 .env
-graphify-out/
+# graphify knowledge graph is committed (report + graph); caches and the big html are not
+graphify-out/cache/
+graphify-out/graph.html
+graphify-out/GRAPH_TREE.html
+graphify-out/memory/
+graphify-out/reflections/
 .DS_Store
 models/*/private/
