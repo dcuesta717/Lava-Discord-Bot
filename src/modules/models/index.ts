@@ -1,5 +1,5 @@
 import YAML from 'yaml';
-import { Events, MessageFlags, SlashCommandBuilder, type ChatInputCommandInteraction, type GuildMember } from 'discord.js';
+import { ChannelType, Events, MessageFlags, SlashCommandBuilder, type ChatInputCommandInteraction, type GuildMember } from 'discord.js';
 import type { BotContext } from '../../discord/context.js';
 import { loadLibrary } from '../../config/library.js';
 import type { InstagramProfile, ReelCandidate } from '../../integrations/apify.js';
@@ -102,7 +102,14 @@ export function register(ctx: BotContext) {
           .addStringOption((o) => o.setName('slug').setDescription('Model slug').setRequired(true))
           .addStringOption((o) => o.setName('lanes').setDescription('e.g. golf, words-on-screen (see /library stats for slugs)').setRequired(true)),
       )
-      .addSubcommand((s) => s.setName('list').setDescription('Loaded creators + onboardings in progress')),
+      .addSubcommand((s) => s.setName('list').setDescription('Loaded creators + onboardings in progress'))
+      .addSubcommand((s) =>
+        s
+          .setName('remove')
+          .setDescription('Off-board a creator: delete her channels + role and her models/<slug>/ folder in GitHub')
+          .addStringOption((o) => o.setName('slug').setDescription('Model slug').setRequired(true))
+          .addBooleanOption((o) => o.setName('confirm').setDescription('Set to True — this deletes her channels').setRequired(true)),
+      ),
     async (i) => {
       if (!ctx.isOwner(i.user.id)) return i.reply({ content: 'owners only', flags: MessageFlags.Ephemeral });
       const sub = i.options.getSubcommand();
@@ -110,8 +117,46 @@ export function register(ctx: BotContext) {
       if (sub === 'add') return add(i);
       if (sub === 'refresh') return refresh(i);
       if (sub === 'lanes') return setLanes(i);
+      if (sub === 'remove') {
+        if (!i.options.getBoolean('confirm', true)) return i.reply({ content: 'set confirm: True to off-board her', flags: MessageFlags.Ephemeral });
+        await i.deferReply({ flags: MessageFlags.Ephemeral });
+        return i.editReply(await offboard(i.options.getString('slug', true).toLowerCase(), i.user.id).catch((err) => `❌ ${err instanceof Error ? err.message : String(err)}`));
+      }
     },
   );
+
+  /** Off-boarding: delete her channels/category/role and models/<slug>/ in GitHub (data rows stay for history). */
+  async function offboard(slug: string, actorId: string): Promise<string> {
+    const model = ctx.models.get(slug);
+    const row = (await sql<OnboardingRow[]>`SELECT * FROM bot.model_onboarding WHERE slug = ${slug}`)[0];
+    if (!model && !row) throw new Error(`unknown model \`${slug}\``);
+    const guild = await ctx.client.guilds.fetch(ctx.env.DISCORD_GUILD_ID);
+    await guild.channels.fetch();
+    const ids = (model?.discord ?? (row?.discord as { category_id?: string; role_id?: string } | undefined)) as { category_id?: string; role_id?: string } | undefined;
+    const done: string[] = [];
+    if (ids?.category_id) {
+      const cat = guild.channels.cache.get(ids.category_id);
+      if (cat && cat.type === ChannelType.GuildCategory) {
+        for (const ch of [...cat.children.cache.values()]) await ch.delete('off-boarded').catch(() => undefined);
+        await cat.delete('off-boarded').catch(() => undefined);
+        done.push('channels');
+      }
+    }
+    if (ids?.role_id) {
+      await guild.roles.delete(ids.role_id, 'off-boarded').catch(() => undefined);
+      done.push('role');
+    }
+    if (github.enabled) {
+      const paths = await github.listDir(`models/${slug}`).catch(() => [] as string[]);
+      if (paths.length) {
+        const sha = await github.commitFiles(paths.map((path) => ({ path, content: null })), `Off-board ${model?.display_name ?? slug} (${slug}) — /model remove`);
+        done.push(`GitHub (${sha.slice(0, 7)})`);
+      }
+    } else done.push('GitHub NOT touched (no GITHUB_TOKEN) — delete models/' + slug + ' by hand');
+    await sql`UPDATE bot.model_onboarding SET status = 'removed', updated_at = now() WHERE slug = ${slug}`;
+    await ctx.ops(MODULE, 'offboarded', { actor: actorId, data: { slug, done } });
+    return `🗑️ ${model?.display_name ?? slug} off-boarded — removed: ${done.join(', ')}. Her data rows (posts, reports, library votes) are kept for history. She disappears from the bot after the redeploy (~2 min).`;
+  }
 
   // ── chat-callable actions (operator) ────────────────────────────────────────
   ctx.action('onboard_model', {
@@ -131,6 +176,13 @@ export function register(ctx: BotContext) {
     slow: true,
     run: (input, actor) =>
       onboard({ name: String(input.name), userId: String(input.discord_user_id), instagram: String(input.instagram), tiktok: input.tiktok ? String(input.tiktok) : '', timezone: input.timezone ? String(input.timezone) : undefined, requestedBy: `chat:${actor.userId}`, actorId: actor.userId, progress: actor.progress }),
+  });
+  ctx.action('remove_model', {
+    description: "Off-board a creator: delete her private channels, her role, and her models/<slug>/ folder in GitHub. Destructive — confirm with the owner once before calling.",
+    input: { type: 'object', properties: { slug: { type: 'string' } }, required: ['slug'] },
+    ownersOnly: true,
+    slow: true,
+    run: (input, actor) => offboard(String(input.slug).toLowerCase(), actor.userId),
   });
   ctx.action('list_models', {
     description: 'List onboarded creators (slug, name, Instagram, lanes) and onboardings in progress.',

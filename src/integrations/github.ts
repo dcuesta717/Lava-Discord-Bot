@@ -5,7 +5,7 @@
  */
 export interface RepoFile {
   path: string; // repo-relative, e.g. models/jane/model.yaml
-  content: string;
+  content: string | null; // null = delete the file
 }
 
 export class GitHub {
@@ -54,7 +54,16 @@ export class GitHub {
     return res.text();
   }
 
-  /** One commit with all files (created or replaced). Returns the commit sha. */
+  /** All file paths under a directory on the branch (recursive). */
+  async listDir(dir: string): Promise<string[]> {
+    const ref = await this.api<{ object: { sha: string } }>(`/git/ref/heads/${this.branch}`);
+    const commit = await this.api<{ tree: { sha: string } }>(`/git/commits/${ref.object.sha}`);
+    const tree = await this.api<{ tree: { path: string; type: string }[] }>(`/git/trees/${commit.tree.sha}?recursive=1`);
+    const prefix = dir.replace(/\/$/, '') + '/';
+    return tree.tree.filter((t) => t.type === 'blob' && t.path.startsWith(prefix)).map((t) => t.path);
+  }
+
+  /** One commit with all files (created, replaced, or deleted when content is null). Returns the commit sha. */
   async commitFiles(files: RepoFile[], message: string): Promise<string> {
     if (!files.length) throw new Error('nothing to commit');
     const ref = await this.api<{ object: { sha: string } }>(`/git/ref/heads/${this.branch}`);
@@ -63,6 +72,7 @@ export class GitHub {
 
     const tree = await Promise.all(
       files.map(async (f) => {
+        if (f.content === null) return { path: f.path, mode: '100644', type: 'blob', sha: null }; // deletion
         const blob = await this.api<{ sha: string }>('/git/blobs', { method: 'POST', body: JSON.stringify({ content: f.content, encoding: 'utf-8' }) });
         return { path: f.path, mode: '100644', type: 'blob', sha: blob.sha };
       }),
