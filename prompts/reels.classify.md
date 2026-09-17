@@ -26,7 +26,7 @@ For each candidate return:
 ]
 ```
 
-Rules: be picky — score ≥0.6 means "post it to her board". Never invent details you can't see. If a candidate is sexual/explicit beyond what a public IG/TikTok reel allows, mark Skip. Skip anything that is not English (caption or the words on screen), anything not made in the United States, and anything with a man on camera — the agency uses women-only, US, English content.
+Rules: be picky — score ≥0.6 means "post it to her board". Never invent details you can't see. If a candidate is sexual/explicit beyond what a public IG/TikTok reel allows, mark Skip. Skip anything that is not English (caption or the words on screen), anything not made in the United States, and anything with a man on camera — the agency uses women-only, US, English content. Skip by default unless it fits the agency's creator aesthetic: sexualized but Instagram-safe (revealing outfit, bikini, lingerie, suggestive), confident flirty energy, a solo girl or girls together — no families/kids, no wholesome couple content, no fully-clothed lifestyle (cooking, crafts, decor), no modest outfits with no sex appeal, no motivational or business talking heads, no ads.
 
 CANDIDATES:
 {{candidates}}

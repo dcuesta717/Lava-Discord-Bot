@@ -65,6 +65,7 @@ interface Classified {
   why: string;
   copy: string;
   text_on_screen?: boolean;
+  reject_reason?: string;
 }
 
 export interface ItemRow {
@@ -96,6 +97,7 @@ export interface IngestOpts {
 
 export interface IngestResult {
   posted: { title: string; genre: string; url: string }[];
+  rejected: { url: string; reason: string }[]; // keep=false with Claude's one-line reason
   dupes: number;
   skipped: number;
   failed: number;
@@ -131,6 +133,9 @@ export function register(ctx: BotContext) {
       if (kind === 'purge') {
         const r = await purge({ origin: arg || 'scout' });
         await ctx.ops(MODULE, 'purged', { data: { job, ...r }, text: `library cleanup: removed ${r.items} video(s) (${arg || 'scout'}) and ${r.threads} forum post(s)` });
+      } else if (kind === 'import') {
+        const r = await saved.start({ only: arg || undefined });
+        await ctx.ops(MODULE, 'saved-import-boot', { data: { job, started: r.started }, text: r.message });
       } else ctx.log.warn({ job }, 'unknown library boot job');
     }
   }
@@ -511,14 +516,14 @@ export function register(ctx: BotContext) {
     const parts: string[] = [];
     for (const p of r.posted) parts.push(`✅ filed in ${genre(p.genre)?.emoji ?? ''} **${genre(p.genre)?.name ?? p.genre}** → ${p.url}`);
     if (r.dupes) parts.push(`♻️ ${r.dupes} already in the library`);
-    if (r.skipped) parts.push(`🚫 ${r.skipped} not library material (no format to copy / not IG-safe)`);
+    if (r.skipped) parts.push(`🚫 ${r.skipped} not library material${r.rejected.length ? ` — ${r.rejected.map((x) => x.reason).slice(0, 3).join('; ')}` : ''}`);
     if (r.failed) parts.push(`⚠️ ${r.failed} couldn’t be fetched (private account, deleted, or Apify hiccup — try again in a minute)`);
     return parts.join('\n') || 'nothing to file';
   }
 
   /** Fetch → classify → post → store. Used by the inbox, /library add and the scout. */
   async function ingest(urls: string[], opts: IngestOpts): Promise<IngestResult> {
-    const result: IngestResult = { posted: [], dupes: 0, skipped: 0, failed: 0 };
+    const result: IngestResult = { posted: [], rejected: [], dupes: 0, skipped: 0, failed: 0 };
     const wanted = new Map<string, string>(); // canonical → original
     for (const u of urls) {
       const c = canonicalUrl(u);
@@ -555,6 +560,7 @@ export function register(ctx: BotContext) {
         }
         if (!c.keep || !genre(c.genre)) {
           result.skipped++;
+          result.rejected.push({ url: cand.url, reason: c.reject_reason || (!c.keep ? 'not library material' : `unknown folder ${c.genre}`) });
           continue;
         }
         const posted = await post(cand, c, opts.origin, opts.addedBy);
@@ -582,7 +588,7 @@ export function register(ctx: BotContext) {
     ].join('\n');
     const images: ImageInput[] = [];
     if (cand.thumbnailUrl) await fetchImageAsBase64(cand.thumbnailUrl).then((img) => images.push(img)).catch(() => undefined);
-    const prompt = loadPrompt('library.classify', { genres: desc, industry: industryLens(), hint: hint ? `HINT from the person who saved it: ${hint}` : '', candidates: line });
+    const prompt = loadPrompt('library.classify', { genres: desc, industry: industryLens(), references: cfg.scout.reference_accounts.map((a) => `@${a}`).join(' ') || '(none configured)', hint: hint ? `HINT from the person who saved it: ${hint}` : '', candidates: line });
     const out = await ctx.api.claude.json<Classified[] | Classified>(prompt, { maxTokens: 600 }, images.length ? images : undefined);
     const c = Array.isArray(out) ? out[0] : out;
     if (!c || typeof c.genre !== 'string') return undefined;
@@ -641,7 +647,7 @@ export function register(ctx: BotContext) {
     return { title: c.title, genre: c.genre, url: `https://discord.com/channels/${guild.id}/${posts[0].thread_id}` };
   }
 
-  /** Daily: every genre's seed accounts + hashtags → rank → Claude → post the top few. */
+  /** Daily: every genre's seed accounts + hashtags → rank → Claude → post the top few; then the reference accounts (any folder). */
   async function scout(only?: string) {
     const s = { genres: 0, candidates: 0, posted: 0, dupes: 0, skipped: 0, filtered: 0, errors: 0 };
     const sources = await sql<{ genre: string; kind: 'account' | 'hashtag'; value: string; weight: number }[]>`SELECT genre, kind, value, weight FROM bot.library_sources WHERE weight >= 0.3`;
@@ -654,55 +660,65 @@ export function register(ctx: BotContext) {
       ];
       if (!queries.length) continue;
       s.genres++;
-      const pool: ReelCandidate[] = [];
-      for (const q of queries) {
-        const items = await ctx.api.apify.instagramPage(q.kind, q.value, q.n, cfg.scout.newer_than).catch((err) => {
-          ctx.log.warn({ err, genre: g.slug, q }, 'scout source failed');
-          s.errors++;
-          return [] as ReelCandidate[];
-        });
-        pool.push(...items);
-      }
-      // dedupe within the run + against the library, then rank by engagement
-      const seen = new Set<string>();
-      const fresh: ReelCandidate[] = [];
-      for (const c of pool) {
-        const key = canonicalUrl(c.url);
-        if (seen.has(key)) continue;
-        seen.add(key);
-        if (await exists(key)) {
-          s.dupes++;
-          continue;
-        }
-        fresh.push(c);
-      }
-      // market fit first (English / Western market) — never pay to classify what the agency can't use
-      const before = fresh.length;
-      const kept = fresh.filter((c) => marketFilter(c.caption, c.hashtags).ok);
-      s.filtered += before - kept.length;
-      fresh.length = 0;
-      fresh.push(...kept);
-      s.candidates += fresh.length;
-      await recordSignals(g.slug, fresh).catch((err) => ctx.log.warn({ err }, 'trend signals failed'));
-      fresh.sort((a, b) => engagement(b) - engagement(a));
-      const top = fresh.slice(0, cfg.scout.classify_top);
-      const classified: { cand: ReelCandidate; c: Classified }[] = [];
-      for (const cand of top) {
-        const c = await classify(cand, `scouted for the ${g.name} folder`).catch(() => undefined);
-        if (!c) continue;
-        if (c.keep && genre(c.genre) && c.score >= cfg.scout.min_score) classified.push({ cand, c });
-        else s.skipped++;
-      }
-      classified.sort((a, b) => b.c.score - a.c.score || engagement(b.cand) - engagement(a.cand));
-      for (const { cand, c } of classified.slice(0, cfg.scout.keep)) {
-        const posted = await post(cand, c, 'scout').catch((err) => {
-          ctx.log.warn({ err, url: cand.url }, 'scout post failed');
-          return undefined;
-        });
-        if (posted) s.posted++;
-      }
+      await scoutQueries(s, g.slug, queries, `scouted for the ${g.name} folder`);
+    }
+    // the reference creators: scanned every run, filed wherever Claude says they belong
+    const refs = cfg.scout.reference_accounts;
+    if (refs.length && (!only || only === 'reference')) {
+      s.genres++;
+      await scoutQueries(s, 'reference', refs.map((value) => ({ kind: 'account' as const, value, n: cfg.scout.per_account })), 'from one of the REFERENCE creators — this is the vibe the agency wants; file it in the folder where it belongs');
     }
     return s;
+  }
+
+  async function scoutQueries(s: { candidates: number; posted: number; dupes: number; skipped: number; filtered: number; errors: number }, label: string, queries: { kind: 'account' | 'hashtag'; value: string; n: number }[], hint: string) {
+    const pool: ReelCandidate[] = [];
+    for (const q of queries) {
+      const items = await ctx.api.apify.instagramPage(q.kind, q.value, q.n, cfg.scout.newer_than).catch((err) => {
+        ctx.log.warn({ err, genre: label, q }, 'scout source failed');
+        s.errors++;
+        return [] as ReelCandidate[];
+      });
+      pool.push(...items);
+    }
+    // dedupe within the run + against the library, then rank by engagement
+    const seen = new Set<string>();
+    const fresh: ReelCandidate[] = [];
+    for (const c of pool) {
+      const key = canonicalUrl(c.url);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      if (await exists(key)) {
+        s.dupes++;
+        continue;
+      }
+      fresh.push(c);
+    }
+    // market fit first (English / United States) — never pay to classify what the agency can't use
+    const before = fresh.length;
+    const kept = fresh.filter((c) => marketFilter(c.caption, c.hashtags).ok);
+    s.filtered += before - kept.length;
+    fresh.length = 0;
+    fresh.push(...kept);
+    s.candidates += fresh.length;
+    if (label !== 'reference') await recordSignals(label, fresh).catch((err) => ctx.log.warn({ err }, 'trend signals failed'));
+    fresh.sort((a, b) => engagement(b) - engagement(a));
+    const top = fresh.slice(0, cfg.scout.classify_top);
+    const classified: { cand: ReelCandidate; c: Classified }[] = [];
+    for (const cand of top) {
+      const c = await classify(cand, hint).catch(() => undefined);
+      if (!c) continue;
+      if (c.keep && genre(c.genre) && c.score >= cfg.scout.min_score) classified.push({ cand, c });
+      else s.skipped++;
+    }
+    classified.sort((a, b) => b.c.score - a.c.score || engagement(b.cand) - engagement(a.cand));
+    for (const { cand, c } of classified.slice(0, cfg.scout.keep)) {
+      const posted = await post(cand, c, 'scout').catch((err) => {
+        ctx.log.warn({ err, url: cand.url }, 'scout post failed');
+        return undefined;
+      });
+      if (posted) s.posted++;
+    }
   }
 
   function engagement(c: ReelCandidate) {
@@ -823,6 +839,7 @@ export function register(ctx: BotContext) {
     }
     return r;
   }
+
 
   // ── structure ──────────────────────────────────────────────────────────────
   async function ensureLibrary() {

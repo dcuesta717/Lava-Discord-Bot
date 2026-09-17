@@ -26,6 +26,7 @@ const schema = z.object({
       keep: z.number().int().min(1).max(10).default(3),
       min_score: z.number().min(0).max(1).default(0.55),
       picks_per_model: z.number().int().min(0).max(10).default(3),
+      reference_accounts: z.array(z.string().regex(/^[A-Za-z0-9._]+$/)).default([]), // creators whose vibe defines "library material"; scanned every run + named in the classify prompt
     })
     .default({}),
   genres: z.array(genreSchema).min(1).max(20), // 20 = Discord's forum-tag limit (every genre is also a tag)

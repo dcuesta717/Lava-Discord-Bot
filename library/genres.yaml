@@ -13,7 +13,10 @@ scout:
   newer_than: "7 days"
   classify_top: 8            # candidates sent to Claude per genre (ranked by engagement first)
   keep: 3                    # max posts per genre per run (Dan: "top 3")
-  min_score: 0.55            # Claude's "worth copying" bar
+  min_score: 0.6             # Claude's "worth copying" bar (the prompt says < 0.6 = not worth posting)
+  # The creators whose vibe IS the library (owners, 2026-09-17): every candidate is judged against them, and their profiles
+  # are scanned every run and filed wherever they belong. Edit freely — handles without @.
+  reference_accounts: [cecerose, avaxreyess, sophieraiin, juliafilippo_, arikytsya, jellybeanbrains3, tak0bell]
 
 genres:
   - slug: skits

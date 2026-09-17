@@ -47,9 +47,10 @@ how to copy it: golf cart, phone on the dash, text "rate my swing 1-10", 3 swing
 
 Tuning: edit the genre `description` lines in `genres.yaml` (they are the only definitions the model sees) and the rules in the prompt. Watch `/library stats` — a folder with lots of 👎 means its description is wrong or its seeds are bad.
 
-## House rules — US, English, women only
+## House rules — reject by default; US, English, women only, sex appeal required
 
-Dan's rules for every video that enters the library, whatever the source (scout, inbox, saved collections):
+Dan's rules for every video that enters the library, whatever the source (scout, inbox, saved collections). `prompts/library.classify.md` is **reject-by-default**: a video is kept only when it clearly fits the agency's creator aesthetic — sexualized but Instagram-safe (revealing outfit, bikini, lingerie, suggestive), a solo girl or girls together, confident flirty energy, the vibe of the reference creators in `library/genres.yaml → scout.reference_accounts` (@cecerose @avaxreyess @sophieraiin @juliafilippo_ @arikytsya @jellybeanbrains3 @tak0bell — also scanned by every scout run and filed wherever they belong). Hard rejects: families/kids/couples, a man on camera, fully-clothed lifestyle (cooking, crafts, decor), modest outfits with no sex appeal, motivational/business talking heads, ads. Every folder still needs sex appeal (big-boobs must feature it prominently; a plain golf tip or a dad joke is out). Claude returns a `reject_reason` for every rejection — it shows in inbox replies and in `bot.saved_imports.note`.
+
 
 - **English only** — the caption, the hashtags AND the words on screen. Spanish/Portuguese on the frame = out.
 - **Made in the United States** — not the UK, Canada, Australia, Europe, Latin America, Asia or Africa. If the country can't be told and nothing says US, it's out.

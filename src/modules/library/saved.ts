@@ -288,7 +288,7 @@ export function registerSavedImport(ctx: BotContext, deps: SavedDeps) {
               await mark(row.url, 'dupe', {});
               t.dupe++;
             } else if (res.skipped) {
-              await mark(row.url, 'skipped', { note: 'Claude: not library material' });
+              await mark(row.url, 'skipped', { note: `Claude: ${res.rejected[0]?.reason ?? 'not library material'}` });
               t.skipped++;
             } else {
               await mark(row.url, 'failed', { note: 'download/post failed' });
