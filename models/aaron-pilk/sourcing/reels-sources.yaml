@@ -1,0 +1,26 @@
+# Where the daily reels scout (Apify) looks for videos worth recreating for THIS model.
+# Seeded by /model add on 2026-09-17 from her lanes. Keep it tight: 5–10 seed accounts in her exact lane beat 50 hashtags.
+
+tiktok:
+  hashtags:
+    - golf
+    - golfswing
+    - baseball
+    - pitching
+    - ai
+  seed_accounts: []
+  min_views: 200000
+  results_per_query: 20
+instagram:
+  hashtags:
+    - golf
+    - golfswing
+    - baseball
+    - pitching
+    - ai
+    - automation
+    - cats
+    - topgolf
+  seed_accounts: []
+  min_views: 50000
+  results_per_query: 20
