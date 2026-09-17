@@ -34,7 +34,7 @@ const schema = z.object({
   pace_ms: z.number().int().min(500).max(60_000).default(3500),
   batch: z.number().int().min(1).max(20).default(8),
   people: z.array(z.string().min(1)).default([]),
-  rules: z.array(z.object({ match: z.string().min(1), genre: z.string().optional(), hint: z.string().optional() })).default([]),
+  rules: z.array(z.object({ match: z.string().min(1), genre: z.string().optional(), hint: z.string().optional(), skip: z.boolean().optional() })).default([]),
 });
 export type CollectionsConfig = z.infer<typeof schema>;
 
@@ -242,9 +242,18 @@ export function registerSavedImport(ctx: BotContext, deps: SavedDeps) {
             progress.done++;
           } else fresh.push(row);
         }
-        if (!fresh.length) continue;
+        // collections the owners excluded outright (collections.yaml → skip: true) cost nothing
+        const wanted: QueueRow[] = [];
+        for (const row of fresh) {
+          if (rule(row.collection)?.skip) {
+            await mark(row.url, 'skipped', { note: `collection "${row.collection}" is skipped in collections.yaml` });
+            t.skipped++;
+            progress.done++;
+          } else wanted.push(row);
+        }
+        if (!wanted.length) continue;
 
-        const cands = await ctx.api.apify.byUrls(fresh.map((r) => r.url)).catch((err) => {
+        const cands = await ctx.api.apify.byUrls(wanted.map((r) => r.url)).catch((err) => {
           ctx.log.warn({ err }, 'saved import: apify batch failed');
           return [] as ReelCandidate[];
         });
@@ -254,7 +263,7 @@ export function registerSavedImport(ctx: BotContext, deps: SavedDeps) {
           if (cand.inputUrl) byUrl.set(canonicalUrl(cand.inputUrl), cand);
         }
 
-        for (const row of fresh) {
+        for (const row of wanted) {
           progress.collection = row.collection;
           const cand = byUrl.get(row.url);
           if (!cand) {

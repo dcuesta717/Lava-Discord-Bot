@@ -26,7 +26,7 @@ For each candidate return:
 ]
 ```
 
-Rules: be picky — score ≥0.6 means "post it to her board". Never invent details you can't see. If a candidate is sexual/explicit beyond what a public IG/TikTok reel allows, mark Skip. Skip anything that is not English-language, not made by a woman creator for a male audience, or made for a non-Western market (other language/platform/dress code/cultural context she doesn't share) — she cannot replicate it for her audience.
+Rules: be picky — score ≥0.6 means "post it to her board". Never invent details you can't see. If a candidate is sexual/explicit beyond what a public IG/TikTok reel allows, mark Skip. Skip anything that is not English (caption or the words on screen), anything not made in the United States, and anything with a man on camera — the agency uses women-only, US, English content.
 
 CANDIDATES:
 {{candidates}}

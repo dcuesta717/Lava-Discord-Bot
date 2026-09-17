@@ -118,7 +118,22 @@ export function register(ctx: BotContext) {
     } catch (err) {
       ctx.log.error({ err }, 'content library setup failed (bot still runs)');
     }
+    await runBootJobs().catch((err) => ctx.log.error({ err }, 'library boot jobs failed'));
   });
+
+  /** One-off maintenance queued in bot.settings → library.boot_jobs (e.g. "purge:scout"); runs once on boot, then clears. */
+  async function runBootJobs() {
+    const jobs = ctx.settings.getList('library.boot_jobs');
+    if (!jobs.length) return;
+    await ctx.settings.set('library.boot_jobs', []);
+    for (const job of jobs) {
+      const [kind, arg] = job.split(':');
+      if (kind === 'purge') {
+        const r = await purge({ origin: arg || 'scout' });
+        await ctx.ops(MODULE, 'purged', { data: { job, ...r }, text: `library cleanup: removed ${r.items} video(s) (${arg || 'scout'}) and ${r.threads} forum post(s)` });
+      } else ctx.log.warn({ job }, 'unknown library boot job');
+    }
+  }
 
   ctx.cron('library:scout', cfg.scout.cron, ctx.env.DEFAULT_TIMEZONE, async () => {
     if (!ctx.api.apify.enabled) return;
@@ -196,7 +211,14 @@ export function register(ctx: BotContext) {
       .addSubcommand((s) => s.setName('scout').setDescription('Run the scout now (owners)').addStringOption((o) => o.setName('folder').setDescription('One folder only').addChoices(...genreChoices())))
       .addSubcommand((s) => s.setName('stats').setDescription('What’s in the library and what’s hot'))
       .addSubcommand((s) => s.setName('picks').setDescription('Send each creator her top picks from the library now (owners)').addStringOption((o) => o.setName('model').setDescription('One creator (slug)')))
-      .addSubcommand((s) => s.setName('import').setDescription('Import the owner’s Instagram saved collections from the Google Sheet (owners)').addStringOption((o) => o.setName('collection').setDescription('Only this collection (partial name)')).addBooleanOption((o) => o.setName('status').setDescription('Just show progress'))),
+      .addSubcommand((s) => s.setName('import').setDescription('Import the owner’s Instagram saved collections from the Google Sheet (owners)').addStringOption((o) => o.setName('collection').setDescription('Only this collection (partial name)')).addBooleanOption((o) => o.setName('status').setDescription('Just show progress')))
+      .addSubcommand((s) =>
+        s
+          .setName('purge')
+          .setDescription('Remove videos from the library folders (owners) — e.g. everything the scout filed')
+          .addStringOption((o) => o.setName('origin').setDescription('Which videos').setRequired(true).addChoices({ name: 'scout (daily Apify finds)', value: 'scout' }, { name: 'inbox (pasted links)', value: 'inbox' }, { name: 'saved (Dan’s collections)', value: 'saved' }, { name: 'everything', value: 'all' }))
+          .addBooleanOption((o) => o.setName('confirm').setDescription('Yes, delete them').setRequired(true)),
+      ),
     async (i) => {
       const group = i.options.getSubcommandGroup(false);
       const sub = i.options.getSubcommand();
@@ -271,6 +293,15 @@ export function register(ctx: BotContext) {
         return i.editReply(r.message);
       }
 
+      if (sub === 'purge') {
+        if (!ctx.isOwner(i.user.id)) return i.reply({ content: 'owners only', flags: MessageFlags.Ephemeral });
+        if (!i.options.getBoolean('confirm', true)) return i.reply({ content: 'not deleted — set confirm to True', flags: MessageFlags.Ephemeral });
+        await i.deferReply({ flags: MessageFlags.Ephemeral });
+        const r = await purge({ origin: i.options.getString('origin', true) });
+        await ctx.ops(MODULE, 'purged', { actor: i.user.id, data: r, text: `removed ${r.items} video(s) and ${r.threads} forum post(s) (${i.options.getString('origin')})` });
+        return i.editReply(`removed ${r.items} video(s) and ${r.threads} forum post(s) from the library`);
+      }
+
       if (sub === 'stats') {
         const counts = await sql<{ genre: string; n: number; fire: number }[]>`SELECT genre, COUNT(*)::int AS n, COALESCE(SUM(up),0)::int AS fire FROM bot.library_items GROUP BY genre`;
         const hot = await sql<ItemRow[]>`SELECT * FROM bot.library_items ORDER BY (up - down) DESC, copies DESC, created_at DESC LIMIT 5`;
@@ -338,6 +369,40 @@ export function register(ctx: BotContext) {
       return genres().map((g) => `${g.name}: ${counts.find((c) => c.genre === g.slug)?.n ?? 0}`).join(', ');
     },
   });
+
+  ctx.action('purge_library', {
+    description: "Remove videos from the Content Library folders (deletes their forum posts too). origin: 'scout' (the daily Apify finds), 'inbox', 'saved' (the owner's collections) or 'all'. Destructive — confirm with the owner once before calling.",
+    input: { type: 'object', properties: { origin: { type: 'string', enum: ['scout', 'inbox', 'saved', 'all'] } }, required: ['origin'] },
+    ownersOnly: true,
+    slow: true,
+    run: async (input, actor) => {
+      const r = await purge({ origin: String(input.origin) });
+      await ctx.ops(MODULE, 'purged', { actor: actor.userId, data: r, text: `removed ${r.items} video(s) and ${r.threads} forum post(s) (${String(input.origin)})` });
+      return `removed ${r.items} video(s) and ${r.threads} forum post(s) from the library`;
+    },
+  });
+
+  /** Delete library items + their forum posts. Saved-collection rows go back to 'queued' so a re-import can redo them. */
+  async function purge(opts: { origin: string }) {
+    const rows = await sql<{ id: number; posts: ItemRow['posts']; source_url: string }[]>`
+      SELECT id, posts, source_url FROM bot.library_items ${opts.origin === 'all' ? sql`` : sql`WHERE origin = ${opts.origin}`}`;
+    let threads = 0;
+    for (const row of rows) {
+      for (const p of row.posts ?? []) {
+        const ch = await ctx.client.channels.fetch(p.thread_id).catch(() => null);
+        if (ch?.isThread()) {
+          await ch.delete('library purge').then(() => threads++).catch((err) => ctx.log.warn({ err, thread: p.thread_id }, 'purge: thread delete failed'));
+          await new Promise((r) => setTimeout(r, 400));
+        }
+      }
+    }
+    const ids = rows.map((r) => r.id);
+    if (ids.length) {
+      await sql`UPDATE bot.saved_imports SET status = 'queued', item_id = NULL, genre = NULL, note = NULL WHERE item_id = ANY(${ids})`;
+      await sql`DELETE FROM bot.library_items WHERE id = ANY(${ids})`;
+    }
+    return { items: ids.length, threads };
+  }
 
   // ── Dan's saved collections → library (+ learning) ─────────────────────────
   const saved = registerSavedImport(ctx, {

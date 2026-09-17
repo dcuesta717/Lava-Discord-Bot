@@ -47,12 +47,21 @@ how to copy it: golf cart, phone on the dash, text "rate my swing 1-10", 3 swing
 
 Tuning: edit the genre `description` lines in `genres.yaml` (they are the only definitions the model sees) and the rules in the prompt. Watch `/library stats` — a folder with lots of 👎 means its description is wrong or its seeds are bad.
 
-## Market fit — English / Western female-creator content only
+## House rules — US, English, women only
 
-The library is for what the agency's US girls can replicate for a male, English-speaking audience. Two layers keep everything else out:
+Dan's rules for every video that enters the library, whatever the source (scout, inbox, saved collections):
 
-1. **`src/lib/market-filter.ts` — deterministic, before Claude.** Skips a candidate when more than 10 % of the letters in caption + hashtags are non-Latin script (CJK, Devanagari, Arabic, Thai, Cyrillic, …) or when it matches a term in **`library/market-exclude.txt`** (one per line, case-insensitive substring, `//` comments; `#tag` lines are literal hashtags — e.g. regional platforms, `#tiktokindia`, `hijab`, `#español`). Scout candidates that fail are dropped (`filtered` / "off-market" in the ops summary) and never cost an Apify-classify call. Inbox drops are *not* blocked — Claude gets a note that the filter flagged it and decides. Edit the txt file to tune; no code.
-2. **`knowledge/industry.md` — the agency's playbook, injected as `{{industry}}`** into `library.classify`, `model.research` and `event.ideas` (`src/lib/industry.ts`). It defines what "library material" means (woman creator for a male audience, English, Western market, IG-safe, replicable, a nameable reason men engage; not beauty tutorials, couple vlogs, ads), what performs (7–15 s, sends/shares, comment bait, niche + femininity, collabs, podcast questions, trending sounds), the per-folder lens, and the operators worth studying (Creators Inc, Aruna Talent, Owen Lynch / @owenllynch, Grace Charis). Update it when the market moves — it is the bot's memory of the industry.
+- **English only** — the caption, the hashtags AND the words on screen. Spanish/Portuguese on the frame = out.
+- **Made in the United States** — not the UK, Canada, Australia, Europe, Latin America, Asia or Africa. If the country can't be told and nothing says US, it's out.
+- **Women only on camera** — a boyfriend, a male host, a couple bit, a guy answering a street interview = out.
+
+Three layers enforce them:
+
+1. **`src/lib/market-filter.ts` — deterministic, before Claude.** Skips a candidate when (a) more than 10 % of the letters in caption + hashtags are non-Latin script (CJK, Devanagari, Arabic, Thai, Cyrillic, …), (b) the caption reads as Spanish, Portuguese, Italian, French, German, Dutch, Indonesian, Tagalog or Turkish (stop-word detector: ≥ 2 distinct foreign function words that outnumber the English ones, or one unmistakable foreign word in a very short caption), or (c) it matches **`library/market-exclude.txt`** — regional platforms, country/city hashtags (`#london #australia #toronto #lagos #india #tokyo #mexico …`, whole-hashtag match so `#india` never catches `#indianapolis`), market terms (`hijab`, `saree`, `#desi`…), other-language tags. Scout candidates that fail are dropped ("off-market" in the ops summary) and never cost an Apify-classify call; inbox drops get a note and Claude decides. Edit the txt file to tune; no code.
+2. **`prompts/library.classify.md` / `reels.classify.md` — Claude with the cover frame.** Hard `keep=false` for a man on camera, non-English on-screen text, non-US setting/creator; soft rules for ads, beauty tutorials, couple vlogs, nothing replicable, not IG-safe.
+3. **`knowledge/industry.md` — the agency's playbook, injected as `{{industry}}`** (`src/lib/industry.ts`, together with `knowledge/taste.md`) into `library.classify`, `model.research` and `event.ideas`. It states the audience (US men, English), the house rules above, what performs, the per-folder lens, and the operators worth studying. Update it when the market moves — it is the bot's memory of the industry.
+
+Cleanup: `/library purge origin:scout confirm:True` (or "@Lava Bot purge the scout videos") deletes the videos and their forum posts; `saved` puts those links back in the import queue. The same job can be queued for the next boot in `bot.settings → library.boot_jobs` (`["purge:scout"]`).
 
 ## Dan's saved collections → the library (and what the bot learns from them)
 

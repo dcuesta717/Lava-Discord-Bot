@@ -31,6 +31,7 @@ Every module registers its capabilities with `ctx.action(name, {...})`; the oper
 | `scout_reels_for_model` | her personal reels board scout |
 | `list_models`, `set_model_lanes` | who is onboarded; change a girl's folders |
 | `run_library_scout`, `send_library_picks`, `add_library_source`, `add_library_video`, `library_stats` | the Content Library |
+| `purge_library` | remove videos (scout / inbox / saved / all) and their forum posts |
 | `import_saved_collections`, `saved_import_status`, `relearn_from_library` | Dan's Instagram saved collections (the Google Sheet) → library, then learn seed accounts + `knowledge/taste.md` |
 | `list_events`, `add_event`, `send_event_ideas` | the calendar |
 | `daily_report` | today's numbers (owners' digest or one girl), optionally re-scraped |

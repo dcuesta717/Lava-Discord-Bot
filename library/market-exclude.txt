@@ -1,8 +1,8 @@
 // Content Library market filter — one term per line, case-insensitive substring match on caption + hashtags.
-// Anything matching is skipped BEFORE classification (docs/content-library.md). Owners: add terms for markets our girls
-// don't serve. Keep it about market fit (language, platform, audience) — non-Latin scripts (Chinese, Japanese, Korean,
-// Hindi, Arabic, Thai, Russian, …) are filtered automatically, and Claude separately drops non-English / non-Western-market
-// videos, so this list is for English-tagged content that still targets another market.
+// Anything matching is skipped BEFORE classification (docs/content-library.md). The rule (Dan): English only, United States
+// only — nothing made for another country or language market. Non-Latin scripts (Chinese, Japanese, Korean, Hindi, Arabic,
+// Thai, Russian, …) and Spanish/Portuguese/Italian/French/German/Dutch/Indonesian/Tagalog/Turkish captions are filtered
+// automatically; this list is for English-tagged content that still targets another market. Owners: add lines freely.
 // platforms / market tags
 douyin
 kuaishou
@@ -17,12 +17,107 @@ xiaohongshu
 #jpop
 #cdrama
 #kdrama
-// dress-code / cultural markers the owners asked to exclude
+#desi
+#desimom
+#desigirl
+#reelitfeelit
+#kontenviral
+#kontenhiburan
+#masukberanda
+#fyppp
+// dress-code / cultural markers the owners asked to exclude (other-market content)
 hijab
 hijabi
 abaya
 bhabhi
 saree
+// countries / cities outside the US (Dan: United States only)
+#uk
+#london
+#manchester
+#birmingham
+#england
+#british
+#scotland
+#ireland
+#dublin
+#australia
+#aussie
+#sydney
+#melbourne
+#perth
+#brisbane
+#goldcoast
+#canada
+#toronto
+#vancouver
+#banff
+#explorecanada
+#alberta
+#ontario
+#europe
+#paris
+#berlin
+#madrid
+#barcelona
+#milan
+#rome
+#amsterdam
+#dubai
+#uae
+#lagos
+#nigeria
+#9ja
+#naija
+#southafrica
+#capetown
+#johannesburg
+#kenya
+#nairobi
+#ghana
+#accra
+#india
+#mumbai
+#delhi
+#pakistan
+#karachi
+#lahore
+#bangladesh
+#dhaka
+#philippines
+#manila
+#indonesia
+#jakarta
+#bali
+#malaysia
+#singapore
+#thailand
+#bangkok
+#vietnam
+#japan
+#tokyo
+#korea
+#seoul
+#china
+#hongkong
+#taiwan
+#mexico
+#cdmx
+#brasil
+#brazil
+#saopaulo
+#colombia
+#bogota
+#argentina
+#buenosaires
+#chile
+#peru
+#turkey
+#istanbul
+#russia
+#moscow
+#ukraine
+#kyiv
 // other-language tags on otherwise English posts
 #español
 #espanol

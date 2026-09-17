@@ -6,7 +6,10 @@
 # authors he saved repeatedly become scout seed accounts, and knowledge/taste.md is (re)written from the whole set.
 #
 # rules: matched top-down by case-insensitive regex on the collection name. First match with a `genre` forces the folder;
-#        a rule with only `hint` just steers Claude. No match = Claude decides, hint = the collection name.
+#        a rule with only `hint` just steers Claude; `skip: true` leaves the collection out entirely (no Apify, no Claude).
+#        No match = Claude decides, hint = the collection name.
+# House rules apply to every video regardless of collection (prompts/library.classify.md): English only (caption AND on-screen
+# text), made in the United States, women only on camera — a man in the frame = skipped.
 # people: a collection whose name contains one of these is "saved for her" → for_person; when that girl is onboarded
 #         (model slug or first name matches) her collection lands on her reels board automatically.
 
@@ -63,4 +66,4 @@ rules:
   - match: "motivation"
     hint: "saved for the motivational/hot-take talking format — keep only if a girl could deliver it"
   - match: "owen"
-    hint: "this is a MALE creator (an agency owner) — he saved the FORMAT: the hook structure, the cut rhythm, the talking-head bit. Keep it if a girl could copy the format; describe the format, not him"
+    skip: true      # a male creator — Dan: no men on camera. Flip to `hint:` if the owners ever want his formats studied instead.

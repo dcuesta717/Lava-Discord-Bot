@@ -13,7 +13,7 @@ Return JSON only:
 [
   {
     "url": "...",
-    "keep": true,               // false = not library material: not a WOMAN creator (or girl group); not English-language; made for a non-Western market (other language, platform, dress code or cultural context our US girls don't share); aimed at women (beauty/skincare tutorials, mom/couple vlogs); brand ad; celebrity/news; nothing replicable; stale; explicit beyond IG-safe; low effort with no hook
+    "keep": true,               // false = not library material. HARD RULES (any one → false): a man is on camera (boyfriend, friend, host, couple, street-interview guy — the video must be a woman or women only); ANY text that is not English — caption, hashtags, or the words on screen in the frame (Spanish/Portuguese/Italian/etc. on screen = false); not made in the United States (other country's setting, creator based abroad, non-US references — UK/Canada/Australia/Europe/Latin America/Asia/Africa all = false); made for another language or cultural market. SOFT RULES: aimed at women (beauty/skincare tutorials, mom/couple vlogs); brand ad; celebrity/news; nothing replicable; stale; explicit beyond IG-safe; low effort with no hook
     "genre": "golf",            // primary folder slug
     "also": ["words-on-screen"],// 0-2 secondary folder slugs where it ALSO clearly belongs (only if a girl browsing that folder would want it)
     "score": 0.0,               // 0-1: how worth copying — replicability × why men engage; not raw views
@@ -27,6 +27,8 @@ Return JSON only:
 
 Rules:
 - Judge from what you can see: caption, cover frame, numbers. Never invent details.
+- Read the cover frame's on-screen text first: if it is not English, keep=false. If you cannot tell the country and the caption gives no US signal, keep=false — the agency's girls are in the US and only US content translates.
+- A man visible on camera = keep=false, even in a collab or a couple bit. Girls only.
 - Comments count is worth more than likes; likes more than views. A modest video with a high comment ratio beats a viral one nobody talks to.
 - `title` is what shows in a gallery grid — make it the format, not a description of her ("golf swing fails → 'rate my swing' text" not "girl playing golf").
 - If the caption or hint names a folder, respect it unless it is clearly wrong.
