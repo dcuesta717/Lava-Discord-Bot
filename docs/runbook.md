@@ -31,6 +31,7 @@ Railway (`vars.DEPLOY_TARGET=railway`) or a VPS with pm2 (`vps`). Set every `.en
 - If the persona gets weird: the system prompt is `prompts/persona.system.md`; hard rules are at the top; `notes.md` is background only.
 
 ## Daily ops for Dan/Marissa
+- Away: `/away mode:on` when you're off for the day; check `#girls-questions`; fix answers in `knowledge/faq.md`
 - Moments: `/event list` to see what's coming; `/event add` for a one-off (a trend, a local thing); ideas go to each girl automatically
 - 7 AM: read `#daily-report` (who didn't post, engagement, content mix); `/report` any time; each girl gets her own numbers in her #notification
 - New girl: `/model add name: user: instagram: tiktok:` → read her `profile.md` in GitHub → 10 min with her on `voice/voice.md` → `/model lanes` if the folders the bot picked are off

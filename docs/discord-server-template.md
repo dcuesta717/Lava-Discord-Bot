@@ -7,6 +7,7 @@ One guild ("Lava HQ"). Models never see each other's categories. The bot builds 
  ├ #live-alerts                   "🔴 Jane is LIVE" / "⚫ ended · 47 min"; insights reminders escalate here
  ├ #content-requests-inbox        upload pings from the Drive watcher; also fine for staff to draft requests before /request
  ├ #reels-inbox                   paste "<slug> <url> [note]" → bot classifies + posts to her board
+ ├ #girls-questions               what the bot answered for Dan / flagged for a human (docs/away-reply.md)
  ├ #daily-report                  7 AM owners' digest (docs/daily-reports.md)
  ├ #ops-log                       every bot action (also in bot.event_log in Supabase)
  └ #bot-dev                       Aaron
