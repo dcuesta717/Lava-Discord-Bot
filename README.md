@@ -24,7 +24,7 @@ lava-discord-bot/
 ├─ prompts/                   ← every Claude prompt lives here as a .md file, never inline in code
 ├─ agents/                    ← playbooks for scheduled / Claude Code agents (reels scout, weekly report…)
 ├─ scripts/                   ← one-off CLI tools (new-model, register-commands, import-captions, setup-server)
-├─ docs/                      ← architecture, Discord server template, content library, Notion schema, caption voice system, runbook
+├─ docs/                      ← architecture, Discord server template, content library, daily reports, Notion schema, caption voice system, runbook
 └─ .github/workflows/         ← CI (typecheck) + deploy
 ```
 
@@ -42,6 +42,7 @@ lava-discord-bot/
 | `earnings` | implemented | `/earnings` (manual MTD for now) → best-month / goal / $5k-step thresholds → one Claude hype line in her #general. |
 | `agency` | implemented | `#agency-lounge`: Friday shout-outs (insights sent, reels cleared, live minutes) + long-live one-liners. Never numbers. |
 | `models` | implemented | **Onboarding from Discord**: `/model add name user instagram [tiktok]` → her private channels + deep research (Apify profile + ~65 posts → Claude) → `models/<slug>/` committed to GitHub → live after the redeploy. `/model refresh`, `/model lanes`, `/model list`. |
+| `reports` | implemented | **7 AM analytics**: nightly Apify snapshot of every model's IG (followers + latest posts, Claude-labelled by lane/format) → her numbers in her #notification, owners' digest in #daily-report (who didn't post, engagement leaderboard, follower movers, content mix). `/report`. See `docs/daily-reports.md`. |
 | `library` | implemented | **Content Library** — agency-wide inspiration folders, one forum per genre (`library/genres.yaml`), gallery view. `#library-inbox` drops + daily Apify scout → Claude files each video with "why it works / how to copy it" → 🔥/👎 votes, 📋 Copy this → her board. See `docs/content-library.md`. |
 
 Not yet wired: Drive "Ready to Post" → `/post` automation, Zernio publish-status polling, OF earnings source (CRM export). See `docs/architecture.md` build order.

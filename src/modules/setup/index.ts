@@ -15,7 +15,7 @@ import { MEMBER, ROLE, clampToBot } from '../../lib/overwrites.js';
  * Self-setup. On every boot the bot makes sure the shared structure exists in the guild and remembers the ids
  * in bot.settings — so nobody creates channels by hand or copies ids into .env:
  *
- *   📁 STAFF   (guild owner + /owners + admins + bot)   #live-alerts #content-requests-inbox #reels-inbox #ops-log #bot-dev
+ *   📁 STAFF   (guild owner + /owners + admins + bot)   #live-alerts #content-requests-inbox #reels-inbox #daily-report #ops-log #bot-dev
  *   📁 AGENCY  (everyone)                               #agency-lounge  #announcements (owners post only)
  *
  * The guild owner is always an owner/admin. More owners via /owners add @user (updates channel permissions too).
@@ -27,6 +27,7 @@ const STAFF: { key: string; name: string; topic: string }[] = [
   { key: 'live_alerts', name: 'live-alerts', topic: '🔴 who is live right now · insights reminders escalate here' },
   { key: 'content_requests_inbox', name: 'content-requests-inbox', topic: 'upload pings from the Drive watcher · draft requests here before /request' },
   { key: 'reels_inbox', name: 'reels-inbox', topic: 'paste "<model-slug> <reel url> [note]" → bot classifies + posts to her board' },
+  { key: 'daily_report', name: 'daily-report', topic: '☀️ 7 AM: who posted yesterday, engagement leaderboard, follower movers, content mix per creator (/report to run now)' },
   { key: 'ops_log', name: 'ops-log', topic: 'every bot action (also in Supabase bot.event_log)' },
   { key: 'bot_dev', name: 'bot-dev', topic: 'bot setup + dev notes' },
 ];

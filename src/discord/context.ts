@@ -62,12 +62,13 @@ export class BotContext {
   ) {}
 
   /** Staff/agency channel id: bot-created (settings) first, .env override second. */
-  ch(name: 'live_alerts' | 'content_requests_inbox' | 'reels_inbox' | 'ops_log' | 'bot_dev' | 'agency_lounge' | 'announcements'): string {
+  ch(name: 'live_alerts' | 'content_requests_inbox' | 'reels_inbox' | 'daily_report' | 'ops_log' | 'bot_dev' | 'agency_lounge' | 'announcements'): string {
     const envKey: Record<string, string> = {
       live_alerts: this.env.STAFF_LIVE_ALERTS_CHANNEL_ID,
       content_requests_inbox: this.env.STAFF_REQUESTS_INBOX_CHANNEL_ID,
       reels_inbox: this.env.STAFF_REELS_INBOX_CHANNEL_ID,
       ops_log: this.env.STAFF_OPS_LOG_CHANNEL_ID,
+      daily_report: '',
       bot_dev: '',
       agency_lounge: this.env.AGENCY_LOUNGE_CHANNEL_ID,
       announcements: '',
