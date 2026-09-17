@@ -1,0 +1,144 @@
+# Cultural moments the girls should ride (Dan: "on Memorial Day they need video ideas for that specific thing, 5-6 at a time").
+# The events module sends each model `ideas` tailored ideas `lead_days` before each event, in her lanes, in her voice.
+# Add one-offs from Discord with /event add (stored in the database) or here for the recurring calendar. Keep angle in double quotes.
+#
+# date:   "MM-DD" (recurring) or "YYYY-MM-DD" (one-off)
+# rule:   { month: 5, weekday: 1, nth: -1 }  → last Monday of May   (weekday 1=Mon … 7=Sun; nth 1-4 or -1 = last); offset_days shifts it
+# lanes:  optional — only models in these lanes get ideas (default: everyone)
+# angle:  what the moment is really about for OUR content (men commenting, shareable), fed to the idea generator verbatim
+
+defaults:
+  lead_days: 10
+  ideas: 5
+
+events:
+  - name: New Year's Eve
+    date: "12-31"
+    lead_days: 12
+    angle: "outfits, 'last video of the year', resolutions men will comment on, countdown POVs, year recap"
+
+  - name: New Year's Day
+    date: "01-01"
+    lead_days: 5
+    angle: "new year same me' humor, gym-restart content, first-workout-of-the-year, hangover skits"
+
+  - name: Valentine's Day
+    date: "02-14"
+    lead_days: 14
+    angle: "single-on-valentines humor, 'rate my date outfit', galentines with the girls, what men should do, red fits"
+
+  - name: Galentine's Day
+    date: "02-13"
+    lead_days: 7
+    lanes: [collabs, funny, personality]
+    angle: "girl-group content, friends rating each other, group trends"
+
+  - name: Super Bowl Sunday
+    rule: { month: 2, weekday: 7, nth: 2 }
+    lead_days: 10
+    angle: "game-day fits, 'girls explaining football', snack POVs, halftime reactions, jersey content"
+
+  - name: St. Patrick's Day
+    date: "03-17"
+    lead_days: 8
+    angle: "green fits, bar-crawl POVs, 'lucky' text-on-screen bits, Irish-pub skits"
+
+  - name: Spring break season
+    date: "03-15"
+    lead_days: 14
+    lanes: [beach, pool, collabs, transitions, big-boobs]
+    angle: "beach/pool trip content, packing transitions, group trips, 'spring break with the girls'"
+
+  - name: April Fools
+    date: "04-01"
+    lead_days: 6
+    lanes: [skits, funny, words-on-screen]
+    angle: "harmless pranks, fake announcements, bait-and-switch reels"
+
+  - name: The Masters
+    rule: { month: 4, weekday: 7, nth: 2 }
+    lead_days: 10
+    lanes: [golf]
+    angle: "Masters week — green jacket bits, 'azalea' fits, swing content, golf-girl humor while everyone is watching golf"
+
+  - name: Coachella season
+    rule: { month: 4, weekday: 5, nth: 2 }
+    lead_days: 12
+    lanes: [transitions, dance, personality, collabs]
+    angle: "festival fits, GRWM transitions, 'festival with the girls', desert content"
+
+  - name: Cinco de Mayo
+    date: "05-05"
+    lead_days: 7
+    angle: "taco/margarita POVs, fiesta fits, group content"
+
+  - name: Mother's Day
+    rule: { month: 5, weekday: 7, nth: 2 }
+    lead_days: 8
+    angle: "wholesome mom content (keeps the feed human), 'things my mom says' skits, generational trends"
+
+  - name: Memorial Day weekend
+    rule: { month: 5, weekday: 1, nth: -1 }
+    lead_days: 12
+    angle: "summer kickoff — lake/pool/beach, red-white-blue fits, BBQ POVs, long-weekend trips, boat content"
+
+  - name: Father's Day
+    rule: { month: 6, weekday: 7, nth: 3 }
+    lead_days: 7
+    angle: "dad-joke skits, golf-with-dad, 'things dads say', wholesome family bits"
+
+  - name: Summer solstice
+    date: "06-21"
+    lead_days: 5
+    lanes: [beach, pool, transitions]
+    angle: "longest day — sunset/golden-hour content, summer fit transitions"
+
+  - name: 4th of July
+    date: "07-04"
+    lead_days: 12
+    angle: "red-white-blue fits, lake/boat/pool, fireworks POVs, BBQ, 'American girl' bits"
+
+  - name: Back to school season
+    date: "08-20"
+    lead_days: 10
+    lanes: [funny, skits, personality, words-on-screen]
+    angle: "first day of class' POVs, campus fits, dorm content, syllabus-week humor"
+
+  - name: Labor Day weekend
+    rule: { month: 9, weekday: 1, nth: 1 }
+    lead_days: 10
+    angle: "last summer weekend — beach/pool/lake finale, 'white after labor day' bits, end-of-summer recap"
+
+  - name: NFL kickoff
+    rule: { month: 9, weekday: 1, nth: 1 }   # Thursday after Labor Day
+    offset_days: 3
+    lead_days: 10
+    angle: "football season starts — jersey fits, 'girls watching football' skits, tailgate content, fantasy-league humor"
+
+  - name: Pumpkin spice season
+    date: "09-01"
+    lead_days: 7
+    lanes: [funny, personality, car, words-on-screen]
+    angle: "PSL/fall-girl humor, first-fall-fit, car coffee runs"
+
+  - name: Halloween
+    date: "10-31"
+    lead_days: 21
+    angle: "costume reveals + 'which one' polls, couples/group costumes, spooky skits, trick-or-treat POVs, costume transitions"
+
+  - name: Thanksgiving
+    rule: { month: 11, weekday: 4, nth: 4 }
+    lead_days: 10
+    angle: "things said at Thanksgiving' skits, food POVs, family humor, friendsgiving with the girls"
+
+  - name: Black Friday
+    rule: { month: 11, weekday: 4, nth: 4 }
+    offset_days: 1
+    lead_days: 6
+    lanes: [funny, skits, personality, transitions]
+    angle: "shopping chaos skits, haul transitions, 'what I bought vs what I needed'"
+
+  - name: Christmas
+    date: "12-25"
+    lead_days: 21
+    angle: "Christmas fits, wrapping/decorating POVs, 'what men want' bits, family skits, matching pajamas with the girls"

@@ -18,13 +18,14 @@ lava-discord-bot/
 │  ├─ db/                     Postgres (Supabase) client + migrations — schema `bot.*`
 │  └─ lib/                    logger, cron, time helpers
 ├─ library/                   ← genres.yaml: the agency-wide Content Library folders (docs/content-library.md)
+├─ knowledge/                 ← events.yaml (holidays & moments), faq.md (what the bot may answer for Dan)
 ├─ models/                    ← ONE FOLDER PER MODEL (voice, sourcing, playbooks, config)
 │  ├─ _template/              copy this with `npm run new-model -- <slug>`
 │  └─ <slug>/
 ├─ prompts/                   ← every Claude prompt lives here as a .md file, never inline in code
 ├─ agents/                    ← playbooks for scheduled / Claude Code agents (reels scout, weekly report…)
 ├─ scripts/                   ← one-off CLI tools (new-model, register-commands, import-captions, setup-server)
-├─ docs/                      ← architecture, Discord server template, content library, daily reports, Notion schema, caption voice system, runbook
+├─ docs/                      ← architecture, Discord server template, content library, daily reports, events & trends, Notion schema, caption voice system, runbook
 └─ .github/workflows/         ← CI (typecheck) + deploy
 ```
 
@@ -43,6 +44,7 @@ lava-discord-bot/
 | `agency` | implemented | `#agency-lounge`: Friday shout-outs (insights sent, reels cleared, live minutes) + long-live one-liners. Never numbers. |
 | `models` | implemented | **Onboarding from Discord**: `/model add name user instagram [tiktok]` → her private channels + deep research (Apify profile + ~65 posts → Claude) → `models/<slug>/` committed to GitHub → live after the redeploy. `/model refresh`, `/model lanes`, `/model list`. |
 | `reports` | implemented | **7 AM analytics**: nightly Apify snapshot of every model's IG (followers + latest posts, Claude-labelled by lane/format) → her numbers in her #notification, owners' digest in #daily-report (who didn't post, engagement leaderboard, follower movers, content mix). `/report`. See `docs/daily-reports.md`. |
+| `events` | implemented | **Holidays & moments → ideas**: `knowledge/events.yaml` (+ `/event add`) → 5 tailored ideas per girl in her lanes, N days before, from her profile + voice. **Trend radar** (in `library`): sounds/hashtags spiking across everything scanned → alert in #agency-lounge with how to ride it. See `docs/events-and-trends.md`. |
 | `library` | implemented | **Content Library** — agency-wide inspiration folders, one forum per genre (`library/genres.yaml`), gallery view. `#library-inbox` drops + daily Apify scout → Claude files each video with "why it works / how to copy it" → 🔥/👎 votes, 📋 Copy this → her board. See `docs/content-library.md`. |
 
 Not yet wired: Drive "Ready to Post" → `/post` automation, Zernio publish-status polling, OF earnings source (CRM export). See `docs/architecture.md` build order.

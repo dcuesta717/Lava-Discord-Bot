@@ -111,6 +111,11 @@ export function register(ctx: BotContext) {
     await ctx.ops(MODULE, 'scouted', { data: summary, text: `${summary.posted} posted across ${summary.genres} folders` });
     const picks = await deliverPicks();
     if (picks.delivered) await ctx.ops(MODULE, 'picks-delivered', { data: picks });
+    const trends = await radar().catch((err) => {
+      ctx.log.warn({ err }, 'trend radar failed');
+      return 0;
+    });
+    if (trends) await ctx.ops(MODULE, 'trends-alerted', { data: { trends } });
   });
 
   // ── inbox: paste links, get them filed ─────────────────────────────────────
@@ -491,6 +496,7 @@ export function register(ctx: BotContext) {
         fresh.push(c);
       }
       s.candidates += fresh.length;
+      await recordSignals(g.slug, fresh).catch((err) => ctx.log.warn({ err }, 'trend signals failed'));
       fresh.sort((a, b) => engagement(b) - engagement(a));
       const top = fresh.slice(0, cfg.scout.classify_top);
       const classified: { cand: ReelCandidate; c: Classified }[] = [];
@@ -535,6 +541,62 @@ export function register(ctx: BotContext) {
       ctx.log.warn({ err, url }, 'download failed');
       return undefined;
     }
+  }
+
+  // ── 24h trend radar: sounds / hashtags spiking across everything we scan ───
+  async function recordSignals(genreSlug: string, cands: ReelCandidate[]) {
+    const day = new Date().toISOString().slice(0, 10);
+    const tally = new Map<string, { kind: string; value: string; count: number; sample: string }>();
+    for (const c of cands) {
+      const sigs: [string, string][] = [];
+      if (c.audio) sigs.push(['audio', c.audio]);
+      for (const h of c.hashtags ?? []) sigs.push(['hashtag', h.toLowerCase()]);
+      for (const [kind, value] of sigs) {
+        const k = `${kind}:${value}`;
+        const cur = tally.get(k) ?? { kind, value, count: 0, sample: c.url };
+        cur.count++;
+        tally.set(k, cur);
+      }
+    }
+    for (const t of tally.values()) {
+      await sql`INSERT INTO bot.trend_signals (day, kind, value, count, sample_url, genres) VALUES (${day}, ${t.kind}, ${t.value}, ${t.count}, ${t.sample}, ${[genreSlug]})
+                ON CONFLICT (day, kind, value) DO UPDATE SET count = bot.trend_signals.count + EXCLUDED.count,
+                  genres = (SELECT ARRAY(SELECT DISTINCT unnest(bot.trend_signals.genres || EXCLUDED.genres)))`;
+    }
+  }
+
+  /** A signal is "trending" when today's count ≥ 4 and ≥ 3× its average over the previous 7 days. Alerts once per signal. */
+  async function radar(): Promise<number> {
+    const rows = await sql<{ kind: string; value: string; count: number; baseline: number; sample_url: string | null; genres: string[] }[]>`
+      WITH today AS (SELECT * FROM bot.trend_signals WHERE day = CURRENT_DATE),
+           base AS (SELECT kind, value, AVG(count)::float AS baseline FROM bot.trend_signals WHERE day < CURRENT_DATE AND day >= CURRENT_DATE - 7 GROUP BY kind, value)
+      SELECT t.kind, t.value, t.count, COALESCE(b.baseline, 0) AS baseline, t.sample_url, t.genres
+      FROM today t LEFT JOIN base b USING (kind, value)
+      WHERE t.count >= 4 AND t.count >= 3 * COALESCE(b.baseline, 0.5)
+        AND NOT EXISTS (SELECT 1 FROM bot.trend_alerts a WHERE a.kind = t.kind AND a.value = t.value AND a.alerted_at > now() - interval '14 days')
+      ORDER BY t.count DESC LIMIT 3`;
+    let n = 0;
+    for (const r of rows) {
+      // skip the genre's own seed hashtags — they are expected to be everywhere
+      if (r.kind === 'hashtag' && genres().some((g) => g.hashtags.includes(r.value))) continue;
+      const sample = r.sample_url ? await sql<{ caption: string | null }[]>`SELECT caption FROM bot.library_items WHERE source_url = ${canonicalUrl(r.sample_url)}` : [];
+      let text = { what: `${r.kind === 'audio' ? 'sound' : '#' + r.value} showing up in ${r.count} reels today`, how: 'film your version of it this week' };
+      try {
+        text = await ctx.api.claude.json<{ what: string; how: string }>(
+          loadPrompt('trend.alert', { kind: r.kind === 'audio' ? 'sound' : 'hashtag', value: r.value, count: String(r.count), baseline: r.baseline.toFixed(1), genres: r.genres.join(', ') || '—', sample: r.sample_url ?? '', sample_caption: (sample[0]?.caption ?? '').replace(/\s+/g, ' ').slice(0, 160) }),
+          { maxTokens: 200, temperature: 0.4 },
+        );
+      } catch (err) {
+        ctx.log.warn({ err }, 'trend alert text failed');
+      }
+      const label = r.kind === 'audio' ? `🎵 **${r.value}**` : `#️⃣ **#${r.value}**`;
+      const msg = `🔥 **trending right now** — ${label} · ${r.count} reels today (${r.genres.map((g) => genre(g)?.emoji ?? g).join(' ')})\n${text.what}\n**how to ride it:** ${text.how}${r.sample_url ? `\n<${r.sample_url}>` : ''}`;
+      await ctx.send(ctx.ch('agency_lounge'), { content: msg, allowedMentions: { parse: [] } });
+      await ctx.send(ctx.ch('daily_report') || ctx.ch('live_alerts'), { content: msg, allowedMentions: { parse: [] } });
+      await sql`INSERT INTO bot.trend_alerts (kind, value) VALUES (${r.kind}, ${r.value}) ON CONFLICT (kind, value) DO UPDATE SET alerted_at = now()`;
+      n++;
+    }
+    return n;
   }
 
   // ── routed drops: her top picks in her own channel ─────────────────────────
