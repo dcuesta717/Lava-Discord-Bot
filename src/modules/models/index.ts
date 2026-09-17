@@ -47,6 +47,7 @@ export function register(ctx: BotContext) {
   // ── boot: welcome models that went live with this deploy; hand the role to late joiners ───────────────────
   ctx.client.once(Events.ClientReady, async () => {
     await ctx.ready; // #bot-dev etc. exist once setup is done
+    resumeInterrupted().catch((err) => ctx.log.warn({ err }, 'onboarding resume failed'));
     try {
       const rows = await sql<OnboardingRow[]>`SELECT * FROM bot.model_onboarding WHERE status = 'committed'`;
       for (const r of rows) {
@@ -69,6 +70,23 @@ export function register(ctx: BotContext) {
       ctx.log.warn({ err }, 'model welcome pass failed');
     }
   });
+
+  /** A deploy/restart in the middle of /model add leaves a row at started|structured|researched — finish it. */
+  async function resumeInterrupted() {
+    const rows = await sql<OnboardingRow[]>`SELECT * FROM bot.model_onboarding WHERE status IN ('started','structured','researched') AND updated_at > now() - interval '3 hours'`;
+    for (const r of rows) {
+      if (ctx.models.get(r.slug) || !r.instagram) continue;
+      const progress = async (t: string) => {
+        await ctx.send(ctx.ch('bot_dev'), { content: `↻ resuming ${r.display_name}'s onboarding after a restart — ${t}`, allowedMentions: { parse: [] } });
+      };
+      try {
+        const result = await onboard({ name: r.display_name, userId: r.user_id, instagram: r.instagram, tiktok: r.tiktok ?? '', timezone: r.timezone, slug: r.slug, requestedBy: 'resume', actorId: ctx.client.user!.id, progress });
+        await ctx.send(ctx.ch('bot_dev'), { content: result, allowedMentions: { parse: [] } });
+      } catch (err) {
+        await ctx.send(ctx.ch('bot_dev'), { content: `❌ could not resume ${r.display_name}: ${err instanceof Error ? err.message : String(err)}`, allowedMentions: { parse: [] } });
+      }
+    }
+  }
 
   ctx.client.on(Events.GuildMemberAdd, async (member: GuildMember) => {
     const rows = await sql<{ slug: string; discord: { role_id?: string } }[]>`SELECT slug, discord FROM bot.model_onboarding WHERE user_id = ${member.id}`.catch(() => []);
