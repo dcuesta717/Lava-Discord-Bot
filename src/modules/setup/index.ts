@@ -68,6 +68,12 @@ export function register(ctx: BotContext) {
     },
   );
 
+  ctx.action('list_owners', {
+    description: 'Who counts as an owner (gets alerts, can approve everything).',
+    input: { type: 'object', properties: {} },
+    run: async () => `owners: ${ctx.ownerIds().map((id) => `<@${id}>`).join(' ') || 'none'} (add with /owners add @user)`,
+  });
+
   async function ensureStructure() {
     const guild = await ctx.client.guilds.fetch(ctx.env.DISCORD_GUILD_ID);
     await guild.channels.fetch();

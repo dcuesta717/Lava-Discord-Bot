@@ -112,6 +112,58 @@ export function register(ctx: BotContext) {
     },
   );
 
+  // ── chat-callable actions (operator) ────────────────────────────────────────
+  ctx.action('onboard_model', {
+    description: 'Onboard a new creator: build her private channels, research her Instagram/TikTok, write models/<slug>/ to GitHub. Takes ~2 minutes. Needs her display name, her Discord user id (from an @mention, digits only), and her Instagram handle. Confirm the details with the owner once before calling.',
+    input: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', description: 'Display name, e.g. "Jane Doe"' },
+        discord_user_id: { type: 'string', description: 'Her Discord user id (digits). In chat an @mention appears as <@123…>; pass the digits.' },
+        instagram: { type: 'string', description: 'Instagram handle without @' },
+        tiktok: { type: 'string', description: 'TikTok handle without @ (optional)' },
+        timezone: { type: 'string', description: 'IANA timezone, e.g. America/Los_Angeles (optional, default New York)' },
+      },
+      required: ['name', 'discord_user_id', 'instagram'],
+    },
+    ownersOnly: true,
+    slow: true,
+    run: (input, actor) =>
+      onboard({ name: String(input.name), userId: String(input.discord_user_id), instagram: String(input.instagram), tiktok: input.tiktok ? String(input.tiktok) : '', timezone: input.timezone ? String(input.timezone) : undefined, requestedBy: `chat:${actor.userId}`, actorId: actor.userId, progress: actor.progress }),
+  });
+  ctx.action('list_models', {
+    description: 'List onboarded creators (slug, name, Instagram, lanes) and onboardings in progress.',
+    input: { type: 'object', properties: {} },
+    run: async () => {
+      const rows = await sql<OnboardingRow[]>`SELECT slug, display_name, status FROM bot.model_onboarding ORDER BY created_at`;
+      const loaded = ctx.models.all().map((m) => `${m.display_name} (${m.slug}) — @${m.socials.instagram || '?'} · lanes: ${m.lanes.join(', ') || 'none'} · tz ${m.timezone}`);
+      const pending = rows.filter((r) => !ctx.models.get(r.slug)).map((r) => `${r.display_name} (${r.slug}) — ${r.status}`);
+      return [`live (${loaded.length}): ${loaded.join(' | ') || 'none'}`, pending.length ? `in progress: ${pending.join(' | ')}` : ''].filter(Boolean).join('\n');
+    },
+  });
+  ctx.action('set_model_lanes', {
+    description: 'Set which Content Library folders (lanes) a creator belongs to; drives her daily picks and event ideas. Applies after a redeploy.',
+    input: { type: 'object', properties: { slug: { type: 'string' }, lanes: { type: 'array', items: { type: 'string' }, description: 'genre slugs, e.g. ["golf","words-on-screen"]' } }, required: ['slug', 'lanes'] },
+    ownersOnly: true,
+    run: async (input, actor) => {
+      const model = ctx.models.get(String(input.slug));
+      if (!model) return `unknown model ${String(input.slug)}`;
+      if (!github.enabled) return 'GITHUB_TOKEN is not set';
+      const valid = new Set(loadLibrary().genres.map((g) => g.slug));
+      const lanes = (Array.isArray(input.lanes) ? input.lanes : []).map(String).map((s) => s.toLowerCase());
+      const bad = lanes.filter((l) => !valid.has(l));
+      if (bad.length) return `unknown folder(s): ${bad.join(', ')} — valid: ${[...valid].join(', ')}`;
+      const path = `models/${model.slug}/model.yaml`;
+      const raw = await github.read(path);
+      if (!raw) return `${path} not found in GitHub`;
+      const doc = YAML.parseDocument(raw);
+      doc.set('lanes', lanes);
+      const sha = await github.commitFiles([{ path, content: doc.toString() }], `${model.display_name}: lanes → ${lanes.join(', ')} (chat, ${actor.userId})`);
+      await ctx.ops(MODULE, 'lanes', { model, actor: actor.userId, data: { lanes } });
+      return `${model.display_name} → lanes ${lanes.join(', ')} (${sha.slice(0, 7)}; live after the redeploy, ~2 min)`;
+    },
+  });
+
   async function list(i: ChatInputCommandInteraction) {
     const rows = await sql<OnboardingRow[]>`SELECT * FROM bot.model_onboarding ORDER BY created_at`;
     const loaded = ctx.models.all().map((m) => `• **${m.display_name}** (\`${m.slug}\`) — @${m.socials.instagram || '?'} · lanes: ${m.lanes.join(', ') || '_none_'} · <#${m.discord.channels.general}>`);
@@ -120,21 +172,41 @@ export function register(ctx: BotContext) {
   }
 
   async function add(i: ChatInputCommandInteraction) {
-    const name = i.options.getString('name', true).trim();
-    const user = i.options.getUser('user', true);
-    const instagram = clean(i.options.getString('instagram', true));
-    const tiktok = clean(i.options.getString('tiktok') ?? '');
-    const timezone = i.options.getString('timezone') ?? ctx.env.DEFAULT_TIMEZONE;
-    const slug = (i.options.getString('slug') ?? slugify(name)).toLowerCase();
-    if (!/^[a-z0-9-]{2,30}$/.test(slug)) return i.reply({ content: `slug must be lowercase letters/numbers/dashes (got \`${slug}\`)`, flags: MessageFlags.Ephemeral });
-    if (!ctx.api.apify.enabled) return i.reply({ content: '`APIFY_TOKEN` is not set — I need it to research her account.', flags: MessageFlags.Ephemeral });
-    if (ctx.models.get(slug)) return i.reply({ content: `\`${slug}\` is already onboarded — use \`/model refresh slug:${slug}\``, flags: MessageFlags.Ephemeral });
-    if (github.enabled && (await github.exists(`models/${slug}/model.yaml`).catch(() => false))) return i.reply({ content: `models/${slug}/ already exists in GitHub (it goes live on the next deploy)`, flags: MessageFlags.Ephemeral });
-
+    const o = {
+      name: i.options.getString('name', true),
+      userId: i.options.getUser('user', true).id,
+      instagram: i.options.getString('instagram', true),
+      tiktok: i.options.getString('tiktok') ?? '',
+      timezone: i.options.getString('timezone') ?? undefined,
+      slug: i.options.getString('slug') ?? undefined,
+    };
     await i.deferReply({ flags: MessageFlags.Ephemeral });
-    const say = (t: string) => i.editReply(t).catch(() => undefined);
+    const progress = (t: string) => i.editReply(t).then(() => undefined).catch(() => undefined);
+    try {
+      await i.editReply(await onboard({ ...o, requestedBy: i.user.tag, actorId: i.user.id, progress }));
+    } catch (err) {
+      await i.editReply(`❌ ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+
+  /** The whole onboarding, shared by /model add and the operator chat. Throws with a readable message on failure. */
+  async function onboard(o: { name: string; userId: string; instagram: string; tiktok?: string; timezone?: string; slug?: string; requestedBy: string; actorId: string; progress: (t: string) => Promise<void> }): Promise<string> {
+    const name = o.name.trim();
+    const user = { id: o.userId.replace(/[<@!>]/g, '') };
+    const instagram = clean(o.instagram);
+    const tiktok = clean(o.tiktok ?? '');
+    const timezone = o.timezone ?? ctx.env.DEFAULT_TIMEZONE;
+    const slug = (o.slug ?? slugify(name)).toLowerCase();
+    if (!/^[a-z0-9-]{2,30}$/.test(slug)) throw new Error(`slug must be lowercase letters/numbers/dashes (got \`${slug}\`)`);
+    if (!/^\d{15,22}$/.test(user.id)) throw new Error('I need her Discord account (an @mention) to give her the role and channels');
+    if (!instagram) throw new Error('I need her Instagram handle to research her');
+    if (!ctx.api.apify.enabled) throw new Error('`APIFY_TOKEN` is not set — I need it to research her account.');
+    if (ctx.models.get(slug)) throw new Error(`\`${slug}\` is already onboarded — use \`/model refresh slug:${slug}\``);
+    if (github.enabled && (await github.exists(`models/${slug}/model.yaml`).catch(() => false))) throw new Error(`models/${slug}/ already exists in GitHub (it goes live on the next deploy)`);
+
+    const say = o.progress;
     await sql`INSERT INTO bot.model_onboarding (slug, display_name, user_id, instagram, tiktok, timezone, status, requested_by)
-              VALUES (${slug}, ${name}, ${user.id}, ${instagram}, ${tiktok || null}, ${timezone}, 'started', ${i.user.id})
+              VALUES (${slug}, ${name}, ${user.id}, ${instagram}, ${tiktok || null}, ${timezone}, 'started', ${o.actorId})
               ON CONFLICT (slug) DO UPDATE SET display_name = EXCLUDED.display_name, user_id = EXCLUDED.user_id, instagram = EXCLUDED.instagram, tiktok = EXCLUDED.tiktok, timezone = EXCLUDED.timezone, status = 'started', error = NULL, requested_by = EXCLUDED.requested_by, updated_at = now()`;
 
     try {
@@ -153,32 +225,29 @@ export function register(ctx: BotContext) {
       // 3. Files → GitHub
       const files = renderFiles({ slug, name, userId: user.id, instagram, tiktok, timezone, ids, research, stats, profile, posts }, ctx.env.DEFAULT_TIMEZONE);
       if (!github.enabled) {
-        await say(`⚠️ research done for ${name} and saved, but \`GITHUB_TOKEN\` isn't set so I can't write her files into the repo. Add it in Railway (docs/runbook.md) and run \`/model refresh slug:${slug}\` — it will commit everything then.`);
-        return;
+        return `⚠️ research done for ${name} and saved, but \`GITHUB_TOKEN\` isn't set so I can't write her files into the repo. Add it in Railway (docs/runbook.md) and run \`/model refresh slug:${slug}\` — it will commit everything then.`;
       }
       await say(`⏳ 3/3 writing models/${slug}/ to GitHub…`);
-      const sha = await github.commitFiles(files, `Onboard ${name} (${slug}) — /model add by ${i.user.tag}\n\nProfile, voice draft, ${stats.posts} imported captions, sourcing seeds. Generated by the bot; review voice/voice.md.`);
+      const sha = await github.commitFiles(files, `Onboard ${name} (${slug}) — /model add by ${o.requestedBy}\n\nProfile, voice draft, ${stats.posts} imported captions, sourcing seeds. Generated by the bot; review voice/voice.md.`);
       await sql`UPDATE bot.model_onboarding SET commit_sha = ${sha}, status = 'committed', updated_at = now() WHERE slug = ${slug}`;
-      await ctx.ops(MODULE, 'onboarded', { actor: i.user.id, data: { slug, sha, posts: stats.posts, lanes: research.lanes.map((l) => l.slug) } });
+      await ctx.ops(MODULE, 'onboarded', { actor: o.actorId, data: { slug, sha, posts: stats.posts, lanes: research.lanes.map((l) => l.slug) } });
 
       const lanes = research.lanes.map((l) => `${l.slug} (${Math.round(l.confidence * 100)}%)`).join(', ');
-      await say(
-        [
-          `✅ **${name}** onboarded → \`models/${slug}/\` committed (${sha.slice(0, 7)}). She goes live when Railway finishes redeploying (~2 min) — I'll post a welcome in <#${ids.channels.general}>.`,
-          `**Research:** ${stats.posts} posts analysed · ${stats.posts_per_week.toFixed(1)} posts/week · ${research.one_liner}`,
-          `**Lanes:** ${lanes || '_none found — set with /model lanes_'}`,
-          `**What wins:** ${research.formats_that_win.slice(0, 3).map((f) => f.format).join(' · ')}`,
-          `**Review in GitHub:** \`profile.md\` (the research), \`voice/voice.md\` (DRAFT — 10 min with her to confirm), \`notes.md\` (questions to ask her: ${(research.gaps ?? []).length}).`,
-          inGuild ? '' : `⚠️ <@${user.id}> isn't in the server yet — invite her; her role and channels attach automatically when she joins.`,
-        ]
-          .filter(Boolean)
-          .join('\n'),
-      );
+      return [
+        `✅ **${name}** onboarded → \`models/${slug}/\` committed (${sha.slice(0, 7)}). She goes live when Railway finishes redeploying (~2 min) — I'll post a welcome in <#${ids.channels.general}>.`,
+        `**Research:** ${stats.posts} posts analysed · ${stats.posts_per_week.toFixed(1)} posts/week · ${research.one_liner}`,
+        `**Lanes:** ${lanes || '_none found — set with /model lanes_'}`,
+        `**What wins:** ${research.formats_that_win.slice(0, 3).map((f) => f.format).join(' · ')}`,
+        `**Review in GitHub:** \`profile.md\` (the research), \`voice/voice.md\` (DRAFT — 10 min with her to confirm), \`notes.md\` (questions to ask her: ${(research.gaps ?? []).length}).`,
+        inGuild ? '' : `⚠️ <@${user.id}> isn't in the server yet — invite her; her role and channels attach automatically when she joins.`,
+      ]
+        .filter(Boolean)
+        .join('\n');
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       ctx.log.error({ err, slug }, 'onboarding failed');
       await sql`UPDATE bot.model_onboarding SET status = 'failed', error = ${msg.slice(0, 500)}, updated_at = now() WHERE slug = ${slug}`;
-      await say(`❌ onboarding ${name} failed: ${msg.slice(0, 300)}\nRun the same command again — channels already created are reused.`);
+      throw new Error(`onboarding ${name} failed: ${msg.slice(0, 300)} — run it again; channels already created are reused.`);
     }
   }
 

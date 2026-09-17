@@ -43,8 +43,21 @@ export interface Integrations {
  * Everything a module needs. Modules never import each other; they talk through `bus` events.
  * Custom ids: `module:action:modelSlug:entityId` — the router splits on ':' and dispatches on `module:action`.
  */
+/**
+ * An action = one thing the bot can do, exposed to BOTH slash commands and the operator chat ("@Lava Bot onboard Jane…").
+ * `input` is a JSON schema (Claude tool input); `run` returns a short human-readable result.
+ */
+export interface Action {
+  description: string;
+  input: { type: 'object'; properties: Record<string, unknown>; required?: string[] };
+  ownersOnly?: boolean;
+  slow?: boolean; // takes > 10 s (onboarding, scouting) — the operator says "on it" first
+  run: (input: Record<string, unknown>, actor: { userId: string; channelId?: string; progress: (text: string) => Promise<void> }) => Promise<string>;
+}
+
 export class BotContext {
   readonly bus = new EventEmitter();
+  readonly actions = new Map<string, Action>();
   readonly commands = new Map<string, { builder: CommandBuilder; handler: CommandHandler }>();
   readonly components = new Map<string, ComponentHandler>();
   readonly modals = new Map<string, ModalHandler>();
@@ -84,6 +97,11 @@ export class BotContext {
 
   command(builder: CommandBuilder, handler: CommandHandler) {
     this.commands.set(builder.name, { builder, handler });
+  }
+
+  /** Register a chat-callable action (see Action). Names are snake_case. */
+  action(name: string, a: Action) {
+    this.actions.set(name, a);
   }
 
   /** `prefix` = "module:action" */

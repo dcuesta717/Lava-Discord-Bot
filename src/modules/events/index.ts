@@ -125,6 +125,42 @@ export function register(ctx: BotContext) {
     },
   );
 
+  // ── chat-callable actions (operator) ────────────────────────────────────────
+  ctx.action('list_events', {
+    description: 'Upcoming holidays / moments in the next 45 days and when idea drops go out.',
+    input: { type: 'object', properties: {} },
+    run: async () => (await upcoming(45)).sort((a, b) => a.days - b.days).map((o) => `${o.name} — ${o.date.toISODate()} (${o.days}d)${o.lanes.length ? ` [${o.lanes.join(', ')}]` : ''}, ideas ${o.days <= o.leadDays ? 'due now' : `in ${o.days - o.leadDays}d`}`).join('\n') || 'nothing in 45 days',
+  });
+  ctx.action('add_event', {
+    description: 'Add a one-off moment (a trend, a local event, a brand week) so creators get tailored video ideas before it.',
+    input: { type: 'object', properties: { name: { type: 'string' }, date: { type: 'string', description: 'YYYY-MM-DD' }, angle: { type: 'string', description: 'what it means for our content, one line' }, lanes: { type: 'array', items: { type: 'string' }, description: 'genre slugs; omit for everyone' }, lead_days: { type: 'integer' } }, required: ['name', 'date', 'angle'] },
+    ownersOnly: true,
+    run: async (input, actor) => {
+      const date = DateTime.fromISO(String(input.date), { zone: ctx.env.DEFAULT_TIMEZONE });
+      if (!date.isValid) return 'date must be YYYY-MM-DD';
+      const lanes = (Array.isArray(input.lanes) ? input.lanes : []).map(String).map((l) => l.toLowerCase());
+      const valid = new Set(loadLibrary().genres.map((g) => g.slug));
+      const bad = lanes.filter((l) => !valid.has(l));
+      if (bad.length) return `unknown folder(s): ${bad.join(', ')}`;
+      const lead = Number(input.lead_days ?? 7);
+      await sql`INSERT INTO bot.events (name, on_date, lead_days, ideas, lanes, angle, added_by) VALUES (${String(input.name)}, ${date.toISODate()}, ${lead}, 5, ${lanes}, ${String(input.angle)}, ${actor.userId})`;
+      await ctx.ops(MODULE, 'event-added', { actor: actor.userId, data: { name: input.name, date: date.toISODate(), lanes } });
+      return `added ${String(input.name)} on ${date.toISODate()}; ideas go out ${lead} days before${lanes.length ? ` to ${lanes.join(', ')}` : ' to everyone'}`;
+    },
+  });
+  ctx.action('send_event_ideas', {
+    description: 'Generate and send video ideas for an upcoming event now (all eligible creators, or one).',
+    input: { type: 'object', properties: { name: { type: 'string', description: 'event name as in list_events' }, model: { type: 'string', description: 'model slug (optional)' }, again: { type: 'boolean', description: 'resend even if she already got ideas' } }, required: ['name'] },
+    ownersOnly: true,
+    slow: true,
+    run: async (input) => {
+      const occ = (await upcoming(400)).find((o) => o.name.toLowerCase() === String(input.name).toLowerCase());
+      if (!occ) return `no upcoming event called ${String(input.name)}`;
+      const r = await sendFor(occ, { only: input.model ? String(input.model) : undefined, force: Boolean(input.again) });
+      return `${occ.name}: ideas sent to ${r.sent} creator(s), ${r.skipped} skipped`;
+    },
+  });
+
   // ── core ───────────────────────────────────────────────────────────────────
   async function upcoming(withinDays: number): Promise<Occurrence[]> {
     const now = DateTime.now().setZone(ctx.env.DEFAULT_TIMEZONE);

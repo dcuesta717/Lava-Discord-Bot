@@ -128,6 +128,19 @@ export function register(ctx: BotContext) {
     ].join('\n');
   }
 
+  ctx.action('set_away_mode', {
+    description: "Control the away-reply (bot answers routine questions for an owner): mode on = reply immediately, auto = wait N minutes for a human, off. Optionally the delay and whose absence it announces.",
+    input: { type: 'object', properties: { mode: { type: 'string', enum: ['on', 'auto', 'off'] }, delay_minutes: { type: 'integer' }, owner_name: { type: 'string' } } },
+    ownersOnly: true,
+    run: async (input, actor) => {
+      if (input.mode) await ctx.settings.set('away.mode', String(input.mode));
+      if (input.delay_minutes) await ctx.settings.set('away.delay_min', Number(input.delay_minutes));
+      if (input.owner_name) await ctx.settings.set('away.owner_name', String(input.owner_name));
+      await ctx.ops(MODULE, 'settings', { actor: actor.userId, data: { mode: mode(), delay: delayMin(), owner: ownerName() } });
+      return `away-reply is ${mode()}${mode() === 'auto' ? ` (waits ${delayMin()} min)` : ''}, covering for ${ownerName()}`;
+    },
+  });
+
   // ── /away ──────────────────────────────────────────────────────────────────
   ctx.command(
     new SlashCommandBuilder()

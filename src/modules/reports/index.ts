@@ -97,6 +97,27 @@ export function register(ctx: BotContext) {
     },
   );
 
+  // ── chat-callable actions (operator) ────────────────────────────────────────
+  ctx.action('daily_report', {
+    description: "Today's numbers: the owners' digest (who didn't post, engagement leaderboard, follower movers, content mix) or one creator's report. refresh=true re-scrapes first.",
+    input: { type: 'object', properties: { model: { type: 'string', description: 'model slug (optional)' }, refresh: { type: 'boolean' } } },
+    ownersOnly: true,
+    slow: true,
+    run: async (input) => {
+      if (input.refresh && ctx.api.apify.enabled) {
+        if (input.model) {
+          const m = ctx.models.get(String(input.model));
+          if (m) await snapshotModel(m).catch(() => undefined);
+        } else await snapshotAll();
+      }
+      if (input.model) {
+        const m = ctx.models.get(String(input.model));
+        return m ? (await modelReport(m)) || 'no data yet' : `unknown model ${String(input.model)}`;
+      }
+      return (await ownersDigest()).join('\n');
+    },
+  });
+
   // ── snapshot ───────────────────────────────────────────────────────────────
   async function snapshotAll() {
     const models = ctx.models.all().filter((m) => m.socials.instagram);

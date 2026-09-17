@@ -246,6 +246,69 @@ export function register(ctx: BotContext) {
     },
   );
 
+  // ── chat-callable actions (operator) ────────────────────────────────────────
+  ctx.action('run_library_scout', {
+    description: 'Run the Content Library scout now: scan seed accounts + hashtags per folder, post the best new videos, then send each creator her picks. Takes a few minutes and costs Apify credits.',
+    input: { type: 'object', properties: { folder: { type: 'string', description: 'one genre slug, or omit for all' } } },
+    ownersOnly: true,
+    slow: true,
+    run: async (input) => {
+      if (!ctx.api.apify.enabled) return 'APIFY_TOKEN is not set';
+      const s = await scout(input.folder ? String(input.folder) : undefined);
+      const p = await deliverPicks();
+      return `scouted ${s.genres} folder(s): ${s.candidates} candidates → ${s.posted} posted, ${s.dupes} already in, ${s.skipped} not library material; picks: ${p.delivered} sent to ${p.models} creator(s)`;
+    },
+  });
+  ctx.action('send_library_picks', {
+    description: "Send creators their top new library videos (in their lanes) to their #general with a Copy button. Optionally one creator.",
+    input: { type: 'object', properties: { model: { type: 'string', description: 'model slug (optional)' } } },
+    ownersOnly: true,
+    run: async (input) => {
+      const r = await deliverPicks(input.model ? String(input.model) : undefined);
+      return `picks: ${r.delivered} video(s) → ${r.models} creator(s)${r.skipped ? `, ${r.skipped} had no lanes or nothing new` : ''}`;
+    },
+  });
+  ctx.action('add_library_source', {
+    description: 'Add Instagram accounts (@handles) or #hashtags the daily scout should scan for a Content Library folder.',
+    input: { type: 'object', properties: { folder: { type: 'string', description: 'genre slug' }, values: { type: 'array', items: { type: 'string' }, description: '@handles and/or #hashtags' } }, required: ['folder', 'values'] },
+    ownersOnly: true,
+    run: async (input, actor) => {
+      const slug = String(input.folder).toLowerCase();
+      if (!genre(slug)) return `unknown folder ${slug} — valid: ${genres().map((g) => g.slug).join(', ')}`;
+      const parsed = parseSources((Array.isArray(input.values) ? input.values : []).map(String));
+      for (const p of parsed) await sql`INSERT INTO bot.library_sources (genre, kind, value, added_by) VALUES (${slug}, ${p.kind}, ${p.value}, ${actor.userId}) ON CONFLICT (genre, kind, value) DO NOTHING`;
+      await ctx.ops(MODULE, 'source-added', { actor: actor.userId, data: { genre: slug, sources: parsed } });
+      return `added to ${genre(slug)?.name}: ${parsed.map((p) => (p.kind === 'hashtag' ? '#' : '@') + p.value).join(' ') || 'nothing valid'}`;
+    },
+  });
+  ctx.action('add_library_video', {
+    description: 'File an Instagram / TikTok video into the Content Library (download, classify, post with notes). Optionally force a folder.',
+    input: { type: 'object', properties: { url: { type: 'string' }, folder: { type: 'string', description: 'genre slug (optional)' }, note: { type: 'string' } }, required: ['url'] },
+    slow: true,
+    run: async (input, actor) => {
+      if (!ctx.api.apify.enabled) return 'APIFY_TOKEN is not set';
+      const folder = input.folder ? String(input.folder) : undefined;
+      const r = await ingest([String(input.url)], { origin: 'command', addedBy: actor.userId, hint: [folder ? `folder: ${folder}` : '', input.note ? String(input.note) : ''].filter(Boolean).join(' · '), forceGenre: folder });
+      return summarize(r);
+    },
+  });
+  ctx.action('library_stats', {
+    description: 'How many videos are in each Content Library folder and which are hottest.',
+    input: { type: 'object', properties: {} },
+    run: async () => {
+      const counts = await sql<{ genre: string; n: number; fire: number }[]>`SELECT genre, COUNT(*)::int AS n, COALESCE(SUM(up),0)::int AS fire FROM bot.library_items GROUP BY genre`;
+      return genres().map((g) => `${g.name}: ${counts.find((c) => c.genre === g.slug)?.n ?? 0}`).join(', ');
+    },
+  });
+
+  function parseSources(values: string[]) {
+    return values
+      .flatMap((v) => v.split(/[\s,]+/))
+      .filter(Boolean)
+      .map((v) => ({ kind: v.startsWith('#') ? 'hashtag' : 'account', value: v.replace(/^[@#]/, '').replace(/^https?:\/\/(www\.)?instagram\.com\//, '').replace(/\/.*$/, '').toLowerCase() }))
+      .filter((p) => p.value);
+  }
+
   // ── buttons ────────────────────────────────────────────────────────────────
   const vote = (dir: 1 | -1) => async (i: ButtonInteraction | StringSelectMenuInteraction, parts: string[]) => {
     const id = Number(parts[3]);

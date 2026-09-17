@@ -29,6 +29,7 @@ import { register as models_ } from './modules/models/index.js';
 import { register as reports } from './modules/reports/index.js';
 import { register as events } from './modules/events/index.js';
 import { register as away } from './modules/away/index.js';
+import { register as operator } from './modules/operator/index.js';
 
 async function main() {
   const env = loadEnv();
@@ -66,7 +67,7 @@ async function main() {
   }, settings);
 
   // Modules register commands / components / crons / timer handlers on the context.
-  for (const mod of [setup, persona, live, insights, requests, reels, captions, posting, earnings, agency, library, models_, reports, events, away]) mod(ctx);
+  for (const mod of [setup, persona, live, insights, requests, reels, captions, posting, earnings, agency, library, models_, reports, events, away, operator]) mod(ctx);
 
   attachRouter(ctx);
 

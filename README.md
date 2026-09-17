@@ -25,7 +25,7 @@ lava-discord-bot/
 ├─ prompts/                   ← every Claude prompt lives here as a .md file, never inline in code
 ├─ agents/                    ← playbooks for scheduled / Claude Code agents (reels scout, weekly report…)
 ├─ scripts/                   ← one-off CLI tools (new-model, register-commands, import-captions, setup-server)
-├─ docs/                      ← architecture, Discord server template, content library, daily reports, events & trends, away-reply, Notion schema, caption voice system, runbook
+├─ docs/                      ← architecture, Discord server template, content library, daily reports, events & trends, away-reply, operator chat, Notion schema, caption voice system, runbook
 └─ .github/workflows/         ← CI (typecheck) + deploy
 ```
 
@@ -46,6 +46,7 @@ lava-discord-bot/
 | `reports` | implemented | **7 AM analytics**: nightly Apify snapshot of every model's IG (followers + latest posts, Claude-labelled by lane/format) → her numbers in her #notification, owners' digest in #daily-report (who didn't post, engagement leaderboard, follower movers, content mix). `/report`. See `docs/daily-reports.md`. |
 | `events` | implemented | **Holidays & moments → ideas**: `knowledge/events.yaml` (+ `/event add`) → 5 tailored ideas per girl in her lanes, N days before, from her profile + voice. **Trend radar** (in `library`): sounds/hashtags spiking across everything scanned → alert in #agency-lounge with how to ride it. See `docs/events-and-trends.md`. |
 | `away` | implemented | **Covers for Dan**: her channel (after N min without a human) or DMs to the bot → answers routine questions from `knowledge/faq.md` with a "Lava Bot here while Dan's away" prefix; money/contract/drama → escalates to owners in #girls-questions. `/away`. See `docs/away-reply.md`. |
+| `operator` | implemented | **Chat with the bot** (owners): "@Lava Bot we're onboarding Jane, @jane, IG janedoe" → it asks for what's missing and runs the action. Every module's `ctx.action()` is a tool. See `docs/operator-chat.md`. |
 | `library` | implemented | **Content Library** — agency-wide inspiration folders, one forum per genre (`library/genres.yaml`), gallery view. `#library-inbox` drops + daily Apify scout → Claude files each video with "why it works / how to copy it" → 🔥/👎 votes, 📋 Copy this → her board. See `docs/content-library.md`. |
 
 Not yet wired: Drive "Ready to Post" → `/post` automation, Zernio publish-status polling, OF earnings source (CRM export). See `docs/architecture.md` build order.
