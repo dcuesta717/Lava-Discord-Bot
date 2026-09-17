@@ -20,6 +20,7 @@ export const modelSchema = z.object({
   code: z.string().regex(/^[A-Z]{3}$/), // e.g. AMA — used in file names / invoice numbers
   timezone: z.string().default('America/New_York'),
   active: z.boolean().default(true),
+  lanes: z.array(z.string()).default([]), // Content Library genre slugs she belongs to (library/genres.yaml) — drives routed drops + ideas
 
   discord: z.object({
     guild_id: z.string().optional(), // omit → shared Lava guild from .env
@@ -91,6 +92,7 @@ export const modelSchema = z.object({
 export type ModelConfig = z.infer<typeof modelSchema>;
 
 export interface ModelFiles {
+  profile: string; // profile.md — the onboarding deep research (who she is, lanes, formats that win, cadence)
   voice: string; // voice/voice.md
   examples: string; // voice/caption-examples.md
   banned: string[]; // voice/banned-phrases.md (one per line, # comments allowed)
@@ -127,6 +129,7 @@ export function loadModels(): Model[] {
       ...cfg,
       dir,
       files: () => ({
+        profile: readIf(join(dir, 'profile.md')),
         voice: readIf(join(dir, 'voice', 'voice.md')),
         examples: readIf(join(dir, 'voice', 'caption-examples.md')),
         banned: readIf(join(dir, 'voice', 'banned-phrases.md'))

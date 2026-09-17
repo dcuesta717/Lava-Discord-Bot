@@ -25,6 +25,7 @@ import { register as posting } from './modules/posting/index.js';
 import { register as earnings } from './modules/earnings/index.js';
 import { register as agency } from './modules/agency/index.js';
 import { register as library } from './modules/library/index.js';
+import { register as models_ } from './modules/models/index.js';
 
 async function main() {
   const env = loadEnv();
@@ -62,7 +63,7 @@ async function main() {
   }, settings);
 
   // Modules register commands / components / crons / timer handlers on the context.
-  for (const mod of [setup, persona, live, insights, requests, reels, captions, posting, earnings, agency, library]) mod(ctx);
+  for (const mod of [setup, persona, live, insights, requests, reels, captions, posting, earnings, agency, library, models_]) mod(ctx);
 
   attachRouter(ctx);
 

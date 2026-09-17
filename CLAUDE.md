@@ -29,7 +29,8 @@ A single Discord bot for an OnlyFans/creator management agency (Lava Mgmt). ~15 
 - Not yet wired (see README): Drive ready-to-post automation, Zernio status polling, OF earnings source.
 
 ## When adding a model
-Run `npm run new-model -- <slug>`, fill `models/<slug>/model.yaml`, run `npm run import-captions -- <slug>`, then `npm run setup-server -- <slug>`. Do not create channels by hand.
+Owners run `/model add` in Discord (`src/modules/models/`): channels → Apify research → Claude (`prompts/model.research.md`) → files rendered by `src/modules/models/render.ts` → one GitHub commit (`src/integrations/github.ts`) → Railway redeploy loads her. `profile.md` above the staff marker and the `## Imported` captions section are machine-owned (rewritten by `/model refresh`); `voice/voice.md`, `notes.md`, hand-picked captions are human-owned. Laptop fallback: `npm run new-model`, `setup-server`, `import-captions`. Never create channels by hand.
+`model.yaml → lanes` (Content Library genre slugs) is what routes library drops and event ideas to her.
 
 ## Knowledge graph (graphify) — use it before grepping
 `graphify-out/` is committed and refreshed daily by `.github/workflows/graphify.yml` (also `workflow_dispatch`). Start with `graphify-out/GRAPH_REPORT.md`, then

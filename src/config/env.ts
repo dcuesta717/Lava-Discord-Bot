@@ -54,6 +54,10 @@ const schema = z.object({
 
   ZERNIO_API_KEY: z.string().default(''),
 
+  GITHUB_TOKEN: z.string().default(''), // fine-grained PAT, Contents: read/write on GITHUB_REPO — lets /model add commit models/<slug>/
+  GITHUB_REPO: z.string().default('dcuesta717/Lava-Discord-Bot'),
+  GITHUB_BRANCH: z.string().default('main'),
+
   REGISTER_COMMANDS_ON_BOOT: z
     .string()
     .default('true')

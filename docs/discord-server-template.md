@@ -15,7 +15,7 @@ One guild ("Lava HQ"). Models never see each other's categories. The bot builds 
 📁 🎬 CONTENT LIBRARY             (everyone; bot-created from library/genres.yaml — docs/content-library.md)
  ├ #📥-library-inbox              anyone pastes IG/TikTok links → filed into a folder with notes
  └ ⛳-golf 🏋-gym-girl 😂-funny …  one FORUM per genre, gallery view; girls browse, 🔥 vote, 📋 Copy this → her board
-📁 <Model display name>           (her + owners + her managers + bot)     ← per model, ×15
+📁 <Model display name>           (her + owners + her managers + bot)     ← per model, ×15 — built by /model add
  ├ #💬-general-chat               /live-started /live-ended /caption /my-week; persona replies here; post previews land here
  ├ 🎬-reels-copy-board            FORUM · read-only for her (can react + reply in threads) · one thread per category
  ├ #🌸-custom                     custom-content requests (owners post; bot relays later if needed)

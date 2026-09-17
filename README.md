@@ -41,6 +41,7 @@ lava-discord-bot/
 | `posting` | implemented | `/post` → preview card → ✅ → Zernio presign/upload + `POST /posts` at `when` or next best slot. Nothing posts without a tap. |
 | `earnings` | implemented | `/earnings` (manual MTD for now) → best-month / goal / $5k-step thresholds → one Claude hype line in her #general. |
 | `agency` | implemented | `#agency-lounge`: Friday shout-outs (insights sent, reels cleared, live minutes) + long-live one-liners. Never numbers. |
+| `models` | implemented | **Onboarding from Discord**: `/model add name user instagram [tiktok]` → her private channels + deep research (Apify profile + ~65 posts → Claude) → `models/<slug>/` committed to GitHub → live after the redeploy. `/model refresh`, `/model lanes`, `/model list`. |
 | `library` | implemented | **Content Library** — agency-wide inspiration folders, one forum per genre (`library/genres.yaml`), gallery view. `#library-inbox` drops + daily Apify scout → Claude files each video with "why it works / how to copy it" → 🔥/👎 votes, 📋 Copy this → her board. See `docs/content-library.md`. |
 
 Not yet wired: Drive "Ready to Post" → `/post` automation, Zernio publish-status polling, OF earnings source (CRM export). See `docs/architecture.md` build order.
