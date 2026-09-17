@@ -31,8 +31,11 @@ async function main() {
   log.info({ models: models.all().map((m) => m.slug) }, 'models loaded');
 
   const db = openDb(env.DATABASE_URL);
-  const ran = await migrate(db);
+  const ran = await migrate(db).catch((err: unknown) => {
+    throw new Error(`database connection failed — ${explainDbError(err)}`, { cause: err });
+  });
   if (ran.length) log.info({ ran }, 'migrations applied');
+  log.info('database connected');
   const timers = new Timers(db, log);
   const settings = new Settings(db);
   await settings.load();
@@ -65,7 +68,12 @@ async function main() {
   // Register slash commands on every boot (idempotent PUT) so Railway/VPS deploys never need a separate step.
   if (env.REGISTER_COMMANDS_ON_BOOT) {
     const body = [...ctx.commands.values()].map((c) => c.builder.toJSON());
-    await new REST({ version: '10' }).setToken(env.DISCORD_TOKEN).put(Routes.applicationGuildCommands(env.DISCORD_CLIENT_ID, env.DISCORD_GUILD_ID), { body });
+    await new REST({ version: '10' })
+      .setToken(env.DISCORD_TOKEN)
+      .put(Routes.applicationGuildCommands(env.DISCORD_CLIENT_ID, env.DISCORD_GUILD_ID), { body })
+      .catch((err: unknown) => {
+        throw new Error(`could not register slash commands — ${explainDiscordError(err)}`, { cause: err });
+      });
     log.info({ commands: body.map((b) => b.name) }, 'slash commands registered');
   }
 
@@ -83,7 +91,29 @@ async function main() {
   await client.login(env.DISCORD_TOKEN);
 }
 
-main().catch((err) => {
+/** Translate the usual first-deploy failures into one plain sentence for the deploy logs. */
+function explainDbError(err: unknown): string {
+  const msg = err instanceof Error ? err.message : String(err);
+  const code = (err as { code?: string })?.code ?? '';
+  if (/password authentication failed/i.test(msg)) return 'wrong database password. Supabase → Project Settings → Database → Reset database password, then rebuild DATABASE_URL with the new one.';
+  if (/Tenant or user not found/i.test(msg)) return 'username is wrong for the pooler. Use the exact string from Supabase → Connect → Transaction pooler (user looks like postgres.<project-ref>).';
+  if (code === 'ENOTFOUND' || code === 'EAI_AGAIN') return 'host not found — DATABASE_URL host is misspelled. Copy it again from Supabase → Connect.';
+  if (code === 'ECONNREFUSED' || code === 'ETIMEDOUT' || code === 'CONNECT_TIMEOUT') return 'could not reach the database host/port. Use the Transaction pooler on port 6543.';
+  return msg;
+}
+
+function explainDiscordError(err: unknown): string {
+  const status = (err as { status?: number })?.status;
+  const msg = err instanceof Error ? err.message : String(err);
+  if (status === 401) return 'DISCORD_TOKEN is invalid. Discord Developer Portal → Bot → Reset Token, paste the new one.';
+  if (status === 403) return 'the bot is not in that server or lacks applications.commands — re-invite it with the OAuth URL from the runbook.';
+  if (status === 404) return 'DISCORD_CLIENT_ID or DISCORD_GUILD_ID is wrong.';
+  return msg;
+}
+
+main().catch((err: unknown) => {
+  const msg = err instanceof Error ? err.message : String(err);
+  console.error(`BOOT FAILED: ${msg}`);
   log.fatal({ err }, 'boot failed');
   process.exit(1);
 });

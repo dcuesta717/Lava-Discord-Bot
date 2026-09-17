@@ -6,8 +6,23 @@ const csv = z
   .default('')
   .transform((s) => s.split(',').map((x) => x.trim()).filter(Boolean));
 
+// Format checks so a wrong paste fails with a readable message in the deploy logs instead of a cryptic connection error.
+const discordToken = z
+  .string()
+  .min(1)
+  .refine((t) => t.split('.').length === 3, 'does not look like a bot token — Discord Developer Portal → Bot → Reset Token, then copy it');
+const anthropicKey = z.string().min(1).refine((k) => k.startsWith('sk-ant-'), 'must start with sk-ant- (console.anthropic.com → API keys)');
+const postgresUrl = z
+  .string()
+  .min(1)
+  .refine(
+    (u) => /^postgres(ql)?:\/\//.test(u),
+    'must be a postgresql:// connection string, not the project URL — Supabase → Connect → Transaction pooler (port 6543), with [YOUR-PASSWORD] replaced',
+  )
+  .refine((u) => !u.includes('[YOUR-PASSWORD]'), 'still contains the [YOUR-PASSWORD] placeholder — replace it with the database password');
+
 const schema = z.object({
-  DISCORD_TOKEN: z.string().min(1),
+  DISCORD_TOKEN: discordToken,
   DISCORD_CLIENT_ID: z.string().min(1),
   DISCORD_GUILD_ID: z.string().min(1),
   BOT_ADMIN_IDS: csv,
@@ -18,7 +33,7 @@ const schema = z.object({
   STAFF_OPS_LOG_CHANNEL_ID: z.string().default(''),
   AGENCY_LOUNGE_CHANNEL_ID: z.string().default(''),
 
-  ANTHROPIC_API_KEY: z.string().min(1),
+  ANTHROPIC_API_KEY: anthropicKey,
   CLAUDE_MODEL: z.string().default('claude-sonnet-4-5'),
   CLAUDE_VISION_MODEL: z.string().default('claude-sonnet-4-5'),
 
@@ -43,7 +58,7 @@ const schema = z.object({
     .string()
     .default('true')
     .transform((v) => v !== 'false' && v !== '0'),
-  DATABASE_URL: z.string().min(1), // Supabase → Connect → Transaction pooler URI (port 6543)
+  DATABASE_URL: postgresUrl, // Supabase → Connect → Transaction pooler URI (port 6543)
   DEFAULT_TIMEZONE: z.string().default('America/New_York'),
 });
 
