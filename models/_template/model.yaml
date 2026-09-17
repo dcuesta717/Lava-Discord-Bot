@@ -1,0 +1,54 @@
+# One file per model. Copied by `npm run new-model -- <slug>`. The folder name IS the slug.
+# Everything the bot knows about this model that is not "voice" lives here. Voice lives in voice/.
+
+display_name: "First Last"
+code: ABC                      # 3 letters, used in file names (ABC-12.mp4) and invoice numbers
+timezone: America/New_York
+active: true
+
+discord:
+  # guild_id: ""                # only if this model has her OWN server; otherwise the shared Lava guild from .env
+  category_id: ""               # ← all ids come from: npm run setup-server -- <slug> <her_user_id>
+  role_id: ""
+  user_id: ""                   # her Discord user id
+  manager_ids: []               # staff (besides owners) who can see her category and run staff commands for her
+  channels:
+    general: ""
+    reels_board: ""             # forum channel
+    custom: ""
+    notification: ""
+    resources: ""
+
+socials:
+  instagram: ""                 # handle without @ — used by import-captions and the reels scout
+  tiktok: ""
+  x: ""
+  onlyfans: ""
+
+drive:
+  root_folder_id: ""            # her folder inside the "Lava Content" shared drive
+  raw_folder_id: ""             # where she dumps raw clips (Content House equivalent)
+  ready_to_post_folder_id: ""   # editor drops finals here → /post
+
+zernio:
+  accounts: []                  # from GET /accounts, e.g. [{ platform: instagram, accountId: "66b2..." }, { platform: tiktok, accountId: "..." }]
+  best_times: ["11:00", "19:00"]  # local posting slots used when /post has no `when`
+
+live:
+  check_in_after_min: 40
+  repeat_every_min: 30
+  auto_end_after_min: 120
+
+insights:
+  cron: "0 9 * * 1"             # Monday 09:00 local: ask for last week's IG Insights screenshot
+  reminder_cron: "0 12 * * 2"   # Tuesday noon: nudge if nothing came in
+
+earnings:
+  best_month_usd: 0
+  goal_month_usd: 0
+
+caption:                        # set these from the stats import-captions prints
+  max_chars: 150
+  max_emoji: 3
+  max_hashtags: 3
+  lowercase: true

@@ -1,0 +1,14 @@
+# Where the daily reels scout (Apify) looks for videos worth recreating for THIS model.
+# Keep it tight: 5–10 seed accounts in her exact lane beat 50 random hashtags.
+
+tiktok:
+  hashtags: []            # e.g. [grwm, fitcheck, streetinterview]
+  seed_accounts: []       # creators with the same lane and slightly bigger audience
+  min_views: 200000
+  results_per_query: 20
+
+instagram:
+  hashtags: []
+  seed_accounts: []
+  min_views: 100000
+  results_per_query: 20

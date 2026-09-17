@@ -1,0 +1,59 @@
+# Global caption blocklist — phrases and patterns that read as AI-generated or agency-generated.
+# One per line. Lines starting with "re:" are regular expressions (case-insensitive). Everything else is a
+# case-insensitive substring. Per-model additions go in models/<slug>/voice/banned-phrases.md.
+# Lint fails a caption if any of these match. Keep this list honest: if a model genuinely says one of these,
+# add "allow: <phrase>" to her banned-phrases.md to override.
+
+✨
+re:—
+re:\bunleash\b
+re:\belevate\b
+re:\bdive in(to)?\b
+re:\bembrace\b
+re:\bjourney\b
+re:\bvibes? only\b
+re:\bgood vibes\b
+re:\bmain character\b
+re:\bin my .* era\b
+re:\bcore memory\b
+re:\blittle (moment|treat|things?)\b
+re:\bsoft life\b
+re:\bthat girl\b
+re:\bself[- ]care sunday\b
+re:\bliving my best life\b
+re:\bchasing (dreams|sunsets)\b
+re:\bgrateful for\b
+re:\bblessed\b
+re:\bwhich one are you\b
+re:\btag (a|your) (friend|bestie)\b
+re:\bdouble tap\b
+re:\bcomment below\b
+re:\blet me know in the comments\b
+re:\bdrop a\b
+re:\bsave this for later\b
+re:\bfollow for more\b
+re:\blink in bio\b
+re:\bstay tuned\b
+re:\bcan't wait to\b
+re:\bso excited to\b
+re:\bhere's to\b
+re:\bcheers to\b
+re:\bnew (week|day|month), (new|same)\b
+re:\bmood\s*:
+re:\bcurrent mood\b
+re:\bpov\s*:
+re:\bnot me\b
+re:\bjust a girl\b
+re:\bit's giving\b
+re:\bobsessed\b
+re:\bliterally\b.*\bliterally\b
+re:\b(effortless|timeless|iconic|stunning|gorgeous)\b
+re:\bthe perfect\b
+re:\bhits different\b
+re:\bno cap\b
+re:\bperiodt?\b
+re:\bslay\b
+re:\bqueen\b
+re:\bbestie\b
+re:#(fyp|foryou|viral|explore|trending|instagood|photooftheday)\b
+re:(#\w+\s*){5,}
