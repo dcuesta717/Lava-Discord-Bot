@@ -1,0 +1,66 @@
+# Dan's Instagram saved collections → how the bot files them into the Content Library.
+#
+# The Google Sheet is the input (one row per saved video: collection, url, author, kind, position).
+# `/library import` (or "@Lava Bot import my saved collections") reads it, pulls every video through Apify,
+# lets Claude classify it with the collection name as a hint, posts it to the right folder, and then LEARNS:
+# authors he saved repeatedly become scout seed accounts, and knowledge/taste.md is (re)written from the whole set.
+#
+# rules: matched top-down by case-insensitive regex on the collection name. First match with a `genre` forces the folder;
+#        a rule with only `hint` just steers Claude. No match = Claude decides, hint = the collection name.
+# people: a collection whose name contains one of these is "saved for her" → for_person; when that girl is onboarded
+#         (model slug or first name matches) her collection lands on her reels board automatically.
+
+sheet: https://docs.google.com/spreadsheets/d/11aGFK5ATnunA9bglsBjUIHU7KJcCClYNuOh7WJNZGdE/edit
+
+pace_ms: 3500          # pause between videos (Discord + Apify friendly)
+batch: 8               # videos per Apify call
+
+people: [leah, josie, amari, bryce, morgan, steve]
+
+rules:
+  - match: "skit"                                # best skit content, skits, new skits, funny skit
+    genre: skits
+  - match: "^dance"
+    genre: dance
+  - match: "collab"
+    genre: collabs
+  - match: "pool"
+    genre: pool
+  - match: "beach"
+    genre: beach
+  - match: "big boobs"
+    genre: big-boobs
+  - match: "words on (the )?screen|written hook"
+    genre: words-on-screen
+  - match: "podcast|rage ?bait"
+    genre: podcast-questions
+    hint: "the question / hot take is the format — note the exact question"
+  - match: "golf"
+    genre: golf
+  - match: "gym|workout"
+    genre: gym-girl
+  - match: "transition"
+    genre: transitions
+    hint: "the transition or cut IS the hook — describe the before/after and the beat it cuts on"
+  - match: "^car"
+    genre: car
+  - match: "pick me|personality"
+    genre: personality
+  - match: "funny"
+    genre: funny
+  - match: "visual hook"
+    hint: "saved for its VISUAL hook in the first second — name what the eye locks onto"
+  - match: "audio hook"
+    hint: "saved for its AUDIO hook — the sound/first line is the format; name it"
+  - match: "engagement"
+    hint: "saved because of how it drives comments/shares — name the engagement mechanic"
+  - match: "viral components"
+    hint: "saved as an example of one viral component — name the single component he wanted"
+  - match: "just pics"
+    hint: "photo post, not a video — judge the pose/setting/caption format that men engage with"
+  - match: "bathroom|outside|home"
+    hint: "saved for the SETTING — a girl can film this in that setting with a phone"
+  - match: "motivation"
+    hint: "saved for the motivational/hot-take talking format — keep only if a girl could deliver it"
+  - match: "owen"
+    hint: "this is a MALE creator (an agency owner) — he saved the FORMAT: the hook structure, the cut rhythm, the talking-head bit. Keep it if a girl could copy the format; describe the format, not him"

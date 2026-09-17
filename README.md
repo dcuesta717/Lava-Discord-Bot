@@ -17,8 +17,8 @@ lava-discord-bot/
 │  ├─ integrations/           anthropic · notion · drive · apify · zernio
 │  ├─ db/                     Postgres (Supabase) client + migrations — schema `bot.*`
 │  └─ lib/                    logger, cron, time helpers
-├─ library/                   ← genres.yaml (Content Library folders) + market-exclude.txt (off-market terms) — docs/content-library.md
-├─ knowledge/                 ← industry.md (OF-on-social playbook injected into scout/research/ideas prompts), events.yaml (holidays & moments), faq.md (what the bot may answer for Dan)
+├─ library/                   ← genres.yaml (folders), market-exclude.txt (off-market terms), collections.yaml (Dan's saved collections → sheet, rules) — docs/content-library.md
+├─ knowledge/                 ← industry.md (OF-on-social playbook), taste.md (what Dan saves — written by the bot), events.yaml (holidays & moments), faq.md (what the bot may answer for Dan)
 ├─ models/                    ← ONE FOLDER PER MODEL (voice, sourcing, playbooks, config)
 │  ├─ _template/              copy this with `npm run new-model -- <slug>`
 │  └─ <slug>/
@@ -47,7 +47,7 @@ lava-discord-bot/
 | `events` | implemented | **Holidays & moments → ideas**: `knowledge/events.yaml` (+ `/event add`) → 5 tailored ideas per girl in her lanes, N days before, from her profile + voice. **Trend radar** (in `library`): sounds/hashtags spiking across everything scanned → alert in #agency-lounge with how to ride it. See `docs/events-and-trends.md`. |
 | `away` | implemented | **Covers for Dan**: her channel (after N min without a human) or DMs to the bot → answers routine questions from `knowledge/faq.md` with a "Lava Bot here while Dan's away" prefix; money/contract/drama → escalates to owners in #girls-questions. `/away`. See `docs/away-reply.md`. |
 | `operator` | implemented | **Chat with the bot** (owners): "@Lava Bot we're onboarding Jane, @jane, IG janedoe" → it asks for what's missing and runs the action. Every module's `ctx.action()` is a tool. See `docs/operator-chat.md`. |
-| `library` | implemented | **Content Library** — agency-wide inspiration folders, one forum per genre (`library/genres.yaml`), gallery view. `#library-inbox` drops + daily Apify scout → Claude files each video with "why it works / how to copy it" → 🔥/👎 votes, 📋 Copy this → her board. See `docs/content-library.md`. |
+| `library` | implemented | **Content Library** — agency-wide inspiration folders, one forum per genre (`library/genres.yaml`), gallery view. `#library-inbox` drops + daily Apify scout + **Dan's saved collections** (`/library import` from the Google Sheet; the bot then learns seed accounts + `knowledge/taste.md` from them) → Claude files each video with "why it works / how to copy it" → 🔥/👎 votes, 📋 Copy this → her board. See `docs/content-library.md`. |
 
 Not yet wired: Drive "Ready to Post" → `/post` automation, Zernio publish-status polling, OF earnings source (CRM export). See `docs/architecture.md` build order.
 

@@ -29,6 +29,7 @@ import { MEMBER, ROLE, clampToBot } from '../../lib/overwrites.js';
 import { marketFilter } from '../../lib/market-filter.js';
 import { industryLens } from '../../lib/industry.js';
 import { loadPrompt } from '../../lib/prompts.js';
+import { registerSavedImport } from './saved.js';
 
 /**
  * Content Library — the agency-wide inspiration folders (Dan's "saved folder, fixed").
@@ -42,6 +43,8 @@ import { loadPrompt } from '../../lib/prompts.js';
  *           through Apify → ranked by comments > likes > views, recency → Claude keeps the top N → posted.
  *   copy:   📋 on a post → bus 'library:copy' → modules/reels posts it to HER reels board with a brief.
  *   learn:  🔥/👎 nudge the weight of the seed account the video came from.
+ *   saved:  Dan's Instagram saved collections (Google Sheet → bot.saved_imports) → filed by collection, then the bot learns
+ *           from the set: repeat authors → seed accounts, knowledge/taste.md → every classify/idea prompt (saved.ts).
  *
  * Everything is stored in bot.library_items / library_sources / library_votes; channel ids in bot.settings (library.*).
  */
@@ -64,7 +67,7 @@ interface Classified {
   text_on_screen?: boolean;
 }
 
-interface ItemRow {
+export interface ItemRow {
   id: number;
   source_url: string;
   platform: string;
@@ -83,7 +86,15 @@ interface ItemRow {
   copies: number;
 }
 
-interface IngestResult {
+export interface IngestOpts {
+  origin: 'inbox' | 'command' | 'scout' | 'saved';
+  addedBy?: string;
+  hint?: string;
+  forceGenre?: string;
+  candidates?: ReelCandidate[];
+}
+
+export interface IngestResult {
   posted: { title: string; genre: string; url: string }[];
   dupes: number;
   skipped: number;
@@ -184,7 +195,8 @@ export function register(ctx: BotContext) {
       )
       .addSubcommand((s) => s.setName('scout').setDescription('Run the scout now (owners)').addStringOption((o) => o.setName('folder').setDescription('One folder only').addChoices(...genreChoices())))
       .addSubcommand((s) => s.setName('stats').setDescription('What’s in the library and what’s hot'))
-      .addSubcommand((s) => s.setName('picks').setDescription('Send each creator her top picks from the library now (owners)').addStringOption((o) => o.setName('model').setDescription('One creator (slug)'))),
+      .addSubcommand((s) => s.setName('picks').setDescription('Send each creator her top picks from the library now (owners)').addStringOption((o) => o.setName('model').setDescription('One creator (slug)')))
+      .addSubcommand((s) => s.setName('import').setDescription('Import the owner’s Instagram saved collections from the Google Sheet (owners)').addStringOption((o) => o.setName('collection').setDescription('Only this collection (partial name)')).addBooleanOption((o) => o.setName('status').setDescription('Just show progress'))),
     async (i) => {
       const group = i.options.getSubcommandGroup(false);
       const sub = i.options.getSubcommand();
@@ -248,6 +260,15 @@ export function register(ctx: BotContext) {
         await i.deferReply({ flags: MessageFlags.Ephemeral });
         const r = await deliverPicks(i.options.getString('model') ?? undefined);
         return i.editReply(`picks: ${r.delivered} video(s) sent to ${r.models} creator(s)${r.skipped ? ` · ${r.skipped} creator(s) had no lanes or nothing new` : ''}`);
+      }
+
+      if (sub === 'import') {
+        if (!ctx.isOwner(i.user.id)) return i.reply({ content: 'owners only', flags: MessageFlags.Ephemeral });
+        await i.deferReply({ flags: MessageFlags.Ephemeral });
+        if (i.options.getBoolean('status')) return i.editReply(await saved.status());
+        if (!ctx.api.apify.enabled) return i.editReply('`APIFY_TOKEN` is not set yet — I can’t download videos.');
+        const r = await saved.start({ only: i.options.getString('collection') ?? undefined, actor: i.user.id });
+        return i.editReply(r.message);
       }
 
       if (sub === 'stats') {
@@ -316,6 +337,14 @@ export function register(ctx: BotContext) {
       const counts = await sql<{ genre: string; n: number; fire: number }[]>`SELECT genre, COUNT(*)::int AS n, COALESCE(SUM(up),0)::int AS fire FROM bot.library_items GROUP BY genre`;
       return genres().map((g) => `${g.name}: ${counts.find((c) => c.genre === g.slug)?.n ?? 0}`).join(', ');
     },
+  });
+
+  // ── Dan's saved collections → library (+ learning) ─────────────────────────
+  const saved = registerSavedImport(ctx, {
+    ingest,
+    genreExists: (slug) => Boolean(genre(slug)),
+    itemByUrl: async (canonical) => (await sql<ItemRow[]>`SELECT * FROM bot.library_items WHERE source_url = ${canonical}`)[0],
+    sendToBoard,
   });
 
   function parseSources(values: string[]) {
@@ -423,7 +452,7 @@ export function register(ctx: BotContext) {
   }
 
   /** Fetch → classify → post → store. Used by the inbox, /library add and the scout. */
-  async function ingest(urls: string[], opts: { origin: 'inbox' | 'command' | 'scout'; addedBy?: string; hint?: string; forceGenre?: string; candidates?: ReelCandidate[] }): Promise<IngestResult> {
+  async function ingest(urls: string[], opts: IngestOpts): Promise<IngestResult> {
     const result: IngestResult = { posted: [], dupes: 0, skipped: 0, failed: 0 };
     const wanted = new Map<string, string>(); // canonical → original
     for (const u of urls) {
@@ -433,7 +462,7 @@ export function register(ctx: BotContext) {
     }
     if (!wanted.size) return result;
 
-    let candidates = opts.candidates?.filter((c) => wanted.has(canonicalUrl(c.url))) ?? [];
+    let candidates = opts.candidates?.filter((c) => wanted.has(canonicalUrl(c.url)) || (c.inputUrl ? wanted.has(canonicalUrl(c.inputUrl)) : false)) ?? [];
     if (!candidates.length) {
       candidates = await ctx.api.apify.byUrls([...wanted.values()]).catch((err) => {
         ctx.log.warn({ err }, 'apify byUrls failed');
