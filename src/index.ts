@@ -1,4 +1,4 @@
-import { Events } from 'discord.js';
+import { Events, REST, Routes } from 'discord.js';
 import { loadEnv } from './config/env.js';
 import { loadModels, ModelRegistry } from './config/models.js';
 import { migrate, openDb } from './db/client.js';
@@ -57,6 +57,13 @@ async function main() {
   for (const mod of [persona, live, insights, requests, reels, captions, posting, earnings, agency]) mod(ctx);
 
   attachRouter(ctx);
+
+  // Register slash commands on every boot (idempotent PUT) so Railway/VPS deploys never need a separate step.
+  if (env.REGISTER_COMMANDS_ON_BOOT) {
+    const body = [...ctx.commands.values()].map((c) => c.builder.toJSON());
+    await new REST({ version: '10' }).setToken(env.DISCORD_TOKEN).put(Routes.applicationGuildCommands(env.DISCORD_CLIENT_ID, env.DISCORD_GUILD_ID), { body });
+    log.info({ commands: body.map((b) => b.name) }, 'slash commands registered');
+  }
 
   client.once(Events.ClientReady, (c) => {
     log.info({ user: c.user.tag, guild: env.DISCORD_GUILD_ID }, 'bot ready');

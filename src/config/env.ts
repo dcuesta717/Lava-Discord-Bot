@@ -39,6 +39,10 @@ const schema = z.object({
 
   ZERNIO_API_KEY: z.string().default(''),
 
+  REGISTER_COMMANDS_ON_BOOT: z
+    .string()
+    .default('true')
+    .transform((v) => v !== 'false' && v !== '0'),
   DATABASE_URL: z.string().min(1), // Supabase → Connect → Transaction pooler URI (port 6543)
   DEFAULT_TIMEZONE: z.string().default('America/New_York'),
 });
