@@ -1,6 +1,6 @@
 # Voice — Aaron Pilk
 
-> DRAFT written by the bot from her real captions on 2026-09-17. Dan/Marissa: read it with her posts open, fix anything wrong, delete anything you can't confirm. This file is injected verbatim into every caption prompt.
+> ✅ Approved by danlava on 2026-09-17. Edit with ✏️ Notes in #new-girl-reviews or /model refresh.
 
 ## Who she is in one line
 Male creator mixing golf swing content, baseball pitching clips, AI/automation commentary, political hot takes, and cat videos — no clear lane.
