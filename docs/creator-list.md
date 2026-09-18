@@ -25,9 +25,20 @@ avaxreyess ✅ · sophieraiin ✅ (profile readable; the reels call returned a T
 juliafilippo_ ✅ · arikytsya ✅ (2.85M) · jellybeanbrains3 ✅ · **tak0bell — Locked (18+)** ·
 **cecerose — returns a tiny account (60-like posts); probably the wrong handle, confirm the spelling with whoever wrote the brief.**
 
-## Learned from Dan's saves (2026-09-18, `learn()`)
-itsbecsmith → skits (1.2) · juliafilippo_ → skits (1.1) · hannahmina_twins → collabs (1.1)
+## Learned from Dan's saves (2026-09-18 04:09 UTC, `learn()` on the full 288-video set)
+tak0bell → personality (1.5, **18+-locked** — the scout will error on it daily until the throwaway) · kaitgaf → personality (1.4) ·
+itsgillyd → skits (1.4) · itsbecsmith → skits (1.2) · hannahmina_twins → collabs (1.2) · davisamanda_ → words-on-screen (1.2) ·
+juliafilippo_ → skits (1.1) · kenzinicolee.irl → skits (1.1) · bblair.bear → skits (1.1) · xxandieellexx → skits (1.1) ·
+kateluxxe → funny (1.1) · seaberryde1ight → personality (1.1). Plus 7 big-boobs seeds added earlier (cecerose, jokesonella,
+avaxreyess, alarahbelle, summerxiris, vanillastrawberrry, babebellalynnx).
 
 ## How to add one (Claude, no restart)
 `INSERT INTO bot.library_sources (genre, kind, value, weight, added_by) VALUES ('<folder-slug>','account','<handle>',1.0,'dan via claude <date>')`
 — one row per folder. Owners can do the same from Discord: `/library source add folder:<slug> value:@handle`.
+
+## How to queue specific reels by hand (Claude, no restart — learned the hard way 2026-09-18)
+Rows in `bot.saved_imports` must use the bot's **canonical URL form**: `https://instagram.com/p/<code>` — no `www.`, no
+trailing slash, `/reel/` folded to `/p/` (`canonicalUrl()` in `src/integrations/apify.ts`). `run()` looks candidates up by
+`row.url` verbatim, so a raw `https://www.instagram.com/p/<code>/` row is marked "not returned by Apify" every time even
+though Apify returned it. Then set `bot.settings → library.boot_jobs = ["import"]` and restart, or have an owner run
+`/library import`. Catarina's 5 reels: 4 filed into trad-wife by the strict judge, 1 in progress at 04:18 UTC.
