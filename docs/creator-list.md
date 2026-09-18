@@ -78,6 +78,9 @@ burner phone + account — Claude never handles the login).
 | whoispiperpresley2.0 (Piper Presley) | personality bucket (Dan) | Readable | personality | 818k, verified, comedian | 2026-09-18 |
 | tessaa._x0 (Tessa Capri) | petite bucket (Dan) | Readable | hot-girl-filler | 290k, "Florida girl" | 2026-09-18 |
 | emelyelikeslemonade | big booty bucket (Dan) | Readable | hot-girl-filler *(Big Booty folder pending — ceiling)* | 677k; second account, main @emelyeender | 2026-09-18 |
+| maddoxfaithwells (Maddox Wells) | words on screen bucket (Dan) | Readable | words-on-screen | 6.4k, "fitness · lifestyle · beauty · travel" | 2026-09-18 |
+| memequeen | words on screen bucket (Dan) | Readable | **not added** | 4.4M meme/news aggregator page, not a creator — nothing replicable, most clips fail the rules | 2026-09-18 |
+| tru.kait (Kaitlin Trujillo) | niche bucket (Dan) | Readable | personality | 2.4M, verified; heritage flags in bio | 2026-09-18 |
 
 **Dan's rule for labels (2026-09-18):** a label applies to the ONE girl right before it and marks a niche identity — only routed to a
 girl willing to embrace that whole identity (her `lanes`). Untagged girls make varied content: Claude picks the folder she is
