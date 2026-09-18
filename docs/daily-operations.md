@@ -336,6 +336,16 @@ Paths, so a future session finds things fast. Times: all crons in `ctx.cron(name
     (the bot creates them); `docs/operator-chat.md` says the bot cannot change owners (it has `add_owner`/`remove_owner`).
 11. **The big-boobs folder has no hashtags by design.** Unless it has seed accounts in the database, its own scout does nothing
     (it can still receive videos via the reference creators or the import) — check `/library source list folder:big-boobs`.
+13. **Apify has a monthly spending cap, and hitting it looks like "everything failed".** On Sep 18 at 9:37 PM ET the cap
+    was hit mid-import: every fetch came back empty, 370 links were marked failed in three minutes, and nothing in #ops-log
+    said why. Symptoms: `/library import status:true` shows a wall of "failed — not returned by Apify"; the 7 AM scout line
+    is missing or reports errors on every folder; inbox pastes reply "couldn't be fetched". Fix on the owner's side: Apify →
+    Settings → Limits → raise the monthly usage hard limit (or pick a plan sized for ~$50–90/month at current settings).
+    Then ask the technical partner to put the failed links back in line and re-run the import.
+14. **Instagram's 18+ profile lock hides creators from the scout.** Profiles with the "you must be 18" gate (e.g.
+    kaeleereneofficial, tak0bell) return nothing to a logged-out scraper; some others (bayleeadami) return no posts either.
+    Seeding them does nothing until the scraper runs with a logged-in throwaway account (planned after the tuning week).
+    Also: the reference handle `cecerose` returned a tiny account (60-like posts) — likely the wrong spelling; confirm it.
 12. **Repeated clicks move seed weights.** Each 🔥/👎 press adjusts the author's seed weight by ±0.1 even when the same person
     presses the same button again (`library/index.ts:434-439` — the vote row is overwritten, the weight update is not
     guarded). One person can push an account below the 0.3 cut-off, or up to 2.0, by clicking repeatedly.

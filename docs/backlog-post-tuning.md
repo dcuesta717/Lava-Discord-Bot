@@ -50,6 +50,7 @@ Severity: **P0** = must be fixed before the scraper/import is unleashed at full 
 
 | ID | What can go wrong | Where | Sev | Proposed fix (not done) |
 |---|---|---|---|---|
+| AJ *(new, happened 2026-09-18 01:37 UTC)* | When Apify rejects runs (monthly usage hard limit, expired token, outage), `run()` treats every batch as "not returned" and marks the rest of the queue **`failed` (terminal) in minutes** — 370 links in 3 min tonight — logging only `saved import: apify batch failed` with no reason and no #ops-log alert; then `learn()` runs on the partial set and redeploys. The 07:00 scout and 06:15 snapshot fail the same silent way until the limit is raised. | `src/modules/library/saved.ts` (batch catch → `mark(url,'failed',…)` loop), `:150`; scout/report catches per **L** | P0 | Distinguish "Apify said no" (auth/quota/HTTP error) from "post not found": on the former, stop the run, leave rows `queued`, post one alert to #ops-log, retry after 30 min; never run `learn()` after an aborted run. |
 | L | Failures are logged to pino only, never to #ops-log: the cron wrapper, the timer tick/handler, `ctx.send`, the inbox handler, the manual scout, the saved-import `run()` (`active` stays `'1'` with no message), reels scouts (`.catch(() => [])`), the Drive watcher. An owner reads #ops-log and sees nothing wrong. | `src/discord/context.ts:132-134` (cron), `:163-166` (send); `src/lib/timers.ts:79-88`; `src/modules/library/index.ts:162`, `:281`; `src/modules/library/saved.ts:150`, `:217`; `src/modules/reels/index.ts:59-60, 74, 143`; `src/modules/requests/index.ts:102` | P1 | One `ctx.alert(module, err)` helper that posts a one-liner to #ops-log (rate-limited per module/hour) and use it in every catch that currently only logs. |
 
 ## 5. Learning & classification tuning *(owner decisions; nothing changes during the window)*
@@ -78,6 +79,7 @@ Severity: **P0** = must be fixed before the scraper/import is unleashed at full 
 
 ## Recommended order when the tuning window ends (P0s)
 
+0. **AJ + D** — stop-and-alert on Apify quota/auth errors, retry path for `failed` rows (tonight's 370 were re-queued by hand). Note: **Z is resolved by data** — the 2026-09-18 taste.md (137 videos) states "zero saves from UK, Canada, Australia, Europe"; the structural fix (min set size, market rule in the taste prompt) still stands.
 1. **A + B** — confirm button on `purge_library` / `remove_model` / `remove_owner`; boot-job purges announce first and refuse while an import runs; archive instead of delete (rows + threads survive). This alone would have prevented tonight's incident.
 2. **D** — retry path for `failed` saved-import rows (`attempts` column, `retry_failed`), so a hiccup or a redeploy is not permanent. Do I and H in the same change so fewer links land in `failed` at all.
 3. **E + Y** — persist the import scope (`library.import.only`), run boot jobs and the resume sequentially from one place, and count `queued(only)` at the end of a scoped run.

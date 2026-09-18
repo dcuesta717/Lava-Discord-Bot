@@ -24,6 +24,12 @@ announced to the owner. See "Lesson" at the bottom — it is now a standing rule
 | 00:20 | Owner: do **not** add a never-delete feature yet; no code or protocol changes for 7 days; explain plainly; write everything into the memory/context/graph files. | Governs everything until Sep 25. |
 | 00:21 | Re-run status: 39 filed · 30 rejected by the strict prompt · 703 queued · 40 skipped from the first run · 1 failed. Running, ~12 s per video. | |
 
+## Addendum — how the re-run ended (01:37–01:41 UTC Sep 18)
+
+The re-run did not finish cleanly. At 01:37 UTC the Apify account hit its **monthly usage hard limit** ("Monthly usage hard limit exceeded"). The scraper returned nothing from then on; `saved.ts` logged `saved import: apify batch failed` (no reason) every ~2 s and marked the remaining **370 links `failed`** ("not returned by Apify…") in about three minutes, then declared the run done. Final: 137 filed · 265 skipped · 370 failed. `learn()` still ran on the 137 (taste.md rewritten — 888 words, now consistent with the US-only rule, so backlog item Z is resolved by data; 3 seed accounts added: itsbecsmith → skits, juliafilippo_ → skits, hannahmina_twins → collabs) and its commit `0bb46da` redeployed the bot as expected.
+
+Claude re-queued the 370 rows by hand (`UPDATE bot.saved_imports SET status='queued' … WHERE note LIKE 'not returned by Apify%'`) — data only, no code. They run when the limit is raised and an import is started. Until Dan raises the Apify limit **nothing that touches Instagram works**: the 07:00 scout, the 06:15 snapshot/reports, inbox pastes, creator checks. Lessons for the backlog: an Apify quota error must stop the run and alert #ops-log instead of burning the queue into terminal `failed` (backlog D + L + new AJ).
+
 ## What the numbers mean (as of 00:21 UTC Sep 18)
 
 - Of the first ~70 saved videos judged under the strict prompt, **39 kept / ~30 rejected**. Bryce collabs alone: 28 kept, 51 rejected (that collection had also been through the earlier run; its earlier rejections were kept as `skipped`).
