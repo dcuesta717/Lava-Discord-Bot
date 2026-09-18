@@ -14,6 +14,11 @@ burner phone + account — Claude never handles the login).
 | bayleeadami | (not given) | **Empty** — public, verified, 0 posts returned | not yet | re-check with the throwaway | 2026-09-18 |
 | vega_thompson | (not given) | Readable | goth · personality | 3–4 reels/day, hits 7–13k likes / 200–800k plays | 2026-09-18 |
 | sandwichcutiecat (Catarina) | trad-wife | Readable | trad-wife | cooking bits 40–85 s, 600–1,000 comments on hits; last reels July 2026 → her top 5 were queued into the folder by hand | 2026-09-18 |
+| lisa.mancinerh (Lisa Mancini) | cosplay (Dan: "definitely") | Readable | cosplay | 345k, "Cosplay Maker, Mermaid, Squirrel Girl"; Winx / Power Rangers / Supergirl (1.8M plays) / Raven-goth; could also seed goth | 2026-09-18 |
+| theanyamatusevich (Anya Matusevich) | (not given) | Readable | trad-wife · personality | 2.08M, "the sweet sundress girl"; tags #tradwife #conservative, cowgirl/patriotic hit (38M plays), couples-comedy bits will be rejected (man on camera) | 2026-09-18 |
+| xneleah (Neleah) | (not given) | Readable | personality | 220k, ATL, casual talking-to-camera reels, modest engagement | 2026-09-18 |
+| skybriclips | (not given) | Readable | **not added** | a fan/clip page (Sydney Sweeney / Breckie Hill memes, podcast clips with men) — not her own content; ask Dan for Skybri's real handle instead | 2026-09-18 |
+| cricketelva (Cricket) | (not given) | **Locked** (18+) | not yet — waiting for the throwaway | LA, "kinda funny, definitely political" | 2026-09-18 |
 
 ## Reference creators (`library/genres.yaml → scout.reference_accounts`) — scraper check 2026-09-18
 avaxreyess ✅ · sophieraiin ✅ (profile readable; the reels call returned a TMZ clip tagged with her — watch it) ·
