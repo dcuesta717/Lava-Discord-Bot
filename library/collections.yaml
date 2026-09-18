@@ -49,6 +49,14 @@ rules:
     genre: car
   - match: "pick me|personality"
     genre: personality
+  - match: "goth"
+    genre: goth
+  - match: "\\bemo\\b|e-?girl"
+    genre: emo
+  - match: "trad ?wife|sandwich"
+    genre: trad-wife
+  - match: "cosplay|costume"
+    genre: cosplay
   - match: "funny"
     genre: funny
   - match: "visual hook"

@@ -102,3 +102,29 @@ genres:
     emoji: "🌟"
     description: Talking to camera — storytime, hot takes, GRWM chat, day-in-life with something withheld; she is the content, men fall for the personality.
     hashtags: [storytime, grwm, hottake]
+
+  # Added 2026-09-18 (Dan: "goth, sandwich maker TRAD wife, emo girl, cosplay"). Same house rules as every folder —
+  # the folder is the setting or the bit; the sex appeal is the reason it is in the library.
+  - slug: goth
+    name: Goth Girl
+    emoji: "🖤"
+    description: Goth / alt look — black outfits, dark makeup, fishnets, chokers, dyed hair; the "goth gf" bit, and the contrast between the dark look and a sweet or flirty delivery is what men comment on.
+    hashtags: [gothgirl, gothgf, altgirl]
+
+  - slug: emo
+    name: Emo Girl
+    emoji: "🎸"
+    description: Emo / scene / e-girl look — side bangs, band tees, heavy eyeliner, striped sleeves, 2000s pop-punk nostalgia; "emo girl" bits and throwback humor, the fit is the tease.
+    hashtags: [emogirl, egirl, scenegirl]
+
+  - slug: trad-wife
+    name: Trad Wife
+    emoji: "🥪"
+    description: Homemaker bit — making him a sandwich or a meal in a dress or apron, "would you eat my…" questions, 1950s-housewife aesthetic played flirty; the kitchen is the setting, the fit and the tease make it library material (a plain recipe video is not).
+    hashtags: [tradwife, tradwifelife, housewifeaesthetic]
+
+  - slug: cosplay
+    name: Cosplay & Costumes
+    emoji: "🧝"
+    description: Cosplay, character outfits, costume try-ons, convention and Halloween content — the character or the costume reveal is the hook; men comment on the character and the fit.
+    hashtags: [cosplay, cosplaygirl, halloweencostume]
