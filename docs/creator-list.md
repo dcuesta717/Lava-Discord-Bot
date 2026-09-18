@@ -42,7 +42,7 @@ burner phone + account — Claude never handles the login).
 | realcamillaara (Camilla Araujo) | (untagged) | **Empty** — 6M, verified, but no reels returned | not yet | re-check with the throwaway | 2026-09-18 |
 | saamxo_ | (untagged) | **Empty** — verified, no posts/counts returned | not yet | re-check with the throwaway | 2026-09-18 |
 | laurenhamden | (untagged) | **Empty** — verified, no posts/counts returned | not yet | re-check with the throwaway | 2026-09-18 |
-| kim__jule | (untagged) | Readable | **not added** | Germany (bio "20, Germany") — outside the US-only rule | 2026-09-18 |
+| kim__jule | petite bucket (Dan, listed twice) | Readable | hot-girl-filler | Germany (bio "20, Germany") — outside the US-only rule; added after Dan named her a second time, judge decides per video | 2026-09-18 |
 | darina_lopatsak | (untagged) | Readable | **not added** | Kyiv, Ukrainian-language bio — outside the US-only rule | 2026-09-18 |
 | emineetbride | sexual skits group (Dan) | **Locked** (18+) | waiting | | 2026-09-18 |
 | lolagreinerr | (untagged) | **Locked** (18+) | waiting | | 2026-09-18 |
@@ -76,6 +76,8 @@ burner phone + account — Claude never handles the login).
 | csmodeling_arizona (Cheyenne Swenson) | big boobs bucket (Dan) | **Locked** (18+) | waiting | "comedy, skits & more" | 2026-09-18 |
 | maddiepricelol (Maddie Price) | big boobs bucket (Dan) | **Locked** (18+) | waiting | "FL car & gym girl" | 2026-09-18 |
 | whoispiperpresley2.0 (Piper Presley) | personality bucket (Dan) | Readable | personality | 818k, verified, comedian | 2026-09-18 |
+| tessaa._x0 (Tessa Capri) | petite bucket (Dan) | Readable | hot-girl-filler | 290k, "Florida girl" | 2026-09-18 |
+| emelyelikeslemonade | big booty bucket (Dan) | Readable | hot-girl-filler *(Big Booty folder pending — ceiling)* | 677k; second account, main @emelyeender | 2026-09-18 |
 
 **Dan's rule for labels (2026-09-18):** a label applies to the ONE girl right before it and marks a niche identity — only routed to a
 girl willing to embrace that whole identity (her `lanes`). Untagged girls make varied content: Claude picks the folder she is
