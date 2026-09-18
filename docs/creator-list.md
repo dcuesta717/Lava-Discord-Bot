@@ -54,6 +54,11 @@ burner phone + account — Claude never handles the login).
 | chloeetess | (untagged) | **Locked** (18+) | waiting | Miami | 2026-09-18 |
 | parisowyang0 | (untagged) | **Locked** (18+) | waiting | alt @parisowyang05 | 2026-09-18 |
 | laceyythom | (untagged) | **Locked** (18+) | waiting | "19 • fl" | 2026-09-18 |
+| selenaxsteele (Selena) | car bucket (Dan) | **Locked** (18+) | waiting | Indiana, "food & gaming luvr" | 2026-09-18 |
+| officiallykatierose (Katie) | car bucket (Dan) | Readable | car | 22k, "friendly neighborhood redhead" | 2026-09-18 |
+| georgieanderson__ | niche content bucket (Dan typed one underscore) | Readable | personality | 12.7k, verified, "girl mom / single mom life / outfits"; the one-underscore account is a stranger (888) | 2026-09-18 |
+| emlouisecutie (Em Louise) | niche content bucket (Dan) | Readable | personality | 1.07M, verified | 2026-09-18 |
+| crexmpiechloexx (Chloe) | niche content bucket (Dan) | **Locked** (18+) | waiting | | 2026-09-18 |
 
 **Dan's rule for labels (2026-09-18):** a label applies to the ONE girl right before it and marks a niche identity — only routed to a
 girl willing to embrace that whole identity (her `lanes`). Untagged girls make varied content: Claude picks the folder she is
