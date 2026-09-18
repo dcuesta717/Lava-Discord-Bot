@@ -128,3 +128,17 @@ genres:
     emoji: "🧝"
     description: Cosplay, character outfits, costume try-ons, convention and Halloween content — the character or the costume reveal is the hook; men comment on the character and the fit.
     hashtags: [cosplay, cosplaygirl, halloweencostume]
+
+  # Added 2026-09-18 from Dan's creator list. These are IDENTITY niches — a girl only gets them as lanes if she is willing to
+  # embrace the whole identity, so they are not routed to everyone (model.yaml → lanes decides).
+  - slug: hot-girl-filler
+    name: Hot Girl Filler
+    emoji: "🔥"
+    description: The everyday "look at me" content between the bits — mirror fits, walking shots, car-seat video, pose-and-smile, GRWM with no story; the girl and the fit ARE the content, a look-to-camera or a tease makes it land; quick to film, posted daily to keep the feed hot.
+    hashtags: [fitcheck, ootd, mirrorselfie]
+
+  - slug: of-personality
+    name: OF Personality
+    emoji: "💅"
+    description: The OF-creator personality play — she is the product; a recurring character, catchphrases, flirty chaos, direct-to-camera with the funnel in mind. Study the persona and how she keeps men coming back, not one video. (Talking-head storytime with no persona belongs in Personality.)
+    hashtags: [itgirl, maincharacter, hotgirlsummer]

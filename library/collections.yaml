@@ -47,6 +47,8 @@ rules:
     hint: "the transition or cut IS the hook — describe the before/after and the beat it cuts on"
   - match: "^car"
     genre: car
+  - match: "of personality|personality of"
+    genre: of-personality
   - match: "pick me|personality"
     genre: personality
   - match: "goth"
@@ -57,6 +59,8 @@ rules:
     genre: trad-wife
   - match: "cosplay|costume"
     genre: cosplay
+  - match: "filler"
+    genre: hot-girl-filler
   - match: "funny"
     genre: funny
   - match: "visual hook"
