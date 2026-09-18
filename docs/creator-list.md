@@ -60,6 +60,23 @@ burner phone + account — Claude never handles the login).
 | emlouisecutie (Em Louise) | niche content bucket (Dan) | Readable | personality | 1.07M, verified | 2026-09-18 |
 | crexmpiechloexx (Chloe) | niche content bucket (Dan) | **Locked** (18+) | waiting | | 2026-09-18 |
 
+| madi.ruve (Madi Ruve) | versatile bucket (Dan) | Readable | beach | 637k, verified, underwater photography | 2026-09-18 |
+| barbellinaa | versatile bucket (Dan) | Readable | gym-girl | 253k | 2026-09-18 |
+| daisymaylilly (Daisy May) | versatile bucket (Dan) | Readable | personality | 354k, verified | 2026-09-18 |
+| krystalharperxo (Krystal Harper Preiss) | versatile bucket (Dan) | Readable | hot-girl-filler | 261k, verified | 2026-09-18 |
+| luluromanova_ (Lulu Romanova) | versatile bucket (Dan) | **Locked** (18+) | waiting | TX, Penthouse Pet Sept '26 | 2026-09-18 |
+| bella.saintclaire | versatile bucket (Dan) | **Empty** — verified, no posts/counts returned | not yet | re-check with the throwaway | 2026-09-18 |
+| kyliebelle0 (Kylie Belle) | niche bucket (Dan) | **Locked** (18+) | waiting | "19" | 2026-09-18 |
+| fran.tills (Francesca) | yapper bucket (Dan) | **Locked** (18+) | waiting | | 2026-09-18 |
+| iamselinaamy (Selina Amy) | words on screen bucket (Dan) | Readable | words-on-screen | text-led "3 things" talking videos, 100–500 likes | 2026-09-18 |
+| jadeella2.0 (Jade Ella) | big boobs bucket (Dan) | Readable | big-boobs | 119k, verified; second account, main @jadejacobs.xo | 2026-09-18 |
+| alexisaevans (Alexis Evans) | big boobs bucket (Dan) | Readable | big-boobs | 1.12M, verified, "Miami mama" | 2026-09-18 |
+| maliholt | big boobs bucket (Dan) | **Not found** as typed | — | ask Dan for the spelling | 2026-09-18 |
+| minaaaparkerx | big boobs bucket (Dan) | **Locked** (18+) | waiting | | 2026-09-18 |
+| csmodeling_arizona (Cheyenne Swenson) | big boobs bucket (Dan) | **Locked** (18+) | waiting | "comedy, skits & more" | 2026-09-18 |
+| maddiepricelol (Maddie Price) | big boobs bucket (Dan) | **Locked** (18+) | waiting | "FL car & gym girl" | 2026-09-18 |
+| whoispiperpresley2.0 (Piper Presley) | personality bucket (Dan) | Readable | personality | 818k, verified, comedian | 2026-09-18 |
+
 **Dan's rule for labels (2026-09-18):** a label applies to the ONE girl right before it and marks a niche identity — only routed to a
 girl willing to embrace that whole identity (her `lanes`). Untagged girls make varied content: Claude picks the folder she is
 *scanned* under; the judge files each video wherever it belongs (`also` tags spread it). Seed a creator in ONE folder — every

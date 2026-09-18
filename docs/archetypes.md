@@ -15,18 +15,18 @@ Empty = public but no posts returned. Locked/Empty creators still belong to the 
 | Bucket (Dan's words) | Lanes (folders it pulls from) | Reference creators (Dan) | Status |
 |---|---|---|---|
 | Car OF creator | car, hot-girl-filler | selenaxsteele (**Locked**, Indiana, "food & gaming luvr") · officiallykatierose (Readable, 22k, "friendly neighborhood redhead") · bbymorgz05 (from the earlier list) | readable ones on the `car` watch list |
-| Versatile OF creator | most lanes (skits, funny, words-on-screen, personality, hot-girl-filler, collabs, transitions…) | — | waiting for creators |
+| Versatile OF creator | most lanes (skits, funny, words-on-screen, personality, hot-girl-filler, collabs, transitions, pool, beach, gym-girl) | madi.ruve (Readable, 637k, underwater photography → scanned under beach) · juliafilippo_ (on skits + reference) · barbellinaa (Readable, 253k → gym-girl) · luluromanova_ (**Locked**, TX, Penthouse Pet) · bella.saintclaire (**Empty** — verified, no posts/counts returned) · xneleah (on personality) · daisymaylilly (Readable, 354k → personality) · krystalharperxo (Readable, 261k → hot-girl-filler) | readable ones on the watch list |
 | Niche — pajama review creator | *(new format folder needed: Pajama Review — blocked by the 20-folder ceiling)* → meanwhile personality | — | waiting |
-| Yapper OF creator | personality, podcast-questions, of-personality | — | waiting |
-| Words on screen OF creator | words-on-screen, skits | — | waiting |
-| Big boobs OF creator | big-boobs, hot-girl-filler, pool, beach | — | waiting |
-| Personality / Skit OF creator | personality, skits, funny | — | waiting |
+| Yapper OF creator | personality, podcast-questions, of-personality | fran.tills (Francesca — **Locked**) | waiting for the throwaway |
+| Words on screen OF creator | words-on-screen, skits | iamselinaamy (Selina Amy — Readable; long text-led "3 things about me" talking videos, modest numbers) | on the words-on-screen watch list |
+| Big boobs OF creator | big-boobs, hot-girl-filler, pool, beach | maliholt (**not found** as typed) · minaaaparkerx (**Locked**) · jadeella2.0 (Readable, 119k, second account of @jadejacobs.xo) · csmodeling_arizona (Cheyenne Swenson — **Locked**, "comedy, skits") · jokesonella (already on big-boobs) · alexisaevans (Readable, 1.12M, "Miami mama") · maddiepricelol (**Locked**, "FL car & gym girl") | readable ones on the big-boobs watch list |
+| Personality / Skit OF creator | personality, skits, funny | whoispiperpresley2.0 (Piper Presley — Readable, 818k, comedian) · bblair.bear (on skits, learned from Dan's saves) | on the watch list |
 | Petite school girl OF creator | *(Freshman (Just 18) folder drafted — ceiling)* → personality, hot-girl-filler; adults-only rule, zero tolerance | — | waiting |
 | Petite / Personality creator | personality, hot-girl-filler | — | waiting |
 | Big booty OF creator | *(new format folder candidate: Big Booty — ceiling)* → gym-girl, hot-girl-filler, dance | — | waiting |
 | Young girl playful ditsy OF creator | *(Freshman (Just 18) — ceiling)* → funny, personality; adults only | — | waiting |
 | Bikini gym OF creator | gym-girl, pool, beach, hot-girl-filler | — | waiting |
-| Niche content creator | personality, skits, funny, words-on-screen (quirky-persona creators) | treena_berry_ (Readable, on skits; Dan typed "treena_berry") · georgieanderson__ (Readable, 12.7k, "girl mom · single mom life · outfits" — two underscores; the one-underscore account is an 888-follower stranger; kids-in-frame rule applies) · kateluxxe (on funny) · crexmpiechloexx (**Locked**) · emlouisecutie (Readable, 1.07M) | readable ones on the watch list |
+| Niche content creator | personality, skits, funny, words-on-screen (quirky-persona creators) | treena_berry_ (Readable, on skits; Dan typed "treena_berry") · georgieanderson__ (Readable, 12.7k, "girl mom · single mom life · outfits" — two underscores; the one-underscore account is an 888-follower stranger; kids-in-frame rule applies) · kateluxxe (on funny) · crexmpiechloexx (**Locked**) · emlouisecutie (Readable, 1.07M) · kyliebelle0 (Kylie Belle — **Locked**, "19") | readable ones on the watch list |
 | Soft existing OF creator | *(Girl Next Door / Soft Girl folder drafted — ceiling)* → personality, words-on-screen | — | waiting |
 
 ## How Claude applies a bucket by hand during the tuning window
