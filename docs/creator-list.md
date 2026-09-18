@@ -19,6 +19,50 @@ burner phone + account — Claude never handles the login).
 | xneleah (Neleah) | (not given) | Readable | personality | 220k, ATL, casual talking-to-camera reels, modest engagement | 2026-09-18 |
 | skybriclips | (not given) | Readable | **not added** | a fan/clip page (Sydney Sweeney / Breckie Hill memes, podcast clips with men) — not her own content; ask Dan for Skybri's real handle instead | 2026-09-18 |
 | cricketelva (Cricket) | (not given) | **Locked** (18+) | not yet — waiting for the throwaway | LA, "kinda funny, definitely political" | 2026-09-18 |
+| jaydentayyyy | hot girl filler (Dan) | Readable | hot-girl-filler | 94k, verified | 2026-09-18 |
+| amandakabdebo | hot girl filler (Dan) | Readable | hot-girl-filler | 164k, Miami | 2026-09-18 |
+| leahhalton | hot girl filler (Dan) | Readable | hot-girl-filler | 4.3M, verified; Australian, LA-based (bio lists an AUS mailing address) — Dan named her, judge decides per video | 2026-09-18 |
+| pillowwqueen (stella ray) | (untagged) | Readable | hot-girl-filler | 52k; 9–21 s no-caption reels, hits at 200k likes / 3.4M plays | 2026-09-18 |
+| iamaleexiss ("little outlaw") | personality creator (Dan) | Readable | of-personality | 240k | 2026-09-18 |
+| audreyycy (Chaeyoon Yang) | OF personality niche creator (Dan) | Readable | of-personality | 56k, "dance / skits / lifestyle" | 2026-09-18 |
+| sabina_mella | personality OF creator (Dan) | **Not found** — handle doesn't exist as typed | — | ask Dan for the spelling | 2026-09-18 |
+| oliviaskyyee | sexual skits (Dan) | Readable | skits | 1.3k, 15 posts, "Chicago / UPenn '30" | 2026-09-18 |
+| sassyy_bella (Isabella) | (untagged) | Readable | skits | 56k, reaction/skit clips ("She threw her drink") | 2026-09-18 |
+| treena_berry_ | (untagged) | Readable | skits | 92k; dating skits with 10–18M-play hits; bio "Gamer & caffeine fein" → Gamer Girl seed if that folder is ever added | 2026-09-18 |
+| gracexrayne | (untagged) | Readable | skits | 437k; reveals + skits, 20–26M-play hits | 2026-09-18 |
+| bunnihillsxo | (untagged) | Readable | skits | 17k, small numbers, POV/skit captions | 2026-09-18 |
+| bbymorgz05 (Morgz) | (untagged) | Readable | car | 19k, "#tattoo #gym #car #satire #audi" | 2026-09-18 |
+| offcamz (cami) | (untagged) | Readable | cosplay | 13k, bio "19, anime + cosplay" | 2026-09-18 |
+| nextdoorgabiii (gabs) | niche girl nextdoor (Dan) | Readable | personality *(Girl Next Door folder pending — 20-folder ceiling)* | 18k | 2026-09-18 |
+| mollyyamor | niche girl (Dan) | Readable | personality *(Girl Next Door pending)* | no bio, no counts returned | 2026-09-18 |
+| sydneycolettee (sydney adkisson) | 18-year-old young-girl niche (Dan) | Readable | personality *(Freshman (Just 18) folder pending)* | verified; adults-only rule applies with zero tolerance | 2026-09-18 |
+| kenzienicolee.irl (Dan's spelling) | hot girl filler (Dan) | typo — real handle **kenzinicolee.irl** | skits (learned from his saves) | — | 2026-09-18 |
+| juliafilippo_ | (untagged) | Readable | skits + reference | already on | 2026-09-18 |
+| kateluxxe | (untagged) | Readable | funny | already on | 2026-09-18 |
+| realcamillaara (Camilla Araujo) | (untagged) | **Empty** — 6M, verified, but no reels returned | not yet | re-check with the throwaway | 2026-09-18 |
+| saamxo_ | (untagged) | **Empty** — verified, no posts/counts returned | not yet | re-check with the throwaway | 2026-09-18 |
+| laurenhamden | (untagged) | **Empty** — verified, no posts/counts returned | not yet | re-check with the throwaway | 2026-09-18 |
+| kim__jule | (untagged) | Readable | **not added** | Germany (bio "20, Germany") — outside the US-only rule | 2026-09-18 |
+| darina_lopatsak | (untagged) | Readable | **not added** | Kyiv, Ukrainian-language bio — outside the US-only rule | 2026-09-18 |
+| emineetbride | sexual skits group (Dan) | **Locked** (18+) | waiting | | 2026-09-18 |
+| lolagreinerr | (untagged) | **Locked** (18+) | waiting | | 2026-09-18 |
+| itsbecmcleod | (untagged) | **Locked** (18+) | waiting | | 2026-09-18 |
+| alanna.kennedyy | (untagged) | **Locked** (18+) | waiting | | 2026-09-18 |
+| leileiav (Leila Faler) | (untagged) | **Locked** (18+) | waiting | | 2026-09-18 |
+| ariaonlyxo (Aria Adams) | (untagged) | **Locked** (18+) | waiting | | 2026-09-18 |
+| emiliabnky | (untagged) | **Locked** (18+) | waiting | | 2026-09-18 |
+| chloeetess | (untagged) | **Locked** (18+) | waiting | Miami | 2026-09-18 |
+| parisowyang0 | (untagged) | **Locked** (18+) | waiting | alt @parisowyang05 | 2026-09-18 |
+| laceyythom | (untagged) | **Locked** (18+) | waiting | "19 • fl" | 2026-09-18 |
+
+**Dan's rule for labels (2026-09-18):** a label applies to the ONE girl right before it and marks a niche identity — only routed to a
+girl willing to embrace that whole identity (her `lanes`). Untagged girls make varied content: Claude picks the folder she is
+*scanned* under; the judge files each video wherever it belongs (`also` tags spread it). Seed a creator in ONE folder — every
+extra folder is another Apify fetch of the same reels each morning.
+
+**20-folder ceiling:** every folder is also a forum tag on every forum and Discord allows 20 tags per forum, so the bot caps
+folders at 20 (`src/config/library.ts:32`). At 20/20 as of 2026-09-18 05:23 UTC. Girl Next Door and Freshman (Just 18) are
+drafted (scratch: genres-additions-2.yaml in the session) and need a tagging change (post-window code) or a retired folder.
 
 ## Reference creators (`library/genres.yaml → scout.reference_accounts`) — scraper check 2026-09-18
 avaxreyess ✅ · sophieraiin ✅ (profile readable; the reels call returned a TMZ clip tagged with her — watch it) ·
