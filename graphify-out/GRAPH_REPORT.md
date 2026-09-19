@@ -1,28 +1,28 @@
-# Graph Report - Lava-Discord-Bot  (2026-09-18)
+# Graph Report - Lava-Discord-Bot  (2026-09-19)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
 
 ## Summary
-- 801 nodes · 1563 edges · 73 communities (50 shown, 23 thin omitted)
+- 850 nodes · 1604 edges · 83 communities (56 shown, 27 thin omitted)
 - Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 163 edges (avg confidence: 0.86)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7bd5701e`
+- Built from commit: `e72979d6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- BotContext
+- src/index.ts
 - package.json
 - register
 - Apify
-- models.ts
+- captions/index.ts
 - 2. Frame-by-frame walkthrough
 - setup-server.ts
-- src/index.ts
-- db/client.ts
+- Bryce Nelson — profile
+- CLAUDE.md — working rules for Claude Code in this repo
 - compilerOptions
 - saved.ts
 - context.ts
@@ -56,13 +56,13 @@
 - Daily operations — what the bot does and what the owners do (tuning week Sep 18–25, 2026)
 - Aaron Pilk — profile
 - market-filter.ts
-- register-commands.ts
+- bryce-nelson/voice/banned-phrases.md
 - How OnlyFans creators win on social media — the playbook the bot works from
 - aaron-pilk/voice/banned-phrases.md
 - Voice — Aaron Pilk
 - Backlog — after the tuning window (verified against main @ 01bbe2b, 2026-09-18)
 - anthropic.ts
-- 3. Data integrity
+- Voice — Bryce Nelson
 - Away-reply — the bot covers for Dan
 - What the owner saves — taste profile (learned 2026-09-18)
 - What the owner saves — taste profile (learned {{date}})
@@ -76,8 +76,18 @@
 - Staff notes — Aaron Pilk (private — fed to the persona as background, never quoted to her)
 - aaron-pilk/playbooks/README.md
 - aaron-pilk/voice/hooks.md
-- Creator watch list — the accounts Dan wants the scout to follow
+- canonicalUrl
 - Drive
+- env.ts
+- industryLens
+- models.ts
+- new-model.ts
+- Creator archetypes ("buckets") — Dan's niche profiles for the girls
+- Caption examples
+- Staff notes — Bryce Nelson (private — fed to the persona as background, never quoted to her)
+- bryce-nelson/playbooks/README.md
+- bryce-nelson/voice/hooks.md
+- ref_dotenv_config
 
 ## God Nodes (most connected - your core abstractions)
 1. `register()` - 41 edges
@@ -92,8 +102,6 @@
 10. `canonicalUrl()` - 19 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Could not confirm (kept out of the tables or marked partial)` --references--> `canonicalUrl()`  [INFERRED]
-  docs/backlog-post-tuning.md → src/integrations/apify.ts
 - `House rules — reject by default; US, English, women only, sex appeal required` --references--> `classify()`  [INFERRED]
   docs/content-library.md → src/modules/library/index.ts
 - `Known sharp edges (documented, unfixed by order — see the backlog for line numbers)` --references--> `learn()`  [INFERRED]
@@ -102,59 +110,61 @@
   docs/backlog-post-tuning.md → src/modules/library/saved.ts
 - `Added while reading` --references--> `learn()`  [INFERRED]
   docs/backlog-post-tuning.md → src/modules/library/saved.ts
+- `Learned from Dan's saves (2026-09-18 04:09 UTC, `learn()` on the full 288-video set)` --references--> `learn()`  [INFERRED]
+  docs/creator-list.md → src/modules/library/saved.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (73 total, 23 thin omitted)
+## Communities (83 total, 27 thin omitted)
 
-### Community 0 - "BotContext"
-Cohesion: 0.07
-Nodes (51): BotContext, fetchImageAsBase64(), cache, loadPrompt(), PROMPTS_DIR, fmtLocal(), minutesFromNow(), nowIso() (+43 more)
+### Community 0 - "src/index.ts"
+Cohesion: 0.06
+Nodes (65): discord.js, body, client, ctx, db, env, rest, Model (+57 more)
 
 ### Community 1 - "package.json"
 Cohesion: 0.04
-Nodes (44): dependencies, @anthropic-ai/sdk, apify-client, cron, discord.js, dotenv, googleapis, jsonrepair (+36 more)
+Nodes (45): dependencies, @anthropic-ai/sdk, apify-client, cron, discord.js, dotenv, googleapis, jsonrepair (+37 more)
 
 ### Community 2 - "register"
-Cohesion: 0.19
-Nodes (18): canonicalUrl(), register(), buttons(), channelName(), classify(), download(), engagement(), ensureLibrary() (+10 more)
+Cohesion: 0.15
+Nodes (21): 3. Data integrity, loadLibrary(), register(), buttons(), channelName(), classify(), deliverPicks(), download() (+13 more)
 
 ### Community 3 - "Apify"
-Cohesion: 0.11
-Nodes (14): Architecture, Build order (each is a day or less), Deliberate non-goals, Request flows, Adding integrations, Daily ops for Dan/Marissa, Deploy, First run (+6 more)
+Cohesion: 0.07
+Nodes (23): Architecture, Build order (each is a day or less), Deliberate non-goals, Request flows, Classification, Content Library — the agency inspiration folders, Cost, Dan's saved collections → the library (and what the bot learns from them) (+15 more)
 
-### Community 4 - "models.ts"
-Cohesion: 0.09
-Nodes (34): ref_node_fs, ref_node_path, dst, [slug, displayName, code], src, yaml, yamlPath, channels (+26 more)
+### Community 4 - "captions/index.ts"
+Cohesion: 0.25
+Nodes (11): CaptionRun, CriticResult, generateCaption(), sampleExamples(), CaptionRow, card(), globalRules(), lintCaption() (+3 more)
 
 ### Community 5 - "2. Frame-by-frame walkthrough"
 Cohesion: 0.07
 Nodes (26): 0. TL;DR — what they actually have, 1. Audio transcript (creator's narration, timestamps in seconds), 2.10 — 1:26–1:45 · Google Drive "Content House" folder, 2.11 — 1:47–1:52 · Back to Discord → `#💵-invoices`, 2.1 — 0:00–0:03 · Server sidebar, 2.2 — 0:03–0:14 · `#💬-general-chat` (scrolled bottom → top), 2.3 — 0:14–0:27 · `reels-copy-board` (Forum channel), 2.4 — 0:27–0:29 · `#🌸-custom` (+18 more)
 
 ### Community 6 - "setup-server.ts"
+Cohesion: 0.15
+Nodes (12): postgres, client, db, env, model, settings, [slug, userId], staffIds (+4 more)
+
+### Community 7 - "Bryce Nelson — profile"
 Cohesion: 0.12
-Nodes (15): ref_dotenv_config, zod, client, db, env, model, settings, [slug, userId] (+7 more)
+Nodes (15): Ask her (gaps in public data), Audience, Bryce Nelson — profile, Do, Don't, Formats that flop, Formats that win, Hooks she uses (+7 more)
 
-### Community 7 - "src/index.ts"
-Cohesion: 0.16
-Nodes (9): googleapis, @notionhq/client, pino, createClient(), attachRouter(), log, Logger, TimerHandler (+1 more)
-
-### Community 8 - "db/client.ts"
-Cohesion: 0.40
-Nodes (4): logEvent(), migrate(), MIGRATIONS_DIR, openDb()
+### Community 8 - "CLAUDE.md — working rules for Claude Code in this repo"
+Cohesion: 0.18
+Nodes (10): CLAUDE.md — working rules for Claude Code in this repo, Conventions, How to work with the owners (permanent), Knowledge graph (graphify) — use it before grepping, Known sharp edges (documented, unfixed by order — see the backlog for line numbers), Non-negotiables, STANDING ORDERS — tuning window Sep 18 → Sep 25, 2026 (read first), What this is (+2 more)
 
 ### Community 9 - "compilerOptions"
 Cohesion: 0.15
 Nodes (12): compilerOptions, esModuleInterop, forceConsistentCasingInFileNames, module, moduleResolution, outDir, resolveJsonModule, rootDir (+4 more)
 
 ### Community 10 - "saved.ts"
-Cohesion: 0.16
-Nodes (12): RFC-4180, IngestOpts, IngestResult, CollectionsConfig, FILE, loadCollections(), parseCsv(), QueueRow (+4 more)
+Cohesion: 0.13
+Nodes (15): RFC-4180, IngestOpts, IngestResult, ItemRow, CollectionsConfig, FILE, loadCollections(), parseCsv() (+7 more)
 
 ### Community 11 - "context.ts"
-Cohesion: 0.14
-Nodes (9): ref_node_events, Env, DB, Action, CommandBuilder, CommandHandler, ComponentHandler, ModalHandler (+1 more)
+Cohesion: 0.11
+Nodes (12): ref_node_events, Env, DB, Action, CommandBuilder, CommandHandler, ComponentHandler, ModalHandler (+4 more)
 
 ### Community 12 - "Zernio"
 Cohesion: 0.22
@@ -173,12 +183,12 @@ Cohesion: 0.22
 Nodes (8): build, buildCommand, builder, deploy, restartPolicyMaxRetries, restartPolicyType, startCommand, $schema
 
 ### Community 16 - "events/index.ts"
-Cohesion: 0.05
-Nodes (38): CLAUDE.md — working rules for Claude Code in this repo, Conventions, How to work with the owners (permanent), Knowledge graph (graphify) — use it before grepping, Known sharp edges (documented, unfixed by order — see the backlog for line numbers), Non-negotiables, STANDING ORDERS — tuning window Sep 18 → Sep 25, 2026 (read first), What this is (+30 more)
+Cohesion: 0.17
+Nodes (14): luxon, EventDef, EVENTS_FILE, eventSchema, EventsConfig, loadEvents(), nextOccurrence(), nthWeekday() (+6 more)
 
 ### Community 17 - "register"
 Cohesion: 0.08
-Nodes (51): 6. Spam & duplicate sends, yaml, apify, env, limit, model, path, posts (+43 more)
+Nodes (50): 6. Spam & duplicate sends, yaml, apify, env, limit, model, path, posts (+42 more)
 
 ### Community 18 - "_template/voice/banned-phrases.md"
 Cohesion: 0.25
@@ -205,8 +215,8 @@ Cohesion: 0.17
 Nodes (5): ModelRegistry, explainDbError(), explainDiscordError(), main(), Timers
 
 ### Community 24 - "library/index.ts"
-Cohesion: 0.20
-Nodes (13): discord.js, Genre, genreSchema, LIBRARY_FILE, LibraryConfig, schema, ModelStructureIds, clampToBot() (+5 more)
+Cohesion: 0.15
+Nodes (16): Genre, genreSchema, LIBRARY_FILE, LibraryConfig, schema, ModelStructureIds, clampToBot(), MEMBER (+8 more)
 
 ### Community 25 - "registerSavedImport"
 Cohesion: 0.44
@@ -236,9 +246,9 @@ Nodes (15): Aaron Pilk — profile, Ask her (gaps in public data), Audience, Do,
 Cohesion: 0.24
 Nodes (9): AMBIGUOUS, ENGLISH_STOPWORDS, EXCLUDE_FILE, excludeWords(), FOREIGN_STOPWORDS, foreignLanguage(), marketFilter(), MarketVerdict (+1 more)
 
-### Community 46 - "register-commands.ts"
-Cohesion: 0.18
-Nodes (7): body, client, ctx, db, env, rest, register()
+### Community 46 - "bryce-nelson/voice/banned-phrases.md"
+Cohesion: 0.22
+Nodes (8): allow: obsessed, "allow: <phrase>" whitelists a GLOBAL rule for this model (e.g. she genuinely says "obsessed")., examples — replace with hers, from research — words that would sound wrong for her, One per line. Plain text = case-insensitive substring. "re:" prefix = regex., Per-model banned phrases (adds to prompts/slop-blocklist.txt), re:\bgirls? night\b, so cute
 
 ### Community 47 - "How OnlyFans creators win on social media — the playbook the bot works from"
 Cohesion: 0.22
@@ -257,12 +267,12 @@ Cohesion: 0.22
 Nodes (7): 1. Safety / destructive actions, 5. Learning & classification tuning *(owner decisions; nothing changes during the window)*, 7. Config & human-ownership, Added while reading, Backlog — after the tuning window (verified against main @ 01bbe2b, 2026-09-18), Could not confirm (kept out of the tables or marked partial), Recommended order when the tuning window ends (P0s)
 
 ### Community 51 - "anthropic.ts"
-Cohesion: 0.08
-Nodes (16): Admin, Content & posting, FAQ — what Lava Bot may answer on Dan's behalf, Lives, Never answer (always escalate to Dan/Marissa), Requests from the team, @anthropic-ai/sdk, jsonrepair (+8 more)
+Cohesion: 0.10
+Nodes (14): Admin, Content & posting, FAQ — what Lava Bot may answer on Dan's behalf, Lives, Never answer (always escalate to Dan/Marissa), Requests from the team, @anthropic-ai/sdk, jsonrepair (+6 more)
 
-### Community 52 - "3. Data integrity"
-Cohesion: 0.28
-Nodes (6): 3. Data integrity, ItemRow, deliverPicks(), threadUrl(), deliverPersonCollection(), SavedDeps
+### Community 52 - "Voice — Bryce Nelson"
+Cohesion: 0.22
+Nodes (8): 3 captions someone wrote for her that she HATED (so we know the failure mode), 5 captions of hers that are PERFECT examples of her voice (verbatim), How she actually types, Platform differences, Things she would never say, Voice — Bryce Nelson, What her captions are usually about, Who she is in one line
 
 ### Community 53 - "Away-reply — the bot covers for Dan"
 Cohesion: 0.29
@@ -304,29 +314,53 @@ Nodes (3): Caption examples, Hand-picked, Imported (auto — rewritten by import
 Cohesion: 0.50
 Nodes (3): How to behave, Things you cannot do (say so, don't pretend), What you know right now
 
-### Community 71 - "Creator watch list — the accounts Dan wants the scout to follow"
+### Community 71 - "canonicalUrl"
+Cohesion: 0.20
+Nodes (10): Creator watch list — the accounts Dan wants the scout to follow, How to add one (Claude, no restart), How to queue specific reels by hand (Claude, no restart — learned the hard way 2026-09-18), Learned from Dan's saves (2026-09-18 04:09 UTC, `learn()` on the full 288-video set), Reference creators (`library/genres.yaml → scout.reference_accounts`) — scraper check 2026-09-18, canonicalUrl(), radar(), labelPosts() (+2 more)
+
+### Community 73 - "env.ts"
+Cohesion: 0.22
+Nodes (8): dotenv, zod, anthropicKey, csv, discordToken, loadEnv(), postgresUrl, schema
+
+### Community 74 - "industryLens"
+Cohesion: 0.28
+Nodes (7): ref_node_fs, ref_node_path, INDUSTRY, industryLens(), read(), TASTE, learnCaption()
+
+### Community 75 - "models.ts"
+Cohesion: 0.29
+Nodes (7): channels, loadModels(), ModelConfig, ModelFiles, MODELS_DIR, modelSchema, readIf()
+
+### Community 76 - "new-model.ts"
 Cohesion: 0.33
-Nodes (5): Creator watch list — the accounts Dan wants the scout to follow, How to add one (Claude, no restart), How to queue specific reels by hand (Claude, no restart — learned the hard way 2026-09-18), Learned from Dan's saves (2026-09-18 04:09 UTC, `learn()` on the full 288-video set), Reference creators (`library/genres.yaml → scout.reference_accounts`) — scraper check 2026-09-18
+Nodes (5): dst, [slug, displayName, code], src, yaml, yamlPath
+
+### Community 77 - "Creator archetypes ("buckets") — Dan's niche profiles for the girls"
+Cohesion: 0.50
+Nodes (3): Buckets Dan named (2026-09-18) — filled in as he sends creators, Creator archetypes ("buckets") — Dan's niche profiles for the girls, How Claude applies a bucket by hand during the tuning window
+
+### Community 78 - "Caption examples"
+Cohesion: 0.50
+Nodes (3): Caption examples, Hand-picked, Imported (auto — rewritten by import-captions / model add; do not edit)
 
 ## Knowledge Gaps
-- **338 isolated node(s):** `MetricRow`, `Parsed`, `Session`, `PostRow`, `SnapRow` (+333 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 427 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **23 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **372 isolated node(s):** `Decision`, `MetricRow`, `Parsed`, `Session`, `PostRow` (+367 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 468 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `normalize()` connect `Apify` to `register`, `2. Frame-by-frame walkthrough`?**
-  _High betweenness centrality (0.058) - this node is a cross-community bridge._
-- **Why does `discord.js` connect `library/index.ts` to `BotContext`, `package.json`, `models.ts`, `setup-server.ts`, `src/index.ts`, `saved.ts`, `context.ts`, `register-commands.ts`, `events/index.ts`, `register`, `anthropic.ts`?**
-  _High betweenness centrality (0.048) - this node is a cross-community bridge._
-- **Why does `register()` connect `register` to `BotContext`, `src/index.ts`, `market-filter.ts`, `events/index.ts`, `register`, `3. Data integrity`, `library/index.ts`, `registerSavedImport`, `Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)`?**
-  _High betweenness centrality (0.047) - this node is a cross-community bridge._
+  _High betweenness centrality (0.051) - this node is a cross-community bridge._
+- **Why does `register()` connect `register` to `src/index.ts`, `canonicalUrl`, `industryLens`, `market-filter.ts`, `library/index.ts`, `registerSavedImport`, `Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)`?**
+  _High betweenness centrality (0.042) - this node is a cross-community bridge._
+- **Why does `discord.js` connect `src/index.ts` to `package.json`, `captions/index.ts`, `setup-server.ts`, `saved.ts`, `context.ts`, `events/index.ts`, `register`, `library/index.ts`?**
+  _High betweenness centrality (0.041) - this node is a cross-community bridge._
 - **Are the 12 inferred relationships involving `register()` (e.g. with `.action()` and `.ch()`) actually correct?**
   _`register()` has 12 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 8 inferred relationships involving `register()` (e.g. with `.action()` and `.ch()`) actually correct?**
   _`register()` has 8 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `MetricRow`, `Parsed`, `Session` to the rest of the system?**
-  _338 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `BotContext` be split into smaller, more focused modules?**
-  _Cohesion score 0.06947368421052631 - nodes in this community are weakly interconnected._
+- **What connects `Decision`, `MetricRow`, `Parsed` to the rest of the system?**
+  _372 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `src/index.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.056776556776556776 - nodes in this community are weakly interconnected._
