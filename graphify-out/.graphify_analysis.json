@@ -46,10 +46,6 @@
       "src_lib_time_previousweekrange",
       "src_modules_agency_index",
       "src_modules_agency_index_register",
-      "src_modules_away_index",
-      "src_modules_away_index_decision",
-      "src_modules_away_index_faq_file",
-      "src_modules_away_index_prefix",
       "src_modules_away_index_register",
       "src_modules_away_index_register_context",
       "src_modules_away_index_register_cover",
@@ -91,9 +87,7 @@
       "src_modules_reels_index_reelrow",
       "src_modules_reels_index_register",
       "src_modules_reels_index_register_classifyandpost",
-      "src_modules_reels_index_register_posttoboard",
       "src_modules_reels_index_register_scoutmodel",
-      "src_modules_reels_index_register_threadforcategory",
       "src_modules_reports_index",
       "src_modules_reports_index_chunk",
       "src_modules_reports_index_postrow",
@@ -156,14 +150,13 @@
       "ref_typescript"
     ],
     "2": [
-      "docs_backlog_post_tuning_3_data_integrity",
       "src_config_library_loadlibrary",
+      "src_integrations_apify_canonicalurl",
       "src_modules_library_index_register",
       "src_modules_library_index_register_buttons",
       "src_modules_library_index_register_byid",
       "src_modules_library_index_register_channelname",
       "src_modules_library_index_register_classify",
-      "src_modules_library_index_register_deliverpicks",
       "src_modules_library_index_register_download",
       "src_modules_library_index_register_engagement",
       "src_modules_library_index_register_ensurelibrary",
@@ -172,14 +165,17 @@
       "src_modules_library_index_register_oninbox",
       "src_modules_library_index_register_parsesources",
       "src_modules_library_index_register_post",
+      "src_modules_library_index_register_radar",
       "src_modules_library_index_register_recordsignals",
       "src_modules_library_index_register_scout",
       "src_modules_library_index_register_scoutqueries",
       "src_modules_library_index_register_sendtoboard",
       "src_modules_library_index_register_summarize",
-      "src_modules_library_index_register_threadurl",
       "src_modules_library_index_register_uploadlimit",
-      "src_modules_models_index_register_setlanes"
+      "src_modules_models_index_register_setlanes",
+      "src_modules_reports_index_register_labelposts",
+      "src_modules_reports_index_register_snapshotall",
+      "src_modules_reports_index_register_snapshotmodel"
     ],
     "3": [
       "docs_architecture",
@@ -187,6 +183,7 @@
       "docs_architecture_build_order_each_is_a_day_or_less",
       "docs_architecture_deliberate_non_goals",
       "docs_architecture_request_flows",
+      "docs_backlog_post_tuning_6_spam_duplicate_sends",
       "docs_content_library",
       "docs_content_library_classification",
       "docs_content_library_content_library_the_agency_inspiration_folders",
@@ -215,9 +212,31 @@
       "src_integrations_apify_apify_instagramprofile",
       "src_integrations_apify_apify_tiktok",
       "src_integrations_apify_normalize",
-      "src_integrations_apify_num"
+      "src_integrations_apify_num",
+      "src_modules_reels_index_register_posttoboard",
+      "src_modules_reels_index_register_threadforcategory"
     ],
     "4": [
+      "ref_node_fs",
+      "ref_node_path",
+      "scripts_new_model",
+      "scripts_new_model_dst",
+      "scripts_new_model_slug_displayname_code",
+      "scripts_new_model_src",
+      "scripts_new_model_yaml",
+      "scripts_new_model_yamlpath",
+      "src_config_models",
+      "src_config_models_channels",
+      "src_config_models_loadmodels",
+      "src_config_models_modelconfig",
+      "src_config_models_modelfiles",
+      "src_config_models_models_dir",
+      "src_config_models_modelschema",
+      "src_config_models_readif",
+      "src_modules_away_index",
+      "src_modules_away_index_decision",
+      "src_modules_away_index_faq_file",
+      "src_modules_away_index_prefix",
       "src_modules_captions_generate",
       "src_modules_captions_generate_captionrun",
       "src_modules_captions_generate_criticresult",
@@ -226,6 +245,8 @@
       "src_modules_captions_index",
       "src_modules_captions_index_captionrow",
       "src_modules_captions_index_card",
+      "src_modules_captions_learn",
+      "src_modules_captions_learn_learncaption",
       "src_modules_captions_lint",
       "src_modules_captions_lint_globalrules",
       "src_modules_captions_lint_lintcaption",
@@ -302,7 +323,6 @@
       "claude_conventions",
       "claude_how_to_work_with_the_owners_permanent",
       "claude_knowledge_graph_graphify_use_it_before_grepping",
-      "claude_known_sharp_edges_documented_unfixed_by_order_see_the_backlog_for_line_numbers",
       "claude_non_negotiables",
       "claude_standing_orders_tuning_window_sep_18_sep_25_2026_read_first",
       "claude_what_this_is",
@@ -325,26 +345,15 @@
       "tsconfig_include"
     ],
     "10": [
-      "docref_rfc_4180",
-      "src_modules_library_index_ingestopts",
-      "src_modules_library_index_ingestresult",
+      "docs_backlog_post_tuning_3_data_integrity",
       "src_modules_library_index_itemrow",
-      "src_modules_library_saved",
-      "src_modules_library_saved_collectionsconfig",
-      "src_modules_library_saved_file",
-      "src_modules_library_saved_loadcollections",
-      "src_modules_library_saved_parsecsv",
-      "src_modules_library_saved_queuerow",
-      "src_modules_library_saved_readsheet",
+      "src_modules_library_index_register_deliverpicks",
+      "src_modules_library_index_register_threadurl",
       "src_modules_library_saved_registersavedimport_deliverpersoncollection",
       "src_modules_library_saved_saveddeps",
       "src_modules_library_saved_saveddeps_genreexists",
-      "src_modules_library_saved_saveddeps_ingest",
       "src_modules_library_saved_saveddeps_itembyurl",
-      "src_modules_library_saved_saveddeps_sendtoboard",
-      "src_modules_library_saved_savedrow",
-      "src_modules_library_saved_schema",
-      "src_modules_library_saved_taste_file"
+      "src_modules_library_saved_saveddeps_sendtoboard"
     ],
     "11": [
       "ref_node_events",
@@ -420,6 +429,7 @@
       "railway_schema"
     ],
     "16": [
+      "docref_rfc_4180",
       "ref_luxon",
       "src_config_events",
       "src_config_events_eventdef",
@@ -431,14 +441,28 @@
       "src_config_events_nthweekday",
       "src_config_events_ruleschema",
       "src_config_events_schema",
+      "src_lib_industry",
+      "src_lib_industry_industry",
+      "src_lib_industry_industrylens",
+      "src_lib_industry_read",
+      "src_lib_industry_taste",
       "src_modules_events_index",
       "src_modules_events_index_idea",
       "src_modules_events_index_occurrence",
       "src_modules_events_index_register_occurrence",
-      "src_modules_events_index_register_upcoming"
+      "src_modules_events_index_register_upcoming",
+      "src_modules_library_saved",
+      "src_modules_library_saved_collectionsconfig",
+      "src_modules_library_saved_file",
+      "src_modules_library_saved_loadcollections",
+      "src_modules_library_saved_parsecsv",
+      "src_modules_library_saved_queuerow",
+      "src_modules_library_saved_readsheet",
+      "src_modules_library_saved_savedrow",
+      "src_modules_library_saved_schema",
+      "src_modules_library_saved_taste_file"
     ],
     "17": [
-      "docs_backlog_post_tuning_6_spam_duplicate_sends",
       "ref_yaml",
       "scripts_import_captions",
       "scripts_import_captions_apify",
@@ -576,6 +600,16 @@
       "src_config_library_schema",
       "src_discord_context_botcontext_isadmin",
       "src_discord_context_botcontext_markready",
+      "src_lib_market_filter",
+      "src_lib_market_filter_ambiguous",
+      "src_lib_market_filter_english_stopwords",
+      "src_lib_market_filter_exclude_file",
+      "src_lib_market_filter_excludewords",
+      "src_lib_market_filter_foreign_stopwords",
+      "src_lib_market_filter_foreignlanguage",
+      "src_lib_market_filter_marketfilter",
+      "src_lib_market_filter_marketverdict",
+      "src_lib_market_filter_short_ok",
       "src_lib_model_structure",
       "src_lib_model_structure_modelstructureids",
       "src_lib_overwrites",
@@ -584,6 +618,9 @@
       "src_lib_overwrites_role",
       "src_modules_library_index",
       "src_modules_library_index_classified",
+      "src_modules_library_index_ingestopts",
+      "src_modules_library_index_ingestresult",
+      "src_modules_library_saved_saveddeps_ingest",
       "src_modules_setup_index",
       "src_modules_setup_index_agency",
       "src_modules_setup_index_register",
@@ -593,10 +630,17 @@
       "src_modules_setup_index_staff"
     ],
     "25": [
+      "claude_known_sharp_edges_documented_unfixed_by_order_see_the_backlog_for_line_numbers",
+      "docs_backlog_post_tuning",
       "docs_backlog_post_tuning_2_restart_concurrency_resilience",
       "docs_backlog_post_tuning_4_silent_failures_visibility",
+      "docs_backlog_post_tuning_5_learning_classification_tuning_owner_decisions_nothing_changes_during_the_window",
+      "docs_backlog_post_tuning_7_config_human_ownership",
+      "docs_backlog_post_tuning_added_while_reading",
+      "docs_backlog_post_tuning_backlog_after_the_tuning_window_verified_against_main_01bbe2b_2026_09_18",
+      "docs_backlog_post_tuning_could_not_confirm_kept_out_of_the_tables_or_marked_partial",
+      "docs_backlog_post_tuning_recommended_order_when_the_tuning_window_ends_p0s",
       "docs_daily_operations_7_for_claude_the_technical_partner",
-      "docs_incidents_2026_09_17_library_wipe_timeline_utc_new_york_utc_4",
       "src_modules_library_saved_registersavedimport",
       "src_modules_library_saved_registersavedimport_learn",
       "src_modules_library_saved_registersavedimport_mark",
@@ -717,18 +761,6 @@
       "models_aaron_pilk_profile_scout_seeds",
       "models_aaron_pilk_profile_staff_additions"
     ],
-    "45": [
-      "src_lib_market_filter",
-      "src_lib_market_filter_ambiguous",
-      "src_lib_market_filter_english_stopwords",
-      "src_lib_market_filter_exclude_file",
-      "src_lib_market_filter_excludewords",
-      "src_lib_market_filter_foreign_stopwords",
-      "src_lib_market_filter_foreignlanguage",
-      "src_lib_market_filter_marketfilter",
-      "src_lib_market_filter_marketverdict",
-      "src_lib_market_filter_short_ok"
-    ],
     "46": [
       "models_bryce_nelson_voice_banned_phrases",
       "models_bryce_nelson_voice_banned_phrases_allow_obsessed",
@@ -772,17 +804,6 @@
       "models_aaron_pilk_voice_voice_voice_aaron_pilk",
       "models_aaron_pilk_voice_voice_what_her_captions_are_usually_about",
       "models_aaron_pilk_voice_voice_who_she_is_in_one_line"
-    ],
-    "50": [
-      "docs_backlog_post_tuning",
-      "docs_backlog_post_tuning_1_safety_destructive_actions",
-      "docs_backlog_post_tuning_5_learning_classification_tuning_owner_decisions_nothing_changes_during_the_window",
-      "docs_backlog_post_tuning_7_config_human_ownership",
-      "docs_backlog_post_tuning_added_while_reading",
-      "docs_backlog_post_tuning_backlog_after_the_tuning_window_verified_against_main_01bbe2b_2026_09_18",
-      "docs_backlog_post_tuning_could_not_confirm_kept_out_of_the_tables_or_marked_partial",
-      "docs_backlog_post_tuning_recommended_order_when_the_tuning_window_ends_p0s",
-      "src_integrations_github_github_listdir"
     ],
     "51": [
       "knowledge_faq",
@@ -871,13 +892,16 @@
       "docs_operator_chat_what_it_can_do_the_actions"
     ],
     "59": [
+      "docs_backlog_post_tuning_1_safety_destructive_actions",
       "docs_incidents_2026_09_17_library_wipe",
       "docs_incidents_2026_09_17_library_wipe_addendum_how_the_re_run_ended_01_37_01_41_utc_sep_18",
       "docs_incidents_2026_09_17_library_wipe_incident_the_content_library_folders_emptied_twice_sep_17_2026_evening",
       "docs_incidents_2026_09_17_library_wipe_lesson_now_a_standing_rule_in_claude_md",
       "docs_incidents_2026_09_17_library_wipe_related",
+      "docs_incidents_2026_09_17_library_wipe_timeline_utc_new_york_utc_4",
       "docs_incidents_2026_09_17_library_wipe_what_the_numbers_mean_as_of_00_21_utc_sep_18",
       "docs_incidents_2026_09_17_library_wipe_why_it_could_happen_root_causes_all_still_present_by_the_owner_s_order",
+      "src_integrations_github_github_listdir",
       "src_modules_library_index_register_purge",
       "src_modules_library_index_register_runbootjobs"
     ],
@@ -933,12 +957,7 @@
       "docs_creator_list_how_to_add_one_claude_no_restart",
       "docs_creator_list_how_to_queue_specific_reels_by_hand_claude_no_restart_learned_the_hard_way_2026_09_18",
       "docs_creator_list_learned_from_dan_s_saves_2026_09_18_04_09_utc_learn_on_the_full_288_video_set",
-      "docs_creator_list_reference_creators_library_genres_yaml_scout_reference_accounts_scraper_check_2026_09_18",
-      "src_integrations_apify_canonicalurl",
-      "src_modules_library_index_register_radar",
-      "src_modules_reports_index_register_labelposts",
-      "src_modules_reports_index_register_snapshotall",
-      "src_modules_reports_index_register_snapshotmodel"
+      "docs_creator_list_reference_creators_library_genres_yaml_scout_reference_accounts_scraper_check_2026_09_18"
     ],
     "72": [
       "src_integrations_drive_drive",
@@ -958,35 +977,6 @@
       "src_config_env_loadenv",
       "src_config_env_postgresurl",
       "src_config_env_schema"
-    ],
-    "74": [
-      "ref_node_fs",
-      "ref_node_path",
-      "src_lib_industry",
-      "src_lib_industry_industry",
-      "src_lib_industry_industrylens",
-      "src_lib_industry_read",
-      "src_lib_industry_taste",
-      "src_modules_captions_learn",
-      "src_modules_captions_learn_learncaption"
-    ],
-    "75": [
-      "src_config_models",
-      "src_config_models_channels",
-      "src_config_models_loadmodels",
-      "src_config_models_modelconfig",
-      "src_config_models_modelfiles",
-      "src_config_models_models_dir",
-      "src_config_models_modelschema",
-      "src_config_models_readif"
-    ],
-    "76": [
-      "scripts_new_model",
-      "scripts_new_model_dst",
-      "scripts_new_model_slug_displayname_code",
-      "scripts_new_model_src",
-      "scripts_new_model_yaml",
-      "scripts_new_model_yamlpath"
     ],
     "77": [
       "docs_archetypes",
@@ -1018,32 +1008,32 @@
     ]
   },
   "cohesion": {
-    "0": 0.056776556776556776,
+    "0": 0.060812203669346525,
     "1": 0.043478260869565216,
-    "2": 0.15217391304347827,
-    "3": 0.06951871657754011,
-    "4": 0.25274725274725274,
+    "2": 0.14461538461538462,
+    "3": 0.06306306306306306,
+    "4": 0.09047619047619047,
     "5": 0.07407407407407407,
     "6": 0.15384615384615385,
     "7": 0.125,
-    "8": 0.18181818181818182,
+    "8": 0.2,
     "9": 0.15384615384615385,
-    "10": 0.12631578947368421,
+    "10": 0.2777777777777778,
     "11": 0.11,
     "12": 0.21818181818181817,
     "13": 0.2222222222222222,
     "14": 0.2222222222222222,
     "15": 0.2222222222222222,
-    "16": 0.175,
-    "17": 0.07596153846153846,
+    "16": 0.08266129032258064,
+    "17": 0.07738095238095238,
     "18": 0.25,
     "19": 0.38095238095238093,
     "20": 0.2857142857142857,
     "21": 0.2857142857142857,
     "22": 0.2857142857142857,
     "23": 0.17142857142857143,
-    "24": 0.14624505928853754,
-    "25": 0.43636363636363634,
+    "24": 0.08571428571428572,
+    "25": 0.21568627450980393,
     "26": 0.4,
     "27": 0.5,
     "28": 0.6666666666666666,
@@ -1063,12 +1053,10 @@
     "42": 1.0,
     "43": 0.1,
     "44": 0.125,
-    "45": 0.24444444444444444,
     "46": 0.2222222222222222,
     "47": 0.2222222222222222,
     "48": 0.2222222222222222,
     "49": 0.2222222222222222,
-    "50": 0.2222222222222222,
     "51": 0.09881422924901186,
     "52": 0.2222222222222222,
     "53": 0.2857142857142857,
@@ -1077,7 +1065,7 @@
     "56": 0.3333333333333333,
     "57": 0.3333333333333333,
     "58": 0.4,
-    "59": 0.2222222222222222,
+    "59": 0.16666666666666666,
     "60": 0.5,
     "61": 0.5,
     "62": 0.5,
@@ -1089,12 +1077,9 @@
     "68": 1.0,
     "69": 1.0,
     "70": 1.0,
-    "71": 0.2,
+    "71": 0.3333333333333333,
     "72": 0.3333333333333333,
     "73": 0.2222222222222222,
-    "74": 0.2777777777777778,
-    "75": 0.2857142857142857,
-    "76": 0.3333333333333333,
     "77": 0.5,
     "78": 0.5,
     "79": 0.6666666666666666,
@@ -1167,39 +1152,6 @@
       "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `House rules — reject by default; US, English, women only, sex appeal required` unexpectedly reaches hub `classify()`"
     },
     {
-      "source": "Known sharp edges (documented, unfixed by order — see the backlog for line numbers)",
-      "target": "learn()",
-      "source_files": [
-        "CLAUDE.md",
-        "src/modules/library/saved.ts"
-      ],
-      "confidence": "INFERRED",
-      "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Known sharp edges (documented, unfixed by order — see the backlog for line numbers)` unexpectedly reaches hub `learn()`"
-    },
-    {
-      "source": "5. Learning & classification tuning *(owner decisions; nothing changes during the window)*",
-      "target": "learn()",
-      "source_files": [
-        "docs/backlog-post-tuning.md",
-        "src/modules/library/saved.ts"
-      ],
-      "confidence": "INFERRED",
-      "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `5. Learning & classification tuning *(owner decisions; nothing changes during the window)*` unexpectedly reaches hub `learn()`"
-    },
-    {
-      "source": "Added while reading",
-      "target": "learn()",
-      "source_files": [
-        "docs/backlog-post-tuning.md",
-        "src/modules/library/saved.ts"
-      ],
-      "confidence": "INFERRED",
-      "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Added while reading` unexpectedly reaches hub `learn()`"
-    },
-    {
       "source": "Learned from Dan's saves (2026-09-18 04:09 UTC, `learn()` on the full 288-video set)",
       "target": "learn()",
       "source_files": [
@@ -1209,6 +1161,39 @@
       "confidence": "INFERRED",
       "relation": "references",
       "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Learned from Dan's saves (2026-09-18 04:09 UTC, `learn()` on the full 288-video set)` unexpectedly reaches hub `learn()`"
+    },
+    {
+      "source": "Addendum — how the re-run ended (01:37–01:41 UTC Sep 18)",
+      "target": "learn()",
+      "source_files": [
+        "docs/incidents/2026-09-17-library-wipe.md",
+        "src/modules/library/saved.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Addendum — how the re-run ended (01:37–01:41 UTC Sep 18)` unexpectedly reaches hub `learn()`"
+    },
+    {
+      "source": "Things to watch (noticed while writing this; nothing was changed)",
+      "target": "queued()",
+      "source_files": [
+        "docs/daily-operations.md",
+        "src/modules/library/saved.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Things to watch (noticed while writing this; nothing was changed)` unexpectedly reaches hub `queued()`"
+    },
+    {
+      "source": "Conventions",
+      "target": "run()",
+      "source_files": [
+        "CLAUDE.md",
+        "src/modules/library/saved.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Conventions` unexpectedly reaches hub `run()`"
     }
   ],
   "questions": [
@@ -1219,12 +1204,12 @@
     },
     {
       "type": "bridge_node",
-      "question": "Why does `register()` connect `register` to `src/index.ts`, `canonicalUrl`, `industryLens`, `market-filter.ts`, `library/index.ts`, `registerSavedImport`, `Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)`?",
+      "question": "Why does `register()` connect `register` to `src/index.ts`, `3. Data integrity`, `saved.ts`, `library/index.ts`, `registerSavedImport`, `Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)`?",
       "why": "High betweenness centrality (0.042) - this node is a cross-community bridge."
     },
     {
       "type": "bridge_node",
-      "question": "Why does `discord.js` connect `src/index.ts` to `package.json`, `captions/index.ts`, `setup-server.ts`, `saved.ts`, `context.ts`, `events/index.ts`, `register`, `library/index.ts`?",
+      "question": "Why does `discord.js` connect `src/index.ts` to `package.json`, `models.ts`, `setup-server.ts`, `context.ts`, `saved.ts`, `register`, `library/index.ts`?",
       "why": "High betweenness centrality (0.041) - this node is a cross-community bridge."
     },
     {
@@ -1245,7 +1230,7 @@
     {
       "type": "low_cohesion",
       "question": "Should `src/index.ts` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.056776556776556776 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.060812203669346525 - nodes in this community are weakly interconnected."
     }
   ]
 }
