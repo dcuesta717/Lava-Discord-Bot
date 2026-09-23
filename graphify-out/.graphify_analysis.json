@@ -1141,6 +1141,28 @@
   ],
   "surprises": [
     {
+      "source": "Where things are",
+      "target": "industryLens()",
+      "source_files": [
+        "CLAUDE.md",
+        "src/lib/industry.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Where things are` unexpectedly reaches hub `industryLens()`"
+    },
+    {
+      "source": "Could not confirm (kept out of the tables or marked partial)",
+      "target": "canonicalUrl()",
+      "source_files": [
+        "docs/backlog-post-tuning.md",
+        "src/integrations/apify.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Could not confirm (kept out of the tables or marked partial)` unexpectedly reaches hub `canonicalUrl()`"
+    },
+    {
       "source": "House rules — reject by default; US, English, women only, sex appeal required",
       "target": "classify()",
       "source_files": [
@@ -1172,28 +1194,6 @@
       "confidence": "INFERRED",
       "relation": "references",
       "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Addendum — how the re-run ended (01:37–01:41 UTC Sep 18)` unexpectedly reaches hub `learn()`"
-    },
-    {
-      "source": "Things to watch (noticed while writing this; nothing was changed)",
-      "target": "queued()",
-      "source_files": [
-        "docs/daily-operations.md",
-        "src/modules/library/saved.ts"
-      ],
-      "confidence": "INFERRED",
-      "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Things to watch (noticed while writing this; nothing was changed)` unexpectedly reaches hub `queued()`"
-    },
-    {
-      "source": "Conventions",
-      "target": "run()",
-      "source_files": [
-        "CLAUDE.md",
-        "src/modules/library/saved.ts"
-      ],
-      "confidence": "INFERRED",
-      "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Conventions` unexpectedly reaches hub `run()`"
     }
   ],
   "questions": [
@@ -1224,7 +1224,7 @@
     },
     {
       "type": "isolated_nodes",
-      "question": "What connects `Decision`, `MetricRow`, `Parsed` to the rest of the system?",
+      "question": "What connects `MetricRow`, `Parsed`, `Session` to the rest of the system?",
       "why": "372 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {

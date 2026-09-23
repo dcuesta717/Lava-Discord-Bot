@@ -1,4 +1,4 @@
-# Graph Report - Lava-Discord-Bot  (2026-09-22)
+# Graph Report - Lava-Discord-Bot  (2026-09-23)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
@@ -97,16 +97,16 @@
 10. `canonicalUrl()` - 19 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `Where things are` --references--> `industryLens()`  [INFERRED]
+  CLAUDE.md → src/lib/industry.ts
+- `Could not confirm (kept out of the tables or marked partial)` --references--> `canonicalUrl()`  [INFERRED]
+  docs/backlog-post-tuning.md → src/integrations/apify.ts
 - `House rules — reject by default; US, English, women only, sex appeal required` --references--> `classify()`  [INFERRED]
   docs/content-library.md → src/modules/library/index.ts
 - `Learned from Dan's saves (2026-09-18 04:09 UTC, `learn()` on the full 288-video set)` --references--> `learn()`  [INFERRED]
   docs/creator-list.md → src/modules/library/saved.ts
 - `Addendum — how the re-run ended (01:37–01:41 UTC Sep 18)` --references--> `learn()`  [INFERRED]
   docs/incidents/2026-09-17-library-wipe.md → src/modules/library/saved.ts
-- `Things to watch (noticed while writing this; nothing was changed)` --references--> `queued()`  [INFERRED]
-  docs/daily-operations.md → src/modules/library/saved.ts
-- `Conventions` --references--> `run()`  [INFERRED]
-  CLAUDE.md → src/modules/library/saved.ts
 
 ## Import Cycles
 - None detected.
@@ -318,7 +318,7 @@ Cohesion: 0.50
 Nodes (3): Caption examples, Hand-picked, Imported (auto — rewritten by import-captions / model add; do not edit)
 
 ## Knowledge Gaps
-- **372 isolated node(s):** `Decision`, `MetricRow`, `Parsed`, `Session`, `PostRow` (+367 more)
+- **372 isolated node(s):** `MetricRow`, `Parsed`, `Session`, `PostRow`, `Classified` (+367 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 468 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -335,7 +335,7 @@ _Questions this graph is uniquely positioned to answer:_
   _`register()` has 12 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 8 inferred relationships involving `register()` (e.g. with `.action()` and `.ch()`) actually correct?**
   _`register()` has 8 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `Decision`, `MetricRow`, `Parsed` to the rest of the system?**
+- **What connects `MetricRow`, `Parsed`, `Session` to the rest of the system?**
   _372 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `src/index.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.060812203669346525 - nodes in this community are weakly interconnected._
