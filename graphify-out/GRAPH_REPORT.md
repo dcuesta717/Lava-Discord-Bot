@@ -1,4 +1,4 @@
-# Graph Report - Lava-Discord-Bot  (2026-09-29)
+# Graph Report - Lava-Discord-Bot  (2026-09-30)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
@@ -82,7 +82,6 @@
 - Staff notes — Bryce Nelson (private — fed to the persona as background, never quoted to her)
 - bryce-nelson/playbooks/README.md
 - bryce-nelson/voice/hooks.md
-- ref_dotenv_config
 
 ## God Nodes (most connected - your core abstractions)
 1. `register()` - 41 edges
@@ -131,7 +130,7 @@ Nodes (26): Architecture, Build order (each is a day or less), Deliberate non-go
 
 ### Community 4 - "models.ts"
 Cohesion: 0.09
-Nodes (29): ref_node_fs, ref_node_path, dst, [slug, displayName, code], src, yaml, yamlPath, channels (+21 more)
+Nodes (27): dst, [slug, displayName, code], src, yaml, yamlPath, channels, loadModels(), ModelConfig (+19 more)
 
 ### Community 5 - "2. Frame-by-frame walkthrough"
 Cohesion: 0.07
@@ -159,7 +158,7 @@ Nodes (6): 3. Data integrity, ItemRow, deliverPicks(), threadUrl(), deliverPerso
 
 ### Community 11 - "context.ts"
 Cohesion: 0.11
-Nodes (12): ref_node_events, Env, DB, Action, CommandBuilder, CommandHandler, ComponentHandler, ModalHandler (+4 more)
+Nodes (11): Env, DB, Action, CommandBuilder, CommandHandler, ComponentHandler, ModalHandler, Logger (+3 more)
 
 ### Community 12 - "Zernio"
 Cohesion: 0.22
