@@ -1,4 +1,4 @@
-# Graph Report - Lava-Discord-Bot  (2026-10-04)
+# Graph Report - Lava-Discord-Bot  (2026-10-05)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
@@ -326,15 +326,15 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `normalize()` connect `Apify` to `register`, `2. Frame-by-frame walkthrough`?**
   _High betweenness centrality (0.051) - this node is a cross-community bridge._
-- **Why does `register()` connect `register` to `src/index.ts`, `3. Data integrity`, `saved.ts`, `library/index.ts`, `registerSavedImport`, `Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)`?**
-  _High betweenness centrality (0.042) - this node is a cross-community bridge._
-- **Why does `discord.js` connect `src/index.ts` to `package.json`, `models.ts`, `setup-server.ts`, `context.ts`, `saved.ts`, `register`, `library/index.ts`?**
-  _High betweenness centrality (0.041) - this node is a cross-community bridge._
 - **Are the 12 inferred relationships involving `register()` (e.g. with `.action()` and `.ch()`) actually correct?**
   _`register()` has 12 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 8 inferred relationships involving `register()` (e.g. with `.action()` and `.ch()`) actually correct?**
-  _`register()` has 8 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `MetricRow`, `Parsed`, `Session` to the rest of the system?**
   _372 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `src/index.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.060812203669346525 - nodes in this community are weakly interconnected._
+- **Why does `register()` connect `register` to `src/index.ts`, `3. Data integrity`, `saved.ts`, `library/index.ts`, `registerSavedImport`, `Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)`?**
+  _High betweenness centrality (0.042) - this node is a cross-community bridge._
+- **Are the 8 inferred relationships involving `register()` (e.g. with `.action()` and `.ch()`) actually correct?**
+  _`register()` has 8 INFERRED edges - model-reasoned connections that need verification._
+- **Should `package.json` be split into smaller, more focused modules?**
+  _Cohesion score 0.043478260869565216 - nodes in this community are weakly interconnected._

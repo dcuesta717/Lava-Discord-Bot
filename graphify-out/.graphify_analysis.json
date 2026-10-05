@@ -1203,24 +1203,9 @@
       "why": "High betweenness centrality (0.051) - this node is a cross-community bridge."
     },
     {
-      "type": "bridge_node",
-      "question": "Why does `register()` connect `register` to `src/index.ts`, `3. Data integrity`, `saved.ts`, `library/index.ts`, `registerSavedImport`, `Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)`?",
-      "why": "High betweenness centrality (0.042) - this node is a cross-community bridge."
-    },
-    {
-      "type": "bridge_node",
-      "question": "Why does `discord.js` connect `src/index.ts` to `package.json`, `models.ts`, `setup-server.ts`, `context.ts`, `saved.ts`, `register`, `library/index.ts`?",
-      "why": "High betweenness centrality (0.041) - this node is a cross-community bridge."
-    },
-    {
       "type": "verify_inferred",
       "question": "Are the 12 inferred relationships involving `register()` (e.g. with `.action()` and `.ch()`) actually correct?",
       "why": "`register()` has 12 INFERRED edges - model-reasoned connections that need verification."
-    },
-    {
-      "type": "verify_inferred",
-      "question": "Are the 8 inferred relationships involving `register()` (e.g. with `.action()` and `.ch()`) actually correct?",
-      "why": "`register()` has 8 INFERRED edges - model-reasoned connections that need verification."
     },
     {
       "type": "isolated_nodes",
@@ -1231,6 +1216,21 @@
       "type": "low_cohesion",
       "question": "Should `src/index.ts` be split into smaller, more focused modules?",
       "why": "Cohesion score 0.060812203669346525 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `register()` connect `register` to `src/index.ts`, `3. Data integrity`, `saved.ts`, `library/index.ts`, `registerSavedImport`, `Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)`?",
+      "why": "High betweenness centrality (0.042) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 8 inferred relationships involving `register()` (e.g. with `.action()` and `.ch()`) actually correct?",
+      "why": "`register()` has 8 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `package.json` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.043478260869565216 - nodes in this community are weakly interconnected."
     }
   ]
 }
