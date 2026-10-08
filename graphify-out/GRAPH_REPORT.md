@@ -1,15 +1,15 @@
-# Graph Report - Lava-Discord-Bot  (2026-10-07)
+# Graph Report - Lava-Discord-Bot  (2026-10-08)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
 
 ## Summary
-- 850 nodes · 1604 edges · 78 communities (51 shown, 27 thin omitted)
-- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 163 edges (avg confidence: 0.86)
+- 849 nodes · 1604 edges · 77 communities (51 shown, 26 thin omitted)
+- Extraction: 90% EXTRACTED · 10% INFERRED · 0% AMBIGUOUS · INFERRED: 163 edges (avg confidence: 0.89)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e72979d6`
+- Built from commit: `721ee33a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -110,7 +110,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (78 total, 27 thin omitted)
+## Communities (77 total, 26 thin omitted)
 
 ### Community 0 - "src/index.ts"
 Cohesion: 0.06
@@ -318,8 +318,8 @@ Nodes (3): Caption examples, Hand-picked, Imported (auto — rewritten by import
 
 ## Knowledge Gaps
 - **372 isolated node(s):** `MetricRow`, `Parsed`, `Session`, `PostRow`, `Classified` (+367 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 468 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 467 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
