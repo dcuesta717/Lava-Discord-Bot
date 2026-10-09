@@ -1,17 +1,7 @@
 {
   "communities": {
     "0": [
-      "ref_discord_js",
-      "scripts_register_commands",
-      "scripts_register_commands_body",
-      "scripts_register_commands_client",
-      "scripts_register_commands_ctx",
-      "scripts_register_commands_db",
-      "scripts_register_commands_env",
-      "scripts_register_commands_rest",
-      "src_config_models_model",
-      "src_discord_client",
-      "src_discord_client_createclient",
+      "docs_backlog_post_tuning_6_spam_duplicate_sends",
       "src_discord_context_botcontext",
       "src_discord_context_botcontext_action",
       "src_discord_context_botcontext_ch",
@@ -19,26 +9,17 @@
       "src_discord_context_botcontext_command",
       "src_discord_context_botcontext_component",
       "src_discord_context_botcontext_cron",
+      "src_discord_context_botcontext_isadmin",
       "src_discord_context_botcontext_isowner",
       "src_discord_context_botcontext_isstafffor",
-      "src_discord_context_botcontext_modal",
+      "src_discord_context_botcontext_markready",
       "src_discord_context_botcontext_ops",
       "src_discord_context_botcontext_ownerids",
       "src_discord_context_botcontext_ownermentions",
       "src_discord_context_botcontext_send",
-      "src_discord_router",
-      "src_discord_router_attachrouter",
-      "src_index",
       "src_integrations_anthropic_fetchimageasbase64",
-      "src_integrations_anthropic_runagent",
-      "src_integrations_drive",
-      "src_integrations_notion",
-      "src_lib_logger",
-      "src_lib_logger_log",
-      "src_lib_prompts",
-      "src_lib_prompts_cache",
       "src_lib_prompts_loadprompt",
-      "src_lib_prompts_prompts_dir",
+      "src_lib_settings_settings_getstring",
       "src_lib_time",
       "src_lib_time_fmtlocal",
       "src_lib_time_minutesfromnow",
@@ -52,54 +33,39 @@
       "src_modules_away_index_register_handledm",
       "src_modules_away_index_register_onmessage",
       "src_modules_away_index_register_respond",
-      "src_modules_captions_index_register",
       "src_modules_earnings_index",
       "src_modules_earnings_index_register",
-      "src_modules_events_index_register",
-      "src_modules_events_index_register_generate",
-      "src_modules_events_index_register_senddue",
-      "src_modules_events_index_register_sendfor",
       "src_modules_insights_index",
       "src_modules_insights_index_metricrow",
       "src_modules_insights_index_parsed",
       "src_modules_insights_index_register",
       "src_modules_insights_index_register_format",
       "src_modules_insights_index_register_handlescreenshot",
+      "src_modules_library_index_register_classify",
       "src_modules_live_index",
       "src_modules_live_index_register",
       "src_modules_live_index_register_endsession",
       "src_modules_live_index_session",
-      "src_modules_operator_index",
       "src_modules_operator_index_register",
       "src_modules_operator_index_register_buildtools",
       "src_modules_operator_index_register_context",
       "src_modules_operator_index_register_recenthistory",
-      "src_modules_persona_index",
-      "src_modules_persona_index_register",
-      "src_modules_persona_index_register_contextblock",
-      "src_modules_persona_index_register_recenthistory",
       "src_modules_posting_index",
       "src_modules_posting_index_postrow",
       "src_modules_posting_index_register",
       "src_modules_posting_index_register_nextbestslot",
-      "src_modules_reels_index",
-      "src_modules_reels_index_classified",
-      "src_modules_reels_index_reelrow",
       "src_modules_reels_index_register",
       "src_modules_reels_index_register_classifyandpost",
+      "src_modules_reels_index_register_posttoboard",
       "src_modules_reels_index_register_scoutmodel",
-      "src_modules_reports_index",
-      "src_modules_reports_index_chunk",
-      "src_modules_reports_index_postrow",
-      "src_modules_reports_index_register",
-      "src_modules_reports_index_register_describe",
-      "src_modules_reports_index_register_loadwindow",
-      "src_modules_reports_index_register_modelreport",
-      "src_modules_reports_index_register_ownersdigest",
-      "src_modules_reports_index_snaprow",
+      "src_modules_reels_index_register_threadforcategory",
       "src_modules_requests_index",
       "src_modules_requests_index_register",
-      "src_modules_requests_index_requestrow"
+      "src_modules_requests_index_requestrow",
+      "src_modules_setup_index_register",
+      "src_modules_setup_index_register_ensurecategory",
+      "src_modules_setup_index_register_ensurestructure",
+      "src_modules_setup_index_register_ensuretext"
     ],
     "1": [
       "package",
@@ -140,9 +106,6 @@
       "package_version",
       "ref_apify_client",
       "ref_cron",
-      "ref_googleapis",
-      "ref_notionhq_client",
-      "ref_pino",
       "ref_pino_pretty",
       "ref_tsx",
       "ref_types_luxon",
@@ -150,13 +113,11 @@
       "ref_typescript"
     ],
     "2": [
-      "src_config_library_loadlibrary",
-      "src_integrations_apify_canonicalurl",
       "src_modules_library_index_register",
       "src_modules_library_index_register_buttons",
       "src_modules_library_index_register_byid",
       "src_modules_library_index_register_channelname",
-      "src_modules_library_index_register_classify",
+      "src_modules_library_index_register_deliverpicks",
       "src_modules_library_index_register_download",
       "src_modules_library_index_register_engagement",
       "src_modules_library_index_register_ensurelibrary",
@@ -171,11 +132,8 @@
       "src_modules_library_index_register_scoutqueries",
       "src_modules_library_index_register_sendtoboard",
       "src_modules_library_index_register_summarize",
-      "src_modules_library_index_register_uploadlimit",
-      "src_modules_models_index_register_setlanes",
-      "src_modules_reports_index_register_labelposts",
-      "src_modules_reports_index_register_snapshotall",
-      "src_modules_reports_index_register_snapshotmodel"
+      "src_modules_library_index_register_threadurl",
+      "src_modules_library_index_register_uploadlimit"
     ],
     "3": [
       "docs_architecture",
@@ -183,7 +141,6 @@
       "docs_architecture_build_order_each_is_a_day_or_less",
       "docs_architecture_deliberate_non_goals",
       "docs_architecture_request_flows",
-      "docs_backlog_post_tuning_6_spam_duplicate_sends",
       "docs_content_library",
       "docs_content_library_classification",
       "docs_content_library_content_library_the_agency_inspiration_folders",
@@ -212,9 +169,7 @@
       "src_integrations_apify_apify_instagramprofile",
       "src_integrations_apify_apify_tiktok",
       "src_integrations_apify_normalize",
-      "src_integrations_apify_num",
-      "src_modules_reels_index_register_posttoboard",
-      "src_modules_reels_index_register_threadforcategory"
+      "src_integrations_apify_num"
     ],
     "4": [
       "ref_node_fs",
@@ -228,11 +183,17 @@
       "src_config_models",
       "src_config_models_channels",
       "src_config_models_loadmodels",
+      "src_config_models_model",
       "src_config_models_modelconfig",
       "src_config_models_modelfiles",
       "src_config_models_models_dir",
       "src_config_models_modelschema",
       "src_config_models_readif",
+      "src_discord_context_botcontext_modal",
+      "src_integrations_apify_sourcingconfig",
+      "src_lib_prompts",
+      "src_lib_prompts_cache",
+      "src_lib_prompts_prompts_dir",
       "src_modules_away_index",
       "src_modules_away_index_decision",
       "src_modules_away_index_faq_file",
@@ -245,6 +206,7 @@
       "src_modules_captions_index",
       "src_modules_captions_index_captionrow",
       "src_modules_captions_index_card",
+      "src_modules_captions_index_register",
       "src_modules_captions_learn",
       "src_modules_captions_learn_learncaption",
       "src_modules_captions_lint",
@@ -252,7 +214,10 @@
       "src_modules_captions_lint_lintcaption",
       "src_modules_captions_lint_lintresult",
       "src_modules_captions_lint_parseline",
-      "src_modules_captions_lint_rule"
+      "src_modules_captions_lint_rule",
+      "src_modules_reels_index",
+      "src_modules_reels_index_classified",
+      "src_modules_reels_index_reelrow"
     ],
     "5": [
       "docs_source_analysis_nivo_discord_bot_analysis",
@@ -284,7 +249,8 @@
       "docs_source_analysis_nivo_discord_bot_analysis_nivo_hq_discord_larry_the_bot_teardown_build_blueprint"
     ],
     "6": [
-      "ref_postgres",
+      "ref_dotenv",
+      "ref_zod",
       "scripts_setup_server",
       "scripts_setup_server_client",
       "scripts_setup_server_db",
@@ -293,11 +259,12 @@
       "scripts_setup_server_settings",
       "scripts_setup_server_slug_userid",
       "scripts_setup_server_staffids",
-      "src_db_client",
-      "src_db_client_logevent",
-      "src_db_client_migrate",
-      "src_db_client_migrations_dir",
-      "src_db_client_opendb"
+      "src_config_env",
+      "src_config_env_anthropickey",
+      "src_config_env_csv",
+      "src_config_env_discordtoken",
+      "src_config_env_postgresurl",
+      "src_config_env_schema"
     ],
     "7": [
       "models_bryce_nelson_profile",
@@ -323,6 +290,7 @@
       "claude_conventions",
       "claude_how_to_work_with_the_owners_permanent",
       "claude_knowledge_graph_graphify_use_it_before_grepping",
+      "claude_known_sharp_edges_documented_unfixed_by_order_see_the_backlog_for_line_numbers",
       "claude_non_negotiables",
       "claude_standing_orders_tuning_window_sep_18_sep_25_2026_read_first",
       "claude_what_this_is",
@@ -347,8 +315,6 @@
     "10": [
       "docs_backlog_post_tuning_3_data_integrity",
       "src_modules_library_index_itemrow",
-      "src_modules_library_index_register_deliverpicks",
-      "src_modules_library_index_register_threadurl",
       "src_modules_library_saved_registersavedimport_deliverpersoncollection",
       "src_modules_library_saved_saveddeps",
       "src_modules_library_saved_saveddeps_genreexists",
@@ -357,8 +323,12 @@
     ],
     "11": [
       "ref_node_events",
+      "ref_postgres",
       "src_config_env_env",
+      "src_db_client",
       "src_db_client_db",
+      "src_db_client_logevent",
+      "src_db_client_migrations_dir",
       "src_discord_context",
       "src_discord_context_action",
       "src_discord_context_botcontext_constructor",
@@ -366,21 +336,16 @@
       "src_discord_context_commandhandler",
       "src_discord_context_componenthandler",
       "src_discord_context_modalhandler",
-      "src_integrations_drive_drive_constructor",
-      "src_integrations_notion_notion_constructor",
-      "src_lib_logger_logger",
       "src_lib_settings",
       "src_lib_settings_settings",
       "src_lib_settings_settings_constructor",
       "src_lib_settings_settings_get",
       "src_lib_settings_settings_getlist",
-      "src_lib_settings_settings_getstring",
       "src_lib_settings_settings_load",
       "src_lib_settings_settings_set",
       "src_lib_timers",
       "src_lib_timers_timerhandler",
-      "src_lib_timers_timerrow",
-      "src_lib_timers_timers_constructor"
+      "src_lib_timers_timerrow"
     ],
     "12": [
       "src_integrations_zernio",
@@ -430,6 +395,7 @@
     ],
     "16": [
       "docref_rfc_4180",
+      "ref_discord_js",
       "ref_luxon",
       "src_config_events",
       "src_config_events_eventdef",
@@ -441,16 +407,36 @@
       "src_config_events_nthweekday",
       "src_config_events_ruleschema",
       "src_config_events_schema",
+      "src_config_library",
+      "src_config_library_genre",
+      "src_config_library_genreschema",
+      "src_config_library_library_file",
+      "src_config_library_libraryconfig",
+      "src_config_library_schema",
       "src_lib_industry",
       "src_lib_industry_industry",
       "src_lib_industry_industrylens",
       "src_lib_industry_read",
       "src_lib_industry_taste",
+      "src_lib_model_structure",
+      "src_lib_model_structure_modelstructureids",
+      "src_lib_overwrites",
+      "src_lib_overwrites_clamptobot",
+      "src_lib_overwrites_member",
+      "src_lib_overwrites_role",
       "src_modules_events_index",
       "src_modules_events_index_idea",
       "src_modules_events_index_occurrence",
+      "src_modules_events_index_register",
+      "src_modules_events_index_register_generate",
       "src_modules_events_index_register_occurrence",
+      "src_modules_events_index_register_senddue",
+      "src_modules_events_index_register_sendfor",
       "src_modules_events_index_register_upcoming",
+      "src_modules_library_index",
+      "src_modules_library_index_classified",
+      "src_modules_library_index_ingestopts",
+      "src_modules_library_index_ingestresult",
       "src_modules_library_saved",
       "src_modules_library_saved_collectionsconfig",
       "src_modules_library_saved_file",
@@ -458,9 +444,13 @@
       "src_modules_library_saved_parsecsv",
       "src_modules_library_saved_queuerow",
       "src_modules_library_saved_readsheet",
+      "src_modules_library_saved_saveddeps_ingest",
       "src_modules_library_saved_savedrow",
       "src_modules_library_saved_schema",
-      "src_modules_library_saved_taste_file"
+      "src_modules_library_saved_taste_file",
+      "src_modules_setup_index",
+      "src_modules_setup_index_agency",
+      "src_modules_setup_index_staff"
     ],
     "17": [
       "ref_yaml",
@@ -476,7 +466,6 @@
       "src_integrations_apify",
       "src_integrations_apify_instagramprofile",
       "src_integrations_apify_reelcandidate",
-      "src_integrations_apify_sourcingconfig",
       "src_integrations_apify_str",
       "src_integrations_github",
       "src_integrations_github_github",
@@ -575,12 +564,14 @@
       "readme_roles"
     ],
     "23": [
-      "src_config_models_modelregistry",
-      "src_config_models_modelregistry_all",
-      "src_config_models_modelregistry_constructor",
-      "src_config_models_modelregistry_forchannel",
-      "src_config_models_modelregistry_forchannelorparent",
-      "src_config_models_modelregistry_get",
+      "src_config_env_loadenv",
+      "src_db_client_migrate",
+      "src_db_client_opendb",
+      "src_discord_client",
+      "src_discord_client_createclient",
+      "src_discord_router",
+      "src_discord_router_attachrouter",
+      "src_index",
       "src_index_explaindberror",
       "src_index_explaindiscorderror",
       "src_index_main",
@@ -592,14 +583,6 @@
       "src_lib_timers_timers_tick"
     ],
     "24": [
-      "src_config_library",
-      "src_config_library_genre",
-      "src_config_library_genreschema",
-      "src_config_library_library_file",
-      "src_config_library_libraryconfig",
-      "src_config_library_schema",
-      "src_discord_context_botcontext_isadmin",
-      "src_discord_context_botcontext_markready",
       "src_lib_market_filter",
       "src_lib_market_filter_ambiguous",
       "src_lib_market_filter_english_stopwords",
@@ -609,38 +592,13 @@
       "src_lib_market_filter_foreignlanguage",
       "src_lib_market_filter_marketfilter",
       "src_lib_market_filter_marketverdict",
-      "src_lib_market_filter_short_ok",
-      "src_lib_model_structure",
-      "src_lib_model_structure_modelstructureids",
-      "src_lib_overwrites",
-      "src_lib_overwrites_clamptobot",
-      "src_lib_overwrites_member",
-      "src_lib_overwrites_role",
-      "src_modules_library_index",
-      "src_modules_library_index_classified",
-      "src_modules_library_index_ingestopts",
-      "src_modules_library_index_ingestresult",
-      "src_modules_library_saved_saveddeps_ingest",
-      "src_modules_setup_index",
-      "src_modules_setup_index_agency",
-      "src_modules_setup_index_register",
-      "src_modules_setup_index_register_ensurecategory",
-      "src_modules_setup_index_register_ensurestructure",
-      "src_modules_setup_index_register_ensuretext",
-      "src_modules_setup_index_staff"
+      "src_lib_market_filter_short_ok"
     ],
     "25": [
-      "claude_known_sharp_edges_documented_unfixed_by_order_see_the_backlog_for_line_numbers",
-      "docs_backlog_post_tuning",
       "docs_backlog_post_tuning_2_restart_concurrency_resilience",
       "docs_backlog_post_tuning_4_silent_failures_visibility",
-      "docs_backlog_post_tuning_5_learning_classification_tuning_owner_decisions_nothing_changes_during_the_window",
-      "docs_backlog_post_tuning_7_config_human_ownership",
-      "docs_backlog_post_tuning_added_while_reading",
-      "docs_backlog_post_tuning_backlog_after_the_tuning_window_verified_against_main_01bbe2b_2026_09_18",
-      "docs_backlog_post_tuning_could_not_confirm_kept_out_of_the_tables_or_marked_partial",
-      "docs_backlog_post_tuning_recommended_order_when_the_tuning_window_ends_p0s",
       "docs_daily_operations_7_for_claude_the_technical_partner",
+      "docs_incidents_2026_09_17_library_wipe_timeline_utc_new_york_utc_4",
       "src_modules_library_saved_registersavedimport",
       "src_modules_library_saved_registersavedimport_learn",
       "src_modules_library_saved_registersavedimport_mark",
@@ -761,6 +719,23 @@
       "models_aaron_pilk_profile_scout_seeds",
       "models_aaron_pilk_profile_staff_additions"
     ],
+    "45": [
+      "src_config_library_loadlibrary",
+      "src_integrations_apify_canonicalurl",
+      "src_modules_models_index_register_setlanes",
+      "src_modules_reports_index",
+      "src_modules_reports_index_chunk",
+      "src_modules_reports_index_postrow",
+      "src_modules_reports_index_register",
+      "src_modules_reports_index_register_describe",
+      "src_modules_reports_index_register_labelposts",
+      "src_modules_reports_index_register_loadwindow",
+      "src_modules_reports_index_register_modelreport",
+      "src_modules_reports_index_register_ownersdigest",
+      "src_modules_reports_index_register_snapshotall",
+      "src_modules_reports_index_register_snapshotmodel",
+      "src_modules_reports_index_snaprow"
+    ],
     "46": [
       "models_bryce_nelson_voice_banned_phrases",
       "models_bryce_nelson_voice_banned_phrases_allow_obsessed",
@@ -805,6 +780,19 @@
       "models_aaron_pilk_voice_voice_what_her_captions_are_usually_about",
       "models_aaron_pilk_voice_voice_who_she_is_in_one_line"
     ],
+    "50": [
+      "scripts_register_commands",
+      "scripts_register_commands_body",
+      "scripts_register_commands_client",
+      "scripts_register_commands_ctx",
+      "scripts_register_commands_db",
+      "scripts_register_commands_env",
+      "scripts_register_commands_rest",
+      "src_modules_persona_index",
+      "src_modules_persona_index_register",
+      "src_modules_persona_index_register_contextblock",
+      "src_modules_persona_index_register_recenthistory"
+    ],
     "51": [
       "knowledge_faq",
       "knowledge_faq_admin",
@@ -828,7 +816,9 @@
       "src_integrations_anthropic_claude_vision",
       "src_integrations_anthropic_claudeopts",
       "src_integrations_anthropic_imageinput",
-      "src_integrations_anthropic_parsejson"
+      "src_integrations_anthropic_parsejson",
+      "src_integrations_anthropic_runagent",
+      "src_modules_operator_index"
     ],
     "52": [
       "models_bryce_nelson_voice_voice",
@@ -892,16 +882,13 @@
       "docs_operator_chat_what_it_can_do_the_actions"
     ],
     "59": [
-      "docs_backlog_post_tuning_1_safety_destructive_actions",
       "docs_incidents_2026_09_17_library_wipe",
       "docs_incidents_2026_09_17_library_wipe_addendum_how_the_re_run_ended_01_37_01_41_utc_sep_18",
       "docs_incidents_2026_09_17_library_wipe_incident_the_content_library_folders_emptied_twice_sep_17_2026_evening",
       "docs_incidents_2026_09_17_library_wipe_lesson_now_a_standing_rule_in_claude_md",
       "docs_incidents_2026_09_17_library_wipe_related",
-      "docs_incidents_2026_09_17_library_wipe_timeline_utc_new_york_utc_4",
       "docs_incidents_2026_09_17_library_wipe_what_the_numbers_mean_as_of_00_21_utc_sep_18",
       "docs_incidents_2026_09_17_library_wipe_why_it_could_happen_root_causes_all_still_present_by_the_owner_s_order",
-      "src_integrations_github_github_listdir",
       "src_modules_library_index_register_purge",
       "src_modules_library_index_register_runbootjobs"
     ],
@@ -960,23 +947,42 @@
       "docs_creator_list_reference_creators_library_genres_yaml_scout_reference_accounts_scraper_check_2026_09_18"
     ],
     "72": [
+      "ref_googleapis",
+      "ref_notionhq_client",
+      "ref_pino",
+      "src_integrations_drive",
       "src_integrations_drive_drive",
+      "src_integrations_drive_drive_constructor",
       "src_integrations_drive_drive_createfolder",
       "src_integrations_drive_drive_downloadurl",
       "src_integrations_drive_drive_enabled",
       "src_integrations_drive_drive_newfiles",
-      "src_integrations_drive_drive_rename"
+      "src_integrations_drive_drive_rename",
+      "src_integrations_notion",
+      "src_integrations_notion_notion_constructor",
+      "src_lib_logger",
+      "src_lib_logger_log",
+      "src_lib_logger_logger",
+      "src_lib_timers_timers_constructor"
     ],
     "73": [
-      "ref_dotenv",
-      "ref_zod",
-      "src_config_env",
-      "src_config_env_anthropickey",
-      "src_config_env_csv",
-      "src_config_env_discordtoken",
-      "src_config_env_loadenv",
-      "src_config_env_postgresurl",
-      "src_config_env_schema"
+      "docs_backlog_post_tuning",
+      "docs_backlog_post_tuning_1_safety_destructive_actions",
+      "docs_backlog_post_tuning_5_learning_classification_tuning_owner_decisions_nothing_changes_during_the_window",
+      "docs_backlog_post_tuning_7_config_human_ownership",
+      "docs_backlog_post_tuning_added_while_reading",
+      "docs_backlog_post_tuning_backlog_after_the_tuning_window_verified_against_main_01bbe2b_2026_09_18",
+      "docs_backlog_post_tuning_could_not_confirm_kept_out_of_the_tables_or_marked_partial",
+      "docs_backlog_post_tuning_recommended_order_when_the_tuning_window_ends_p0s",
+      "src_integrations_github_github_listdir"
+    ],
+    "74": [
+      "src_config_models_modelregistry",
+      "src_config_models_modelregistry_all",
+      "src_config_models_modelregistry_constructor",
+      "src_config_models_modelregistry_forchannel",
+      "src_config_models_modelregistry_forchannelorparent",
+      "src_config_models_modelregistry_get"
     ],
     "77": [
       "docs_archetypes",
@@ -1005,32 +1011,32 @@
     ]
   },
   "cohesion": {
-    "0": 0.060812203669346525,
-    "1": 0.043478260869565216,
-    "2": 0.14461538461538462,
-    "3": 0.06306306306306306,
-    "4": 0.09047619047619047,
+    "0": 0.07788461538461539,
+    "1": 0.046511627906976744,
+    "2": 0.1619047619047619,
+    "3": 0.06951871657754011,
+    "4": 0.07922705314009662,
     "5": 0.07407407407407407,
-    "6": 0.15384615384615385,
+    "6": 0.125,
     "7": 0.125,
-    "8": 0.2,
+    "8": 0.18181818181818182,
     "9": 0.15384615384615385,
-    "10": 0.2777777777777778,
-    "11": 0.11,
+    "10": 0.38095238095238093,
+    "11": 0.11956521739130435,
     "12": 0.21818181818181817,
     "13": 0.2222222222222222,
     "14": 0.2222222222222222,
     "15": 0.2222222222222222,
-    "16": 0.08266129032258064,
-    "17": 0.07738095238095238,
+    "16": 0.06077694235588972,
+    "17": 0.07936507936507936,
     "18": 0.25,
     "19": 0.38095238095238093,
     "20": 0.2857142857142857,
     "21": 0.2857142857142857,
     "22": 0.2857142857142857,
-    "23": 0.17142857142857143,
-    "24": 0.08571428571428572,
-    "25": 0.21568627450980393,
+    "23": 0.21323529411764705,
+    "24": 0.24444444444444444,
+    "25": 0.43636363636363634,
     "26": 0.4,
     "27": 0.5,
     "28": 0.6666666666666666,
@@ -1050,11 +1056,13 @@
     "42": 1.0,
     "43": 0.1,
     "44": 0.125,
+    "45": 0.24761904761904763,
     "46": 0.2222222222222222,
     "47": 0.2222222222222222,
     "48": 0.2222222222222222,
     "49": 0.2222222222222222,
-    "51": 0.09881422924901186,
+    "50": 0.2,
+    "51": 0.09666666666666666,
     "52": 0.2222222222222222,
     "53": 0.2857142857142857,
     "54": 0.2857142857142857,
@@ -1062,7 +1070,7 @@
     "56": 0.3333333333333333,
     "57": 0.3333333333333333,
     "58": 0.4,
-    "59": 0.16666666666666666,
+    "59": 0.2222222222222222,
     "60": 0.5,
     "61": 0.5,
     "62": 0.5,
@@ -1075,8 +1083,9 @@
     "69": 1.0,
     "70": 1.0,
     "71": 0.3333333333333333,
-    "72": 0.3333333333333333,
+    "72": 0.13970588235294118,
     "73": 0.2222222222222222,
+    "74": 0.3333333333333333,
     "77": 0.5,
     "78": 0.5,
     "79": 0.6666666666666666,
@@ -1112,7 +1121,7 @@
     {
       "id": "src_index_main",
       "label": "main()",
-      "degree": 22
+      "degree": 23
     },
     {
       "id": "src_config_models_model",
@@ -1125,39 +1134,17 @@
       "degree": 19
     },
     {
-      "id": "src_modules_reports_index_register",
-      "label": "register()",
+      "id": "src_integrations_apify_canonicalurl",
+      "label": "canonicalUrl()",
       "degree": 19
     },
     {
-      "id": "src_integrations_apify_canonicalurl",
-      "label": "canonicalUrl()",
+      "id": "src_modules_reports_index_register",
+      "label": "register()",
       "degree": 19
     }
   ],
   "surprises": [
-    {
-      "source": "Where things are",
-      "target": "industryLens()",
-      "source_files": [
-        "CLAUDE.md",
-        "src/lib/industry.ts"
-      ],
-      "confidence": "INFERRED",
-      "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Where things are` unexpectedly reaches hub `industryLens()`"
-    },
-    {
-      "source": "Could not confirm (kept out of the tables or marked partial)",
-      "target": "canonicalUrl()",
-      "source_files": [
-        "docs/backlog-post-tuning.md",
-        "src/integrations/apify.ts"
-      ],
-      "confidence": "INFERRED",
-      "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Could not confirm (kept out of the tables or marked partial)` unexpectedly reaches hub `canonicalUrl()`"
-    },
     {
       "source": "House rules — reject by default; US, English, women only, sex appeal required",
       "target": "classify()",
@@ -1170,26 +1157,48 @@
       "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `House rules — reject by default; US, English, women only, sex appeal required` unexpectedly reaches hub `classify()`"
     },
     {
-      "source": "Learned from Dan's saves (2026-09-18 04:09 UTC, `learn()` on the full 288-video set)",
-      "target": "learn()",
+      "source": "Where things are",
+      "target": "industryLens()",
       "source_files": [
-        "docs/creator-list.md",
-        "src/modules/library/saved.ts"
+        "CLAUDE.md",
+        "src/lib/industry.ts"
       ],
       "confidence": "INFERRED",
       "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Learned from Dan's saves (2026-09-18 04:09 UTC, `learn()` on the full 288-video set)` unexpectedly reaches hub `learn()`"
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Where things are` unexpectedly reaches hub `industryLens()`"
     },
     {
-      "source": "Addendum — how the re-run ended (01:37–01:41 UTC Sep 18)",
+      "source": "Known sharp edges (documented, unfixed by order — see the backlog for line numbers)",
       "target": "learn()",
       "source_files": [
-        "docs/incidents/2026-09-17-library-wipe.md",
+        "CLAUDE.md",
         "src/modules/library/saved.ts"
       ],
       "confidence": "INFERRED",
       "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Addendum — how the re-run ended (01:37–01:41 UTC Sep 18)` unexpectedly reaches hub `learn()`"
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Known sharp edges (documented, unfixed by order — see the backlog for line numbers)` unexpectedly reaches hub `learn()`"
+    },
+    {
+      "source": "5. Learning & classification tuning *(owner decisions; nothing changes during the window)*",
+      "target": "learn()",
+      "source_files": [
+        "docs/backlog-post-tuning.md",
+        "src/modules/library/saved.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `5. Learning & classification tuning *(owner decisions; nothing changes during the window)*` unexpectedly reaches hub `learn()`"
+    },
+    {
+      "source": "Added while reading",
+      "target": "learn()",
+      "source_files": [
+        "docs/backlog-post-tuning.md",
+        "src/modules/library/saved.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Added while reading` unexpectedly reaches hub `learn()`"
     }
   ],
   "questions": [
@@ -1205,17 +1214,17 @@
     },
     {
       "type": "isolated_nodes",
-      "question": "What connects `MetricRow`, `Parsed`, `Session` to the rest of the system?",
-      "why": "372 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "question": "What connects `pino-pretty`, `tsx`, `@types/luxon` to the rest of the system?",
+      "why": "6 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",
-      "question": "Should `src/index.ts` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.060812203669346525 - nodes in this community are weakly interconnected."
+      "question": "Should `BotContext` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.07788461538461539 - nodes in this community are weakly interconnected."
     },
     {
       "type": "bridge_node",
-      "question": "Why does `register()` connect `register` to `src/index.ts`, `3. Data integrity`, `saved.ts`, `library/index.ts`, `registerSavedImport`, `Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)`?",
+      "question": "Why does `register()` connect `register` to `BotContext`, `canonicalUrl`, `saved.ts`, `src/index.ts`, `market-filter.ts`, `registerSavedImport`, `Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)`?",
       "why": "High betweenness centrality (0.042) - this node is a cross-community bridge."
     },
     {
@@ -1226,7 +1235,7 @@
     {
       "type": "low_cohesion",
       "question": "Should `package.json` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.043478260869565216 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.046511627906976744 - nodes in this community are weakly interconnected."
     }
   ]
 }
