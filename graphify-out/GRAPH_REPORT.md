@@ -1,4 +1,4 @@
-# Graph Report - Lava-Discord-Bot  (2026-10-14)
+# Graph Report - Lava-Discord-Bot  (2026-10-15)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
@@ -9,7 +9,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `4adcf822`
+- Built from commit: `be3a775d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
