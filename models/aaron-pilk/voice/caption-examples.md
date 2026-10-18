@@ -13,71 +13,71 @@ Three sections, all read by the generator:
 
 ## Imported (auto — rewritten by import-captions / model add; do not edit)
 <!-- stats: n=77 · median length 58 chars / 9 words · 88% use hashtags · 8% use emoji · 6% all-lowercase -->
-- Pretty nasty #baseball #fastball #slider  <!-- tiktok · reel · ❤️ 58,300 · 💬 127 · ▶️ 526,600 -->
-- Yea okay buddy lol good luck sniffing that after 98 up and in twice. #baseball #pitching #pitchingninja #fastball #tampa  <!-- instagram · reel · ❤️ 27,774 · 💬 56 · ▶️ 622,323 -->
-- Just another example of how crazy AI has gotten in the last year This entire video was made in Veo 3 using nothing but text. Prompt Used: “Ultra-realistic night scene of multiple fluffy baby rabbits playing on a black trampoline in a backyard, illuminated by a motion light, cinematic detail, 8K” Here’s why this matters for digital marketing: AI-generated content isn’t just for fun videos — it’s proof that anything your audience can visualize, you can create. From product demos to brand storytelling, AI is removing production costs and time constraints. The brands that figure out how to blend AI creativity with marketing strategy will dominate the next wave of online attention. #AIVideo #Veo3 #DigitalMarketing #AIContent #MarketingTips #ContentCreation  <!-- tiktok · reel · ❤️ 17,500 · 💬 470 · ▶️ 1,600,000 -->
+- Pretty nasty #baseball #fastball #slider  <!-- tiktok · reel · ❤️ 58,300 · 💬 127 · ▶️ 526,900 -->
+- Yea okay buddy lol good luck sniffing that after 98 up and in twice. #baseball #pitching #pitchingninja #fastball #tampa  <!-- instagram · reel · ❤️ 27,750 · 💬 56 · ▶️ 622,332 -->
+- Just another example of how crazy AI has gotten in the last year This entire video was made in Veo 3 using nothing but text. Prompt Used: “Ultra-realistic night scene of multiple fluffy baby rabbits playing on a black trampoline in a backyard, illuminated by a motion light, cinematic detail, 8K” Here’s why this matters for digital marketing: AI-generated content isn’t just for fun videos — it’s proof that anything your audience can visualize, you can create. From product demos to brand storytelling, AI is removing production costs and time constraints. The brands that figure out how to blend AI creativity with marketing strategy will dominate the next wave of online attention. #AIVideo #Veo3 #DigitalMarketing #AIContent #MarketingTips #ContentCreation  <!-- tiktok · reel · ❤️ 17,500 · 💬 467 · ▶️ 1,600,000 -->
 - Pretty crazy what we can do with video creation now. #ai  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 14,857 -->
-- Crop circles are large, often intricate patterns that appear mysteriously in fields—usually in crops like wheat, barley, or corn—where the plants are bent down in precise shapes without being broken. They’ve been reported for centuries, but became famous in the late 20th century. Explanations range from: • Human-made art — Many are created by skilled artists using boards, ropes, and careful planning. • Natural phenomena — Some suggest wind patterns, animal activity, or plant diseases could cause simpler shapes. • Paranormal theories — UFO enthusiasts think they’re messages or landing marks from extraterrestrials. What makes them fascinating is that even when they are man-made, the geometry, scale, and speed of creation can be astonishing.  <!-- tiktok · reel · ❤️ 5,598 · 💬 190 · ▶️ 922,700 -->
-- The loss of an objective reality, is perhaps the most dangerous. The death of truth is the ultimate victory of evil. #nvnation #freedom #blackbox #blacklable #vaxxed #usa #truth  <!-- instagram · reel · ❤️ 3,896 · 💬 348 · ▶️ 69,874 -->
+- Crop circles are large, often intricate patterns that appear mysteriously in fields—usually in crops like wheat, barley, or corn—where the plants are bent down in precise shapes without being broken. They’ve been reported for centuries, but became famous in the late 20th century. Explanations range from: • Human-made art — Many are created by skilled artists using boards, ropes, and careful planning. • Natural phenomena — Some suggest wind patterns, animal activity, or plant diseases could cause simpler shapes. • Paranormal theories — UFO enthusiasts think they’re messages or landing marks from extraterrestrials. What makes them fascinating is that even when they are man-made, the geometry, scale, and speed of creation can be astonishing.  <!-- tiktok · reel · ❤️ 5,734 · 💬 190 · ▶️ 938,600 -->
+- The loss of an objective reality, is perhaps the most dangerous. The death of truth is the ultimate victory of evil. #nvnation #freedom #blackbox #blacklable #vaxxed #usa #truth  <!-- instagram · reel · ❤️ 3,890 · 💬 348 · ▶️ 69,893 -->
 - Just another example of how crazy AI has gotten in the last year… This entire video was made in Veo 3 using nothing but text. Prompt Used: “Ultra-realistic night scene of multiple fluffy baby rabbits playing on a black trampoline in a backyard, illuminated by a motion light, cinematic detail, 8K” Here’s why this matters for digital marketing: AI-generated content isn’t just for fun videos it’s proof that anything your audience can visualize, you can create. From product demos to brand storytelling, AI is removing production costs and time constraints. The brands that figure out how to blend AI creativity with marketing strategy will dominate the next wave of online attention. #bunnies #ringcam #viralvideo  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 5,610 -->
-- Power is generated from the ground up. #golf #golfswing #golflife  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 4,665 -->
-- Best thing top golf has done is add the goal post. Makes playing angry birds much easier #topgolf #golf #golfswing  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 3,268 -->
-- Even I was amazed she agreed to do this #golf #golfswing #golflife #golfer #viral #lakehouse  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 3,031 -->
+- Power is generated from the ground up. #golf #golfswing #golflife  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 4,679 -->
+- Best thing top golf has done is add the goal post. Makes playing angry birds much easier #topgolf #golf #golfswing  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 3,269 -->
+- Even I was amazed she agreed to do this #golf #golfswing #golflife #golfer #viral #lakehouse  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 3,034 -->
 - Cancel me  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 2,962 -->
-- #baseball #homerun  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 2,254 -->
-- Stay fast my friends #amg #racing #mercedes #  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 2,100 -->
+- #baseball #homerun  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 2,264 -->
+- Stay fast my friends #amg #racing #mercedes #  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 2,106 -->
 - #golf #golfswing #golflife  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 1,662 -->
-- I don’t work out this is just to make yall think I do. #deadlift #ﬁtness #baseball #golf #business  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 1,552 -->
-- @timwalz get ready buddy you will be held accountable for everything. #timwalz #Minnesota #fraud  <!-- instagram · reel · ❤️ 481 · 💬 44 · ▶️ 20,670 -->
-- Shane Gillis fill monomogue #espys #shanegillis  <!-- tiktok · reel · ❤️ 300 · 💬 4 · ▶️ 4,497 -->
+- I don’t work out this is just to make yall think I do. #deadlift #ﬁtness #baseball #golf #business  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 1,560 -->
+- @timwalz get ready buddy you will be held accountable for everything. #timwalz #Minnesota #fraud  <!-- instagram · reel · ❤️ 480 · 💬 44 · ▶️ 20,671 -->
+- Shane Gillis fill monomogue #espys #shanegillis  <!-- tiktok · reel · ❤️ 300 · 💬 4 · ▶️ 4,513 -->
 - This is crazy @espn #golf  <!-- instagram · reel · ❤️ 284 · 💬 5 · ▶️ 9,113 -->
 - Big kitty cat #cats #funnyanimals #catsoftiktok #viralcats  <!-- tiktok · reel · ❤️ 171 · 💬 5 · ▶️ 3,773 -->
 - What do you rate the back flop 1-10 #tricks #backflips  <!-- instagram · reel · ❤️ 0 · 💬 0 · ▶️ 188 -->
 - How many will say it’s not 90 😂😂😂 #baseball #pitching  <!-- tiktok · reel · ❤️ 160 · 💬 2 · ▶️ 9,621 -->
 - Comment what your initial thought to the video is. #minneapolis #ice #newsupdate  <!-- instagram · reel · ❤️ 0 · 💬 29 · ▶️ 4,503 -->
 - Speed always wins #amg #racing #mercedes  <!-- tiktok · reel · ❤️ 133 · 💬 2 · ▶️ 1,835 -->
-- Good ole Kent Murphy here to save the day after getting drilled 2 pitches before #baseball #slider #kentmurphy #fastball  <!-- tiktok · reel · ❤️ 131 · 💬 0 · ▶️ 5,758 -->
-- Obsessed with Trump lol #colbert #latenight  <!-- tiktok · reel · ❤️ 105 · 💬 1 · ▶️ 1,593 -->
+- Good ole Kent Murphy here to save the day after getting drilled 2 pitches before #baseball #slider #kentmurphy #fastball  <!-- tiktok · reel · ❤️ 131 · 💬 0 · ▶️ 5,763 -->
+- Obsessed with Trump lol #colbert #latenight  <!-- tiktok · reel · ❤️ 105 · 💬 1 · ▶️ 1,594 -->
 - From the goat himself #marketing #apple #ai  <!-- tiktok · reel · ❤️ 102 · 💬 1 · ▶️ 2,067 -->
-- This is a sign to spoil your furry family #love #cats #friends #bestfriends  <!-- instagram · reel · ❤️ 101 · 💬 0 · ▶️ 1,402 -->
+- This is a sign to spoil your furry family #love #cats #friends #bestfriends  <!-- instagram · reel · ❤️ 102 · 💬 0 · ▶️ 1,403 -->
 - Are you hitting this? #baseball #fastball  <!-- tiktok · reel · ❤️ 74 · 💬 3 · ▶️ 3,375 -->
 - 2026 is the year of exposure. We are coming for everyone involved in the fraud. Left, right does not matter 2 wings same bird. The truth is the way of the lord. Balance will restore after the storm, and the storm has been brewing for 20 years. #truth #freedom #USA #exposed #fraud  <!-- instagram · reel · ❤️ 54 · 💬 5 · ▶️ 2,439 -->
 - Theres no way its goes viral again #baseball #slider #tampa #fastball  <!-- tiktok · reel · ❤️ 74 · 💬 0 · ▶️ 2,451 -->
-- 🤫  <!-- instagram · photo · ❤️ 53 · 💬 2 -->
-- To all the “Guru’s” fuck you Scamming people with your BS course. The sauce is free just ask I’ll tell you.  <!-- instagram · reel · ❤️ 15 · 💬 8 · ▶️ 580 -->
-- How amazing it is to have a $700 space ship litter box #cats  <!-- tiktok · reel · ❤️ 24 · 💬 4 · ▶️ 890 -->
+- 🤫  <!-- instagram · photo · ❤️ 52 · 💬 2 -->
+- To all the “Guru’s” fuck you Scamming people with your BS course. The sauce is free just ask I’ll tell you.  <!-- instagram · reel · ❤️ 15 · 💬 8 · ▶️ 613 -->
+- How amazing it is to have a $700 space ship litter box #cats  <!-- tiktok · reel · ❤️ 24 · 💬 4 · ▶️ 894 -->
 - Dog park bumpin #yn #dogpark #dogs #animalsoftiktok  <!-- tiktok · reel · ❤️ 32 · 💬 1 · ▶️ 1,182 -->
-- Crop circles are large, often intricate patterns that appear mysteriously in field, usually in crops like wheat, barley, or corn, where the plants are bent down in precise shapes without being broken. They’ve been reported for centuries, but became famous in the late 20th century. Explanations range from: • Human-made art — Many are created by skilled artists using boards, ropes, and careful planning. • Natural phenomena — Some suggest wind patterns, animal activity, or plant diseases could cause simpler shapes. • Paranormal theories — UFO enthusiasts think they’re messages or landing marks from extraterrestrials. What makes them fascinating is that even when they are man-made, the geometry, scale, and speed of creation can be astonishing. #cropcircles #ai  <!-- instagram · reel · ❤️ 0 · 💬 7 · ▶️ 14,871 -->
+- Crop circles are large, often intricate patterns that appear mysteriously in field, usually in crops like wheat, barley, or corn, where the plants are bent down in precise shapes without being broken. They’ve been reported for centuries, but became famous in the late 20th century. Explanations range from: • Human-made art — Many are created by skilled artists using boards, ropes, and careful planning. • Natural phenomena — Some suggest wind patterns, animal activity, or plant diseases could cause simpler shapes. • Paranormal theories — UFO enthusiasts think they’re messages or landing marks from extraterrestrials. What makes them fascinating is that even when they are man-made, the geometry, scale, and speed of creation can be astonishing. #cropcircles #ai  <!-- instagram · reel · ❤️ 0 · 💬 7 · ▶️ 14,955 -->
 - We all start somewhere #golf #golftiktok #golffails  <!-- tiktok · reel · ❤️ 25 · 💬 2 · ▶️ 1,443 -->
 - Not like the motherland but it was good #foodtiktok #koreanfood #jokes #trigge #koreanbbq  <!-- tiktok · reel · ❤️ 24 · 💬 2 · ▶️ 1,174 -->
-- First correct guess gets a blumpkin #baseball  <!-- tiktok · reel · ❤️ 18 · 💬 3 · ▶️ 1,240 -->
+- First correct guess gets a blumpkin #baseball  <!-- tiktok · reel · ❤️ 18 · 💬 3 · ▶️ 1,242 -->
 - 🤫 what’s more the Picasso or the wine collection?  <!-- instagram · carousel · ❤️ 21 · 💬 2 -->
-- Crazy experiment #fish #fishing #lakelife #trt  <!-- tiktok · reel · ❤️ 25 · 💬 1 · ▶️ 1,562 -->
+- Crazy experiment #fish #fishing #lakelife #trt  <!-- tiktok · reel · ❤️ 25 · 💬 1 · ▶️ 1,564 -->
 - Do you drive green? #golf  <!-- instagram · reel · ❤️ 16 · 💬 2 · ▶️ 2,612 -->
 - Fun times #darts #funny #memories #idiots  <!-- tiktok · reel · ❤️ 25 · 💬 0 · ▶️ 2,074 -->
 - To the youth stay away from girls and partying. That’s all I have to say  <!-- instagram · reel · ❤️ 17 · 💬 1 · ▶️ 907 -->
 - They are all so happy #dogs #dogpark #puppys  <!-- tiktok · reel · ❤️ 22 · 💬 0 · ▶️ 1,447 -->
-- You need to be creating.  <!-- instagram · reel · ❤️ 5 · 💬 3 · ▶️ 435 -->
+- You need to be creating.  <!-- instagram · reel · ❤️ 5 · 💬 3 · ▶️ 449 -->
 - At this point the manipulation tactics are funny #freedom #victim #mindset #politics  <!-- instagram · reel · ❤️ 0 · 💬 4 · ▶️ 2,609 -->
 - Play stupid games win stupid prizes. Minnesota has absolutely zero room to be telling anybody to get the fuck out of Minnesota. You were just exposed for one of the biggest frauds in US history paid for by the American taxpayer. Minnesota will now use this as a jumpstart to get people to riot and to distract from the fact that they have spent $18 billion of taxpayers money all the way back into the pockets of the politicians and making illegals rich. And to think some of you tried to vote that politician into office to be vice president. #ice #Minnesota #fraud  <!-- instagram · reel · ❤️ 0 · 💬 4 · ▶️ 1,601 -->
 - Absolute insane what AI is doing. I just wonder what are yall promoting to make this? #ai #prompting #aivideo  <!-- instagram · reel · ❤️ 0 · 💬 4 · ▶️ 13,032 -->
-- Big buffalo trace guy #cats #catmemes #funnycatsofinstagram #buffalotrace #money  <!-- instagram · reel · ❤️ 15 · 💬 1 · ▶️ 3,526 -->
-- Not even worth playing games, just try and hit the goal post. #topgolf #golf #golflife  <!-- tiktok · reel · ❤️ 4 · 💬 3 · ▶️ 696 -->
+- Big buffalo trace guy #cats #catmemes #funnycatsofinstagram #buffalotrace #money  <!-- instagram · reel · ❤️ 15 · 💬 1 · ▶️ 3,531 -->
+- Not even worth playing games, just try and hit the goal post. #topgolf #golf #golflife  <!-- tiktok · reel · ❤️ 4 · 💬 3 · ▶️ 698 -->
 - Don’t get left behind #ai #seo #automation #gpt #marketing #aiseo  <!-- tiktok · reel · ❤️ 13 · 💬 1 · ▶️ 1,272 -->
 - Best meal #eggs #foodtiktok  <!-- tiktok · reel · ❤️ 16 · 💬 0 · ▶️ 1,220 -->
 - Happy birthday G @jamilharb10  <!-- instagram · carousel · ❤️ 0 · 💬 3 -->
-- No caption @modelousa #golf #golfswing #golflife  <!-- instagram · reel · ❤️ 14 · 💬 0 · ▶️ 866 -->
+- No caption @modelousa #golf #golfswing #golflife  <!-- instagram · reel · ❤️ 14 · 💬 0 · ▶️ 870 -->
 - I’m honor of football season and hurricane season right around the corner #florida #fergs  <!-- tiktok · reel · ❤️ 9 · 💬 1 · ▶️ 764 -->
-- Welcome to the future #ai #gpt5 #automation  <!-- tiktok · reel · ❤️ 6 · 💬 1 · ▶️ 976 -->
-- Random crash out is highly recommended every once in a while. #golf #golfswing #golflife #usa  <!-- instagram · reel · ❤️ 0 · 💬 2 · ▶️ 4,303 -->
-- Words cannot explain how good the swing feels right now. Very consistent ball striking is key 🔑 #golf #golfswing #failarmy #golffails #scratchgolf  <!-- instagram · reel · ❤️ 0 · 💬 2 · ▶️ 1,813 -->
-- #baseball #hitting #switchhitter⚾️ #homeruns #viral #fyp  <!-- instagram · reel · ❤️ 0 · 💬 2 · ▶️ 2,895 -->
-- Close friends automation is a HACK!!!! #automation #marketing #instragram #cats #socialmedia  <!-- tiktok · reel · ❤️ 10 · 💬 0 · ▶️ 1,154 -->
-- Its strategical gambling guys #trading #forex #axuusd #gold #golf  <!-- instagram · reel · ❤️ 4 · 💬 1 · ▶️ 520 -->
+- Welcome to the future #ai #gpt5 #automation  <!-- tiktok · reel · ❤️ 6 · 💬 1 · ▶️ 979 -->
+- Random crash out is highly recommended every once in a while. #golf #golfswing #golflife #usa  <!-- instagram · reel · ❤️ 0 · 💬 2 · ▶️ 4,311 -->
+- Words cannot explain how good the swing feels right now. Very consistent ball striking is key 🔑 #golf #golfswing #failarmy #golffails #scratchgolf  <!-- instagram · reel · ❤️ 0 · 💬 2 · ▶️ 1,817 -->
+- #baseball #hitting #switchhitter⚾️ #homeruns #viral #fyp  <!-- instagram · reel · ❤️ 0 · 💬 2 · ▶️ 2,897 -->
+- Close friends automation is a HACK!!!! #automation #marketing #instragram #cats #socialmedia  <!-- tiktok · reel · ❤️ 10 · 💬 0 · ▶️ 1,163 -->
+- Its strategical gambling guys #trading #forex #axuusd #gold #golf  <!-- instagram · reel · ❤️ 4 · 💬 1 · ▶️ 529 -->
 - Literally can’t move my arm from this. Idk how @_snappygilmore does it all the time #golf #snappygilmore #golfswing #onehanded  <!-- tiktok · reel · ❤️ 7 · 💬 0 · ▶️ 5,290 -->
 - Crazy brawl at the @hornets game! #nba #hornets  <!-- instagram · reel · ❤️ 0 · 💬 1 · ▶️ 1,595 -->
 - Yes, this is a real clip…. #trump #Venezuela #maduro  <!-- instagram · reel · ❤️ 0 · 💬 1 · ▶️ 7,808 -->
-- Get shallow  <!-- instagram · reel · ❤️ 5 · 💬 0 · ▶️ 571 -->
+- Get shallow  <!-- instagram · reel · ❤️ 5 · 💬 0 · ▶️ 577 -->
 - Are you impressed? #backflip #fyp  <!-- instagram · reel · ❤️ 5 · 💬 0 · ▶️ 1,171 -->
 - #golf #golfswing #golflife  <!-- instagram · reel · ❤️ 0 · 💬 1 · ▶️ 1,327 -->
 - I have never seen myself putt and my goodness is it the ugliest thing iv ever seen. 74 with a putt like that is pretty good. #golf #golfswing #golfersofinstagram #golf⛳️  <!-- instagram · carousel · ❤️ 0 · 💬 1 -->
@@ -89,4 +89,4 @@ Three sections, all read by the generator:
 - Atta boy kitty cat #cats #animals #cats_of_instagram  <!-- instagram · reel · ❤️ 1 · 💬 0 · ▶️ 436 -->
 - He’s a weapon #cats #animals #kittens  <!-- instagram · reel · ❤️ 1 · 💬 0 · ▶️ 272 -->
 - It’s a cheat code. Don’t get hit with bot activity tho and get that permaban. #automations #closefriends #ighacking #golfcontent #business  <!-- instagram · reel · ❤️ 1 · 💬 0 · ▶️ 1,960 -->
-- Perfect gold trade #gold #axuusd #forex #trading  <!-- tiktok · reel · ❤️ 1 · 💬 0 · ▶️ 227 -->
+- Perfect gold trade #gold #axuusd #forex #trading  <!-- tiktok · reel · ❤️ 1 · 💬 0 · ▶️ 228 -->
