@@ -1,4 +1,4 @@
-# Graph Report - Lava-Discord-Bot  (2026-10-27)
+# Graph Report - Lava-Discord-Bot  (2026-10-28)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
@@ -9,7 +9,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f98527c5`
+- Built from commit: `97241737`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -246,7 +246,7 @@ Nodes (15): Aaron Pilk — profile, Ask her (gaps in public data), Audience, Do,
 
 ### Community 45 - "graphify.yml"
 Cohesion: 0.11
-Nodes (17): concurrency, ANTHROPIC_API_KEY, jobs, refresh, name, permissions, contents, runs-on (+9 more)
+Nodes (17): concurrency, ANTHROPIC_API_KEY, jobs, refresh, name, on, schedule, workflow_dispatch (+9 more)
 
 ### Community 46 - "bryce-nelson/voice/banned-phrases.md"
 Cohesion: 0.22
@@ -318,7 +318,7 @@ Nodes (3): How to behave, Things you cannot do (say so, don't pretend), What you
 
 ### Community 71 - "steps"
 Cohesion: 0.12
-Nodes (15): jobs, typecheck, name, branches, name, run, uses, with (+7 more)
+Nodes (15): jobs, typecheck, name, on, pull_request, push, branches, name (+7 more)
 
 ### Community 72 - "Drive"
 Cohesion: 0.13
