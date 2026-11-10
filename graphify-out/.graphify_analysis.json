@@ -1,35 +1,43 @@
 {
   "communities": {
     "0": [
+      "docs_runbook_gotchas",
       "src_discord_context_botcontext",
+      "src_discord_context_botcontext_action",
       "src_discord_context_botcontext_ch",
       "src_discord_context_botcontext_channel",
       "src_discord_context_botcontext_command",
       "src_discord_context_botcontext_component",
       "src_discord_context_botcontext_cron",
+      "src_discord_context_botcontext_isadmin",
+      "src_discord_context_botcontext_isowner",
       "src_discord_context_botcontext_isstafffor",
+      "src_discord_context_botcontext_markready",
       "src_discord_context_botcontext_modal",
       "src_discord_context_botcontext_ops",
+      "src_discord_context_botcontext_ownerids",
       "src_discord_context_botcontext_ownermentions",
       "src_discord_context_botcontext_send",
-      "src_lib_time",
-      "src_lib_time_fmtlocal",
-      "src_lib_time_minutesfromnow",
-      "src_lib_time_nowiso",
+      "src_lib_settings_settings_getstring",
       "src_modules_agency_index_register",
       "src_modules_captions_index_register",
-      "src_modules_earnings_index",
       "src_modules_earnings_index_register",
-      "src_modules_live_index",
-      "src_modules_live_index_register",
-      "src_modules_live_index_register_endsession",
-      "src_modules_live_index_session",
       "src_modules_posting_index_register",
       "src_modules_posting_index_register_nextbestslot",
       "src_modules_reels_index_register",
-      "src_modules_requests_index",
+      "src_modules_reels_index_register_classifyandpost",
+      "src_modules_reels_index_register_posttoboard",
+      "src_modules_reels_index_register_scoutmodel",
+      "src_modules_reels_index_register_threadforcategory",
+      "src_modules_reports_index_register",
+      "src_modules_reports_index_register_labelposts",
+      "src_modules_reports_index_register_snapshotall",
+      "src_modules_reports_index_register_snapshotmodel",
       "src_modules_requests_index_register",
-      "src_modules_requests_index_requestrow"
+      "src_modules_setup_index_register",
+      "src_modules_setup_index_register_ensurecategory",
+      "src_modules_setup_index_register_ensurestructure",
+      "src_modules_setup_index_register_ensuretext"
     ],
     "1": [
       "package",
@@ -96,19 +104,6 @@
       "models_aaron_pilk_model_zernio_best_times"
     ],
     "3": [
-      "docs_architecture",
-      "docs_architecture_architecture",
-      "docs_architecture_build_order_each_is_a_day_or_less",
-      "docs_architecture_deliberate_non_goals",
-      "docs_architecture_request_flows",
-      "docs_runbook",
-      "docs_runbook_adding_integrations",
-      "docs_runbook_daily_ops_for_dan_marissa",
-      "docs_runbook_deploy",
-      "docs_runbook_first_run",
-      "docs_runbook_gotchas",
-      "docs_runbook_runbook",
-      "docs_runbook_supabase_notes",
       "src_integrations_apify_apify",
       "src_integrations_apify_apify_byurls",
       "src_integrations_apify_apify_constructor",
@@ -119,11 +114,7 @@
       "src_integrations_apify_apify_instagramprofile",
       "src_integrations_apify_apify_tiktok",
       "src_integrations_apify_normalize",
-      "src_integrations_apify_num",
-      "src_modules_reels_index_register_classifyandpost",
-      "src_modules_reels_index_register_posttoboard",
-      "src_modules_reels_index_register_scoutmodel",
-      "src_modules_reels_index_register_threadforcategory"
+      "src_integrations_apify_num"
     ],
     "4": [
       "ref_discord_js",
@@ -141,7 +132,6 @@
       "src_config_events_events_file",
       "src_config_events_eventschema",
       "src_config_events_eventsconfig",
-      "src_config_events_loadevents",
       "src_config_events_nextoccurrence",
       "src_config_events_nthweekday",
       "src_config_events_ruleschema",
@@ -154,12 +144,10 @@
       "src_config_models_modelfiles",
       "src_config_models_modelschema",
       "src_config_models_readif",
-      "src_integrations_anthropic_fetchimageasbase64",
       "src_lib_prompts",
       "src_lib_prompts_cache",
       "src_lib_prompts_loadprompt",
       "src_lib_prompts_prompts_dir",
-      "src_lib_time_previousweekrange",
       "src_modules_away_index",
       "src_modules_away_index_decision",
       "src_modules_away_index_faq_file",
@@ -189,14 +177,6 @@
       "src_modules_events_index",
       "src_modules_events_index_idea",
       "src_modules_events_index_occurrence",
-      "src_modules_events_index_register_occurrence",
-      "src_modules_events_index_register_upcoming",
-      "src_modules_insights_index",
-      "src_modules_insights_index_metricrow",
-      "src_modules_insights_index_parsed",
-      "src_modules_insights_index_register",
-      "src_modules_insights_index_register_format",
-      "src_modules_insights_index_register_handlescreenshot",
       "src_modules_persona_index",
       "src_modules_persona_index_register",
       "src_modules_persona_index_register_contextblock",
@@ -208,9 +188,6 @@
       "src_modules_reports_index_snaprow"
     ],
     "5": [
-      "docs_source_analysis_nivo_discord_bot_analysis",
-      "docs_source_analysis_nivo_discord_bot_analysis_0_tl_dr_what_they_actually_have",
-      "docs_source_analysis_nivo_discord_bot_analysis_1_audio_transcript_creator_s_narration_timestamps_in_seconds",
       "docs_source_analysis_nivo_discord_bot_analysis_2_10_1_26_1_45_google_drive_content_house_folder",
       "docs_source_analysis_nivo_discord_bot_analysis_2_11_1_47_1_52_back_to_discord_invoices",
       "docs_source_analysis_nivo_discord_bot_analysis_2_1_0_00_0_03_server_sidebar",
@@ -222,19 +199,7 @@
       "docs_source_analysis_nivo_discord_bot_analysis_2_7_0_47_1_12_notion_page_street_interviews_opened_in_discord_s_in_app_browser",
       "docs_source_analysis_nivo_discord_bot_analysis_2_8_1_14_1_18_google_drive_wallfeed_folder_from_discord_link",
       "docs_source_analysis_nivo_discord_bot_analysis_2_9_1_18_1_26_off_track_home_screen_imessage",
-      "docs_source_analysis_nivo_discord_bot_analysis_2_frame_by_frame_walkthrough",
-      "docs_source_analysis_nivo_discord_bot_analysis_3_reconstructed_architecture_of_their_system",
-      "docs_source_analysis_nivo_discord_bot_analysis_4_0_decisions_locked_aaron_sept_17_and_what_changed",
-      "docs_source_analysis_nivo_discord_bot_analysis_4_1_stack",
-      "docs_source_analysis_nivo_discord_bot_analysis_4_2_discord_server_template_per_creator_private",
-      "docs_source_analysis_nivo_discord_bot_analysis_4_3_bot_modules_build_in_this_order",
-      "docs_source_analysis_nivo_discord_bot_analysis_4_4_notion_databases_schema_sketch",
-      "docs_source_analysis_nivo_discord_bot_analysis_4_5_repo_layout_github",
-      "docs_source_analysis_nivo_discord_bot_analysis_4_6_guardrails_gotchas",
-      "docs_source_analysis_nivo_discord_bot_analysis_4_build_blueprint_for_lava_mgmt_discord_claude_notion_github_drive",
-      "docs_source_analysis_nivo_discord_bot_analysis_5_still_open_everything_else_is_decided_see_4_0",
-      "docs_source_analysis_nivo_discord_bot_analysis_design_choices_worth_copying",
-      "docs_source_analysis_nivo_discord_bot_analysis_nivo_hq_discord_larry_the_bot_teardown_build_blueprint"
+      "docs_source_analysis_nivo_discord_bot_analysis_2_frame_by_frame_walkthrough"
     ],
     "6": [
       "package_dependencies_dotenv",
@@ -375,22 +340,30 @@
       "src_modules_setup_index_staff"
     ],
     "11": [
-      "src_discord_context_botcontext_isadmin",
-      "src_discord_context_botcontext_isowner",
-      "src_discord_context_botcontext_ownerids",
+      "ref_node_events",
+      "src_config_env_env",
+      "src_db_client",
+      "src_db_client_db",
+      "src_db_client_logevent",
+      "src_db_client_migrations_dir",
+      "src_discord_context",
+      "src_discord_context_action",
+      "src_discord_context_botcontext_constructor",
+      "src_discord_context_commandbuilder",
+      "src_discord_context_commandhandler",
+      "src_discord_context_componenthandler",
+      "src_discord_context_modalhandler",
+      "src_lib_settings",
       "src_lib_settings_settings",
       "src_lib_settings_settings_constructor",
       "src_lib_settings_settings_get",
       "src_lib_settings_settings_getlist",
-      "src_lib_settings_settings_getstring",
       "src_lib_settings_settings_load",
       "src_lib_settings_settings_set",
-      "src_modules_reports_index_chunk",
-      "src_modules_reports_index_register",
-      "src_modules_reports_index_register_describe",
-      "src_modules_reports_index_register_loadwindow",
-      "src_modules_reports_index_register_modelreport",
-      "src_modules_reports_index_register_ownersdigest"
+      "src_lib_timers",
+      "src_lib_timers_timerhandler",
+      "src_lib_timers_timerrow",
+      "src_modules_agency_index"
     ],
     "12": [
       "src_integrations_zernio",
@@ -439,6 +412,16 @@
       "railway_schema"
     ],
     "16": [
+      "claude",
+      "claude_claude_md_working_rules_for_claude_code_in_this_repo",
+      "claude_conventions",
+      "claude_how_to_work_with_the_owners_permanent",
+      "claude_knowledge_graph_graphify_use_it_before_grepping",
+      "claude_known_sharp_edges_documented_unfixed_by_order_see_the_backlog_for_line_numbers",
+      "claude_non_negotiables",
+      "claude_standing_orders_tuning_window_sep_18_sep_25_2026_read_first",
+      "claude_what_this_is",
+      "claude_when_adding_a_model",
       "claude_where_things_are",
       "docs_content_library",
       "docs_content_library_classification",
@@ -454,12 +437,10 @@
       "src_lib_industry_industry",
       "src_lib_industry_industrylens",
       "src_lib_industry_read",
-      "src_lib_industry_taste",
-      "src_modules_library_index_register_classify"
+      "src_lib_industry_taste"
     ],
     "17": [
       "docs_backlog_post_tuning_6_spam_duplicate_sends",
-      "docs_daily_operations_slash_commands_you_will_use",
       "ref_yaml",
       "scripts_import_captions",
       "scripts_import_captions_apify",
@@ -542,9 +523,17 @@
       "models_template_voice_banned_phrases_so_cute"
     ],
     "19": [
-      "docs_notion_schema",
-      "docs_notion_schema_notion_schema_optional_mirror",
-      "src_integrations_notion_notion_setselect"
+      "src_lib_time",
+      "src_lib_time_fmtlocal",
+      "src_lib_time_minutesfromnow",
+      "src_lib_time_nowiso",
+      "src_modules_earnings_index",
+      "src_modules_live_index",
+      "src_modules_live_index_register",
+      "src_modules_live_index_register_endsession",
+      "src_modules_live_index_session",
+      "src_modules_requests_index",
+      "src_modules_requests_index_requestrow"
     ],
     "20": [
       "prompts_caption_generate",
@@ -582,6 +571,7 @@
       "src_config_models_modelregistry_forchannelorparent",
       "src_config_models_modelregistry_get",
       "src_db_client_migrate",
+      "src_db_client_opendb",
       "src_discord_client",
       "src_discord_client_createclient",
       "src_discord_router",
@@ -589,7 +579,14 @@
       "src_index",
       "src_index_explaindberror",
       "src_index_explaindiscorderror",
-      "src_index_main"
+      "src_index_main",
+      "src_lib_timers_timers",
+      "src_lib_timers_timers_cancelwhere",
+      "src_lib_timers_timers_on",
+      "src_lib_timers_timers_schedule",
+      "src_lib_timers_timers_start",
+      "src_lib_timers_timers_stop",
+      "src_lib_timers_timers_tick"
     ],
     "24": [
       "models_template_model",
@@ -637,10 +634,50 @@
       "models_template_model_zernio_best_times"
     ],
     "25": [
+      "docs_backlog_post_tuning",
+      "docs_backlog_post_tuning_1_safety_destructive_actions",
+      "docs_backlog_post_tuning_2_restart_concurrency_resilience",
+      "docs_backlog_post_tuning_3_data_integrity",
+      "docs_backlog_post_tuning_4_silent_failures_visibility",
+      "docs_backlog_post_tuning_5_learning_classification_tuning_owner_decisions_nothing_changes_during_the_window",
+      "docs_backlog_post_tuning_7_config_human_ownership",
+      "docs_backlog_post_tuning_added_while_reading",
+      "docs_backlog_post_tuning_backlog_after_the_tuning_window_verified_against_main_01bbe2b_2026_09_18",
+      "docs_backlog_post_tuning_could_not_confirm_kept_out_of_the_tables_or_marked_partial",
+      "docs_backlog_post_tuning_recommended_order_when_the_tuning_window_ends_p0s",
+      "docs_creator_list",
+      "docs_creator_list_creator_watch_list_the_accounts_dan_wants_the_scout_to_follow",
+      "docs_creator_list_how_to_add_one_claude_no_restart",
+      "docs_creator_list_how_to_queue_specific_reels_by_hand_claude_no_restart_learned_the_hard_way_2026_09_18",
+      "docs_creator_list_learned_from_dan_s_saves_2026_09_18_04_09_utc_learn_on_the_full_288_video_set",
+      "docs_creator_list_reference_creators_library_genres_yaml_scout_reference_accounts_scraper_check_2026_09_18",
+      "docs_daily_operations_7_for_claude_the_technical_partner",
+      "docs_incidents_2026_09_17_library_wipe",
+      "docs_incidents_2026_09_17_library_wipe_addendum_how_the_re_run_ended_01_37_01_41_utc_sep_18",
+      "docs_incidents_2026_09_17_library_wipe_incident_the_content_library_folders_emptied_twice_sep_17_2026_evening",
+      "docs_incidents_2026_09_17_library_wipe_lesson_now_a_standing_rule_in_claude_md",
+      "docs_incidents_2026_09_17_library_wipe_related",
+      "docs_incidents_2026_09_17_library_wipe_timeline_utc_new_york_utc_4",
+      "docs_incidents_2026_09_17_library_wipe_what_the_numbers_mean_as_of_00_21_utc_sep_18",
+      "docs_incidents_2026_09_17_library_wipe_why_it_could_happen_root_causes_all_still_present_by_the_owner_s_order",
+      "src_integrations_apify_canonicalurl",
+      "src_integrations_github_github_listdir",
+      "src_lib_market_filter",
+      "src_lib_market_filter_ambiguous",
+      "src_lib_market_filter_english_stopwords",
+      "src_lib_market_filter_exclude_file",
+      "src_lib_market_filter_excludewords",
+      "src_lib_market_filter_foreign_stopwords",
+      "src_lib_market_filter_foreignlanguage",
+      "src_lib_market_filter_marketfilter",
+      "src_lib_market_filter_marketverdict",
+      "src_lib_market_filter_short_ok",
       "src_modules_library_index_register",
       "src_modules_library_index_register_buttons",
       "src_modules_library_index_register_byid",
       "src_modules_library_index_register_channelname",
+      "src_modules_library_index_register_classify",
+      "src_modules_library_index_register_deliverpicks",
       "src_modules_library_index_register_download",
       "src_modules_library_index_register_engagement",
       "src_modules_library_index_register_ensurelibrary",
@@ -649,12 +686,24 @@
       "src_modules_library_index_register_oninbox",
       "src_modules_library_index_register_parsesources",
       "src_modules_library_index_register_post",
+      "src_modules_library_index_register_purge",
+      "src_modules_library_index_register_radar",
       "src_modules_library_index_register_recordsignals",
+      "src_modules_library_index_register_runbootjobs",
       "src_modules_library_index_register_scout",
       "src_modules_library_index_register_scoutqueries",
       "src_modules_library_index_register_sendtoboard",
       "src_modules_library_index_register_summarize",
-      "src_modules_library_index_register_uploadlimit"
+      "src_modules_library_index_register_threadurl",
+      "src_modules_library_index_register_uploadlimit",
+      "src_modules_library_saved_registersavedimport",
+      "src_modules_library_saved_registersavedimport_deliverpersoncollection",
+      "src_modules_library_saved_registersavedimport_learn",
+      "src_modules_library_saved_registersavedimport_mark",
+      "src_modules_library_saved_registersavedimport_queued",
+      "src_modules_library_saved_registersavedimport_run",
+      "src_modules_library_saved_registersavedimport_start",
+      "src_modules_library_saved_registersavedimport_status"
     ],
     "26": [
       "docs_discord_server_template",
@@ -739,6 +788,7 @@
       "docs_daily_operations_daily_operations_what_the_bot_does_and_what_the_owners_do_tuning_week_sep_18_25_2026",
       "docs_daily_operations_house_rules_apply_to_every_video_whatever_the_source",
       "docs_daily_operations_how_to_give_feedback_that_actually_tunes_the_system",
+      "docs_daily_operations_slash_commands_you_will_use",
       "docs_daily_operations_talking_to_the_bot_instead_owners_only",
       "docs_daily_operations_the_buttons_and_what_each_one_teaches_the_bot",
       "docs_daily_operations_the_judging_chain_in_order",
@@ -1015,7 +1065,8 @@
       "github_workflows_ci_with_node_version"
     ],
     "72": [
-      "ref_node_events",
+      "docs_notion_schema",
+      "docs_notion_schema_notion_schema_optional_mirror",
       "scripts_register_commands",
       "scripts_register_commands_body",
       "scripts_register_commands_client",
@@ -1023,18 +1074,7 @@
       "scripts_register_commands_db",
       "scripts_register_commands_env",
       "scripts_register_commands_rest",
-      "src_db_client",
-      "src_db_client_db",
-      "src_db_client_logevent",
-      "src_db_client_migrations_dir",
-      "src_db_client_opendb",
-      "src_discord_context",
-      "src_discord_context_action",
-      "src_discord_context_commandbuilder",
-      "src_discord_context_commandhandler",
-      "src_discord_context_componenthandler",
       "src_discord_context_integrations",
-      "src_discord_context_modalhandler",
       "src_integrations_drive",
       "src_integrations_drive_drive",
       "src_integrations_drive_drive_constructor",
@@ -1048,14 +1088,11 @@
       "src_integrations_notion_notion_constructor",
       "src_integrations_notion_notion_createrow",
       "src_integrations_notion_notion_enabled",
+      "src_integrations_notion_notion_setselect",
       "src_lib_logger",
       "src_lib_logger_log",
       "src_lib_logger_logger",
-      "src_lib_settings",
-      "src_lib_timers",
-      "src_lib_timers_timerhandler",
-      "src_lib_timers_timerrow",
-      "src_modules_agency_index"
+      "src_lib_timers_timers_constructor"
     ],
     "73": [
       "knowledge_events",
@@ -1101,16 +1138,14 @@
       "models_bryce_nelson_sourcing_reels_sources_tiktok_seed_accounts"
     ],
     "76": [
-      "src_config_env_env",
-      "src_discord_context_botcontext_constructor",
-      "src_lib_timers_timers",
-      "src_lib_timers_timers_cancelwhere",
-      "src_lib_timers_timers_constructor",
-      "src_lib_timers_timers_on",
-      "src_lib_timers_timers_schedule",
-      "src_lib_timers_timers_start",
-      "src_lib_timers_timers_stop",
-      "src_lib_timers_timers_tick"
+      "docs_source_analysis_nivo_discord_bot_analysis_4_0_decisions_locked_aaron_sept_17_and_what_changed",
+      "docs_source_analysis_nivo_discord_bot_analysis_4_1_stack",
+      "docs_source_analysis_nivo_discord_bot_analysis_4_2_discord_server_template_per_creator_private",
+      "docs_source_analysis_nivo_discord_bot_analysis_4_3_bot_modules_build_in_this_order",
+      "docs_source_analysis_nivo_discord_bot_analysis_4_4_notion_databases_schema_sketch",
+      "docs_source_analysis_nivo_discord_bot_analysis_4_5_repo_layout_github",
+      "docs_source_analysis_nivo_discord_bot_analysis_4_6_guardrails_gotchas",
+      "docs_source_analysis_nivo_discord_bot_analysis_4_build_blueprint_for_lava_mgmt_discord_claude_notion_github_drive"
     ],
     "77": [
       "docs_archetypes",
@@ -1172,92 +1207,55 @@
       "knowledge_faq_requests_from_the_team"
     ],
     "85": [
-      "docs_backlog_post_tuning",
-      "docs_backlog_post_tuning_1_safety_destructive_actions",
-      "docs_backlog_post_tuning_3_data_integrity",
-      "docs_backlog_post_tuning_5_learning_classification_tuning_owner_decisions_nothing_changes_during_the_window",
-      "docs_backlog_post_tuning_7_config_human_ownership",
-      "docs_backlog_post_tuning_added_while_reading",
-      "docs_backlog_post_tuning_backlog_after_the_tuning_window_verified_against_main_01bbe2b_2026_09_18",
-      "docs_backlog_post_tuning_recommended_order_when_the_tuning_window_ends_p0s",
-      "src_integrations_github_github_listdir",
-      "src_modules_library_index_register_deliverpicks",
-      "src_modules_library_index_register_threadurl",
-      "src_modules_library_saved_registersavedimport_deliverpersoncollection"
+      "src_integrations_anthropic_fetchimageasbase64",
+      "src_lib_time_previousweekrange",
+      "src_modules_insights_index",
+      "src_modules_insights_index_metricrow",
+      "src_modules_insights_index_parsed",
+      "src_modules_insights_index_register",
+      "src_modules_insights_index_register_format",
+      "src_modules_insights_index_register_handlescreenshot"
     ],
     "86": [
-      "docs_backlog_post_tuning_could_not_confirm_kept_out_of_the_tables_or_marked_partial",
-      "docs_creator_list",
-      "docs_creator_list_creator_watch_list_the_accounts_dan_wants_the_scout_to_follow",
-      "docs_creator_list_how_to_add_one_claude_no_restart",
-      "docs_creator_list_how_to_queue_specific_reels_by_hand_claude_no_restart_learned_the_hard_way_2026_09_18",
-      "docs_creator_list_learned_from_dan_s_saves_2026_09_18_04_09_utc_learn_on_the_full_288_video_set",
-      "docs_creator_list_reference_creators_library_genres_yaml_scout_reference_accounts_scraper_check_2026_09_18",
-      "src_integrations_apify_canonicalurl",
-      "src_modules_library_index_register_radar",
-      "src_modules_reports_index_register_labelposts",
-      "src_modules_reports_index_register_snapshotall",
-      "src_modules_reports_index_register_snapshotmodel"
+      "docs_runbook",
+      "docs_runbook_adding_integrations",
+      "docs_runbook_daily_ops_for_dan_marissa",
+      "docs_runbook_deploy",
+      "docs_runbook_first_run",
+      "docs_runbook_runbook",
+      "docs_runbook_supabase_notes"
     ],
     "87": [
-      "docs_backlog_post_tuning_2_restart_concurrency_resilience",
-      "docs_backlog_post_tuning_4_silent_failures_visibility",
-      "docs_daily_operations_7_for_claude_the_technical_partner",
-      "docs_incidents_2026_09_17_library_wipe_timeline_utc_new_york_utc_4",
-      "src_modules_library_saved_registersavedimport",
-      "src_modules_library_saved_registersavedimport_learn",
-      "src_modules_library_saved_registersavedimport_mark",
-      "src_modules_library_saved_registersavedimport_queued",
-      "src_modules_library_saved_registersavedimport_run",
-      "src_modules_library_saved_registersavedimport_start",
-      "src_modules_library_saved_registersavedimport_status"
+      "docs_source_analysis_nivo_discord_bot_analysis",
+      "docs_source_analysis_nivo_discord_bot_analysis_0_tl_dr_what_they_actually_have",
+      "docs_source_analysis_nivo_discord_bot_analysis_1_audio_transcript_creator_s_narration_timestamps_in_seconds",
+      "docs_source_analysis_nivo_discord_bot_analysis_3_reconstructed_architecture_of_their_system",
+      "docs_source_analysis_nivo_discord_bot_analysis_5_still_open_everything_else_is_decided_see_4_0",
+      "docs_source_analysis_nivo_discord_bot_analysis_design_choices_worth_copying",
+      "docs_source_analysis_nivo_discord_bot_analysis_nivo_hq_discord_larry_the_bot_teardown_build_blueprint"
     ],
     "88": [
-      "claude",
-      "claude_claude_md_working_rules_for_claude_code_in_this_repo",
-      "claude_conventions",
-      "claude_how_to_work_with_the_owners_permanent",
-      "claude_knowledge_graph_graphify_use_it_before_grepping",
-      "claude_known_sharp_edges_documented_unfixed_by_order_see_the_backlog_for_line_numbers",
-      "claude_non_negotiables",
-      "claude_standing_orders_tuning_window_sep_18_sep_25_2026_read_first",
-      "claude_what_this_is",
-      "claude_when_adding_a_model"
+      "docs_architecture",
+      "docs_architecture_architecture",
+      "docs_architecture_build_order_each_is_a_day_or_less",
+      "docs_architecture_deliberate_non_goals",
+      "docs_architecture_request_flows"
     ],
     "89": [
-      "src_discord_context_botcontext_action",
-      "src_discord_context_botcontext_markready",
+      "src_config_events_loadevents",
       "src_modules_events_index_register",
       "src_modules_events_index_register_generate",
+      "src_modules_events_index_register_occurrence",
       "src_modules_events_index_register_senddue",
       "src_modules_events_index_register_sendfor",
-      "src_modules_setup_index_register",
-      "src_modules_setup_index_register_ensurecategory",
-      "src_modules_setup_index_register_ensurestructure",
-      "src_modules_setup_index_register_ensuretext"
+      "src_modules_events_index_register_upcoming"
     ],
     "90": [
-      "src_lib_market_filter",
-      "src_lib_market_filter_ambiguous",
-      "src_lib_market_filter_english_stopwords",
-      "src_lib_market_filter_exclude_file",
-      "src_lib_market_filter_excludewords",
-      "src_lib_market_filter_foreign_stopwords",
-      "src_lib_market_filter_foreignlanguage",
-      "src_lib_market_filter_marketfilter",
-      "src_lib_market_filter_marketverdict",
-      "src_lib_market_filter_short_ok"
-    ],
-    "91": [
-      "docs_incidents_2026_09_17_library_wipe",
-      "docs_incidents_2026_09_17_library_wipe_addendum_how_the_re_run_ended_01_37_01_41_utc_sep_18",
-      "docs_incidents_2026_09_17_library_wipe_incident_the_content_library_folders_emptied_twice_sep_17_2026_evening",
-      "docs_incidents_2026_09_17_library_wipe_lesson_now_a_standing_rule_in_claude_md",
-      "docs_incidents_2026_09_17_library_wipe_related",
-      "docs_incidents_2026_09_17_library_wipe_what_the_numbers_mean_as_of_00_21_utc_sep_18",
-      "docs_incidents_2026_09_17_library_wipe_why_it_could_happen_root_causes_all_still_present_by_the_owner_s_order",
-      "src_modules_library_index_register_purge",
-      "src_modules_library_index_register_runbootjobs"
+      "src_modules_reports_index_chunk",
+      "src_modules_reports_index_register_describe",
+      "src_modules_reports_index_register_loadwindow",
+      "src_modules_reports_index_register_modelreport",
+      "src_modules_reports_index_register_ownersdigest"
     ],
     "92": [
       "package_scripts",
@@ -1284,32 +1282,32 @@
     ]
   },
   "cohesion": {
-    "0": 0.1921182266009852,
+    "0": 0.13513513513513514,
     "1": 0.15833333333333333,
     "2": 0.045454545454545456,
-    "3": 0.0873015873015873,
-    "4": 0.05,
-    "5": 0.07407407407407407,
+    "3": 0.2909090909090909,
+    "4": 0.05711849957374254,
+    "5": 0.16666666666666666,
     "6": 0.2,
     "7": 0.125,
     "8": 0.045454545454545456,
     "9": 0.15384615384615385,
     "10": 0.06565656565656566,
-    "11": 0.16666666666666666,
+    "11": 0.11956521739130435,
     "12": 0.21818181818181817,
     "13": 0.2222222222222222,
     "14": 0.2222222222222222,
     "15": 0.2222222222222222,
-    "16": 0.1323529411764706,
-    "17": 0.06651017214397496,
+    "16": 0.08,
+    "17": 0.06800804828973843,
     "18": 0.25,
-    "19": 0.6666666666666666,
+    "19": 0.32727272727272727,
     "20": 0.2857142857142857,
     "21": 0.2857142857142857,
     "22": 0.2857142857142857,
-    "23": 0.20833333333333334,
+    "23": 0.13768115942028986,
     "24": 0.046511627906976744,
-    "25": 0.19607843137254902,
+    "25": 0.05548654244306418,
     "26": 0.4,
     "27": 0.5,
     "28": 0.6666666666666666,
@@ -1327,7 +1325,7 @@
     "40": 0.5,
     "41": 1.0,
     "42": 1.0,
-    "43": 0.10526315789473684,
+    "43": 0.1,
     "44": 0.125,
     "45": 0.1111111111111111,
     "46": 0.2222222222222222,
@@ -1356,11 +1354,11 @@
     "69": 1.0,
     "70": 1.0,
     "71": 0.125,
-    "72": 0.08658536585365853,
+    "72": 0.10052910052910052,
     "73": 0.13333333333333333,
     "74": 0.18181818181818182,
     "75": 0.18181818181818182,
-    "76": 0.2222222222222222,
+    "76": 0.25,
     "77": 0.5,
     "78": 0.5,
     "79": 0.6666666666666666,
@@ -1369,13 +1367,12 @@
     "82": 0.18181818181818182,
     "83": 0.2,
     "84": 0.2857142857142857,
-    "85": 0.16666666666666666,
-    "86": 0.18181818181818182,
-    "87": 0.43636363636363634,
-    "88": 0.2,
-    "89": 0.28888888888888886,
-    "90": 0.24444444444444444,
-    "91": 0.2222222222222222,
+    "85": 0.42857142857142855,
+    "86": 0.2857142857142857,
+    "87": 0.2857142857142857,
+    "88": 0.4,
+    "89": 0.5238095238095238,
+    "90": 0.5,
     "92": 0.2222222222222222,
     "93": 1.0,
     "94": 1.0,
@@ -1410,7 +1407,7 @@
     {
       "id": "src_index_main",
       "label": "main()",
-      "degree": 23
+      "degree": 22
     },
     {
       "id": "src_config_models_model",
@@ -1435,26 +1432,15 @@
   ],
   "surprises": [
     {
-      "source": "5. Still open (everything else is decided — see §4.0)",
-      "target": "normalize()",
+      "source": "House rules — reject by default; US, English, women only, sex appeal required",
+      "target": "classify()",
       "source_files": [
-        "docs/source-analysis/Nivo-Discord-Bot-Analysis.md",
-        "src/integrations/apify.ts"
+        "docs/content-library.md",
+        "src/modules/library/index.ts"
       ],
       "confidence": "INFERRED",
       "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `5. Still open (everything else is decided — see §4.0)` unexpectedly reaches hub `normalize()`"
-    },
-    {
-      "source": "Request flows",
-      "target": "generateCaption()",
-      "source_files": [
-        "docs/architecture.md",
-        "src/modules/captions/generate.ts"
-      ],
-      "confidence": "INFERRED",
-      "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Request flows` unexpectedly reaches hub `generateCaption()`"
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `House rules — reject by default; US, English, women only, sex appeal required` unexpectedly reaches hub `classify()`"
     },
     {
       "source": "Known sharp edges (documented, unfixed by order — see the backlog for line numbers)",
@@ -1468,33 +1454,44 @@
       "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Known sharp edges (documented, unfixed by order — see the backlog for line numbers)` unexpectedly reaches hub `learn()`"
     },
     {
-      "source": "5. Learning & classification tuning *(owner decisions; nothing changes during the window)*",
-      "target": "learn()",
+      "source": "Build order (each is a day or less)",
+      "target": "normalize()",
       "source_files": [
-        "docs/backlog-post-tuning.md",
-        "src/modules/library/saved.ts"
+        "docs/architecture.md",
+        "src/integrations/apify.ts"
       ],
       "confidence": "INFERRED",
       "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `5. Learning & classification tuning *(owner decisions; nothing changes during the window)*` unexpectedly reaches hub `learn()`"
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Build order (each is a day or less)` unexpectedly reaches hub `normalize()`"
     },
     {
-      "source": "Added while reading",
-      "target": "learn()",
+      "source": "Adding integrations",
+      "target": "normalize()",
       "source_files": [
-        "docs/backlog-post-tuning.md",
-        "src/modules/library/saved.ts"
+        "docs/runbook.md",
+        "src/integrations/apify.ts"
       ],
       "confidence": "INFERRED",
       "relation": "references",
-      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Added while reading` unexpectedly reaches hub `learn()`"
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `Adding integrations` unexpectedly reaches hub `normalize()`"
+    },
+    {
+      "source": "5. Still open (everything else is decided — see §4.0)",
+      "target": "normalize()",
+      "source_files": [
+        "docs/source-analysis/Nivo-Discord-Bot-Analysis.md",
+        "src/integrations/apify.ts"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ doc); connects across different repos/directories; bridges separate communities; peripheral node `5. Still open (everything else is decided — see §4.0)` unexpectedly reaches hub `normalize()`"
     }
   ],
   "questions": [
     {
       "type": "bridge_node",
-      "question": "Why does `normalize()` connect `Apify` to `register`, `2. Frame-by-frame walkthrough`?",
-      "why": "High betweenness centrality (0.036) - this node is a cross-community bridge."
+      "question": "Why does `normalize()` connect `Apify` to `Architecture`, `register`, `Runbook`, `Nivo HQ — Discord + \"Larry The Bot\" Teardown & Build Blueprint`?",
+      "why": "High betweenness centrality (0.041) - this node is a cross-community bridge."
     },
     {
       "type": "verify_inferred",
@@ -1508,13 +1505,13 @@
     },
     {
       "type": "low_cohesion",
-      "question": "Should `aaron-pilk/model.yaml` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.045454545454545456 - nodes in this community are weakly interconnected."
+      "question": "Should `BotContext` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.13513513513513514 - nodes in this community are weakly interconnected."
     },
     {
       "type": "bridge_node",
-      "question": "Why does `register()` connect `register` to `BotContext`, `loadPrompt`, `saved.ts`, `register`, `industryLens`, `register`, `Backlog — after the tuning window (verified against main @ 01bbe2b, 2026-09-18)`, `canonicalUrl`, `src/index.ts`, `registerSavedImport`, `register`, `market-filter.ts`, `Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)`?",
-      "why": "High betweenness centrality (0.032) - this node is a cross-community bridge."
+      "question": "Why does `Nivo HQ — Discord + \"Larry The Bot\" Teardown & Build Blueprint` connect `Nivo HQ — Discord + \"Larry The Bot\" Teardown & Build Blueprint` to `4. Build blueprint for Lava Mgmt (Discord + Claude + Notion + GitHub + Drive)`, `2. Frame-by-frame walkthrough`?",
+      "why": "High betweenness centrality (0.033) - this node is a cross-community bridge."
     },
     {
       "type": "verify_inferred",
@@ -1523,8 +1520,8 @@
     },
     {
       "type": "low_cohesion",
-      "question": "Should `Apify` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.0873015873015873 - nodes in this community are weakly interconnected."
+      "question": "Should `aaron-pilk/model.yaml` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.045454545454545456 - nodes in this community are weakly interconnected."
     }
   ]
 }
