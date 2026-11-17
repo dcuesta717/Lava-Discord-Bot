@@ -1,4 +1,4 @@
-# What the owner saves — taste profile (learned 2026-09-18)
+# What the owner saves — taste profile (learned 2026-11-17)
 
 ## The common thread
 
@@ -6,55 +6,64 @@ He saves vertical videos under 15 seconds featuring solo US women (18–30, Engl
 
 ## By folder
 
-- **skits** → POV relationship scenarios with on-screen text (restaurant rejection loop, love language bullying, delivery arrival jokes, group freakout reactions where friends react shocked to something she said but the reveal is cut before the punchline)
-- **beach** → Bikini content at actual beaches: talking heads, adjustment teases, help-request POVs, sunset poses in cover-ups—all casual confidence with natural lighting
-- **big-boobs** → Chest-forward framing in tight ribbed tops or low-cut fits, usually car photoshoots with direct eye contact
-- **car** → Passenger seat POVs (driving to you, gas station confessions, height struggle humor), car photoshoots, dating skits filmed in vehicles
-- **collabs / bryce collabs** → Group content with 2+ girls: coordinated walks, friend betrayal skits, outfit comparisons where men pick favorites, synchronized actions, "bring her everywhere" friend dynamics
-- **bryce to do / ideas for bryce** → Saved formats he wants Bryce specifically to replicate: POV discovery skits, casual-to-glam transitions, self-deprecating confessions, restaurant rejection loops
-- **for the girls** → Trust/privacy POV skits in cars with on-screen text setups
-- **josie** → Personality-driven talking heads, hater callouts, self-aware red flag confessions, direct-to-camera hot takes with confident energy
-- **leah** → Question-to-men formats, situationship advice, loyalty flex POVs, direct camera confessionals with text overlays
-- **golf** → Golf cart shakes in short shorts, playful teases in golf settings
-- **gym-girl** → Sports bra ab workouts with motivational text overlays
-- **pool** → Bikini confidence bits with tiaras or props, poolside poses
-- **transitions** → Casual-to-glam outfit reveals cut on beat, hand-stop interrupts to blazer dress walks
-- **words-on-screen** → Text does all the work: questions directed at men, dating callouts, self-deprecating confessions overlaid on simple poses or mirror selfies
-- **personality** → Talking-head confessionals, awkward reaction bits, reassuring girlfriend energy, direct eye contact with relatable admissions
-- **funny** → Self-aware chaos humor (psych ward discharge jokes, martini reaction faces, absurd punchlines about compatibility or dating)
+- **skits** → POV relationship scenarios with on-screen text (restaurant rejection loop, love language bullying, "who wants to order [ethnicity] next" delivery POV, group freakout where friends react shocked but the reveal is withheld, "I'll eat anywhere" then rejects every suggestion)
+- **beach** → Bikini talking-heads at the beach, bikini adjustment teases, sunset poses in cover-ups, flirty help-request POVs with on-screen text
+- **big-boobs** → Chest-forward framing in tight ribbed tops or low-cut tanks, car photoshoots, mirror fit checks where cleavage is prominent but face stays in frame
+- **collabs** (also "Bryce collabs") → Two or more girls: group dances, coordinated outfit reveals, friend betrayal skits, mirror selfies where men pick favorites, possessive friend bits, "opposite but the same" duo energy
+- **car** → POVs filmed from passenger seat (driving to you, gas station confessions, short-girl struggle humor), car photoshoots in tight fits
+- **golf** → Golf cart pranks, golf skirt outfit checks, "rate my swing" question formats
+- **dance** → Trending sounds with coordinated choreography, Christmas pajama duos, synchronized ending moves
+- **transitions** → Casual-to-glam reveals on beat, wink teases, outfit transformation cuts under 10 seconds
+- **cosplay** → Character try-ons (Cammy, devil, schoolgirl, doll aesthetic), "do I make a cute [character]" question format, pigtails and glasses nerdy fits
+- **hot-girl-filler** → Bedroom mirror fit checks in tight or revealing outfits, no story needed—just the look and the confidence, 7–10 seconds
+- **pool** → Bikini confidence shots in or near water, "high or low waisted" bikini comparison questions
+- **words-on-screen** → Text-driven confessions or questions overlaid on casual selfie-style clips ("my types," "4 inches," "which look is your favorite," attitude problem POVs)
+- **personality** → Direct-to-camera confessions (girl's girl but also a bitch, not in contact with family, self-aware chaos), relatable takes men share
+- **funny** → Self-deprecating humor (small tits joke, staying in alone Friday, cheers with city backdrop), absurd visual gags (girl stacked on shoulders at car hood)
+- **Bryce to do** (for Bryce) → Restaurant rejection loops, hidden talent reveals, "are you seeing anyone / like hallucinating" misunderstanding POVs, "I wanna go to dinner and then be dinner" double-meaning skits
+- **Content House — December · All girls** → Group freakout skits, poolside "I follow you on insta" POV, "me or the car" question, multiple outfit reveals with numbered question, "my types" confession text
+- **Content House — December · Beach / pool** → Bikini walks toward camera, confident poses with hair adjustments, "worth the wait" reveal questions, golden hour beach shots
+- **Content House — December · Bedroom social media** → Mirror fit checks in sparkly tops or lingerie, "does red look good on me" question format
+- **Content House — December · Boob content** → Chest-forward car seat selfies, tight grey crop tops with direct eye contact, "they look fake 🍒" text overlay defense
+- **Content House — December · Bryce** → Restaurant rejection loops for Bryce specifically, toxic relationship POV cycles, "you won't make any money on there" dismissive look-to-camera
+- **Content House — December · Christmas** → Holiday dance trends, Santa/elf outfits, festive pajama duos
+- **Content House — December · Cosplay** → School uniform transitions, devil costume try-ons, doll pigtails reveals
+- **Content House — December · Duo (two girls)** → Mirror selfies, matching outfits walking together, "friends that lowkey hate each other" hug bit, gym partners zero boundaries, Lady and the Tramp churro share
 
 ## Formats he keeps coming back to
 
-- **POV delivery arrival with flirty question** — "who wants to order [ethnicity] next" or "boy dinner" text, filmed like she's being delivered to a door in a revealing outfit, men comment yes/me/pick me (@jackyalvvarez, @abigaillutz)
-- **Restaurant rejection loop** — Girl says she'll eat anywhere, then rejects every suggestion; filmed passenger seat in car, men tag friends who've lived this (@treena_berry_, @lainanoire, @kennellymichelle)
-- **Group freakout skit with hidden reveal** — One girl says something confidently while 2+ friends react shocked in background, caption teases what she said but cuts before showing it (@__ericamerica, @blaseeeeeeeeeeeeee, @brookeandjess)
-- **On-screen text confession with deadpan delivery** — Text does the setup and punchline (apology without bank transfer is manipulation, love language is bullying), girl just holds the look (@teawithtaina, @georgieanderson__)
-- **Casual-to-glam transition on beat** — Starts in hoodie/sweats, cuts to tight dress or full glam, maintains eye contact throughout (@avaxreyess, @juliafilippo_, @fayelouise_brennan)
-- **Direct question to men with text overlay** — "boys, what would you do if you were men for a day?" or "whose outfit would you wear?"—pure engagement bait (@teganrollinson, @bellascloset.0)
-- **Beach talking-head in bikini** — Confident direct-to-camera personality in black bikini at beach, natural lighting, under 15 seconds (@sabytuts)
-- **Self-aware red flag confession** — "I treat relationships like math—once I'm confused I start cheating" or similar chaos admission with confident smirk (@isabeltimerman, @allileighann)
+- **POV restaurant rejection loop** — Girl at table or in car, on-screen text sets up dating scenario ending in rejection, loop the awkward moment 2–3 times, tight fitted top, under 12 seconds (@treena_berry_, @lainanoire, @juliafilippo_)
+- **Group freakout skit with withheld reveal** — One girl says something shocking off-camera, 2–4 friends react with exaggerated shock, cut before revealing what she said, caption teases it (@__ericamerica, @blaseeeeeeeeeeeeee, @izzifriedman)
+- **Beach bikini walk toward camera** — Confident walk in triangle or minimal bikini, direct eye contact, natural lighting, ocean or sand visible, no text needed, 7–10 seconds (@barbellinaa, @alesalaslopez, @emelyelikeslemonade)
+- **Chest-forward car seat selfie** — Tight ribbed tank or low-cut top, passenger seat angle, lean forward slightly, direct flirty eye contact, question caption ("did I make you smile?") (@alexisaevans, @anna.kbaee)
+- **On-screen text confession or question** — Casual setting, fitted outfit, text overlay reveals "my types" or "POV: he discovers…" or attitude problem, direct camera look, cut before full reveal (@juliafilippo_, @itsbecsmith, @korrynwingertsahn)
+- **Two girls coordinated reveal or reaction** — Matching outfits or energy, walk together or react to each other, men pick favorites in comments, natural lighting, under 12 seconds (@alyyraee, @burchtwins, @addy_kate)
+- **Bedroom mirror fit check** — Solo in tight or revealing outfit, look to camera and smile or tease, no story arc, just the fit and confidence, 5–10 seconds (@mckinli, @kerstenco, @blizbunnyx)
+- **"Who wants to…" or "Does [X] look good on me" question hook** — Direct question to men in caption or on-screen text, bikini or fitted outfit, forces yes/no engagement, men answer and compliment (@jackyalvvarez, @kateluxxe, @babebellalynnx)
 
 ## Accounts he trusts
 
-- **@itsbecsmith** ×4 — POV skits with on-screen text reveals, self-deprecating humor, deadpan delivery
-- **@tak0bell** ×4 — Talking-head confessionals, direct camera personality, relatable admissions
-- **@kaitgaf** ×3 — Reassuring girlfriend energy, needy POVs, casual intimate confessionals
-- **@juliafilippo_** ×3 — Casual-to-glam transitions, POV discovery skits, confident reveals
-- **@brookeandjess** ×2 — Group freakout skits with bloopers, friend betrayal humor
-- **@hannahmina_twins** ×2 — Two-girl collabs, sike reveals, dining together content
-- **@avaxreyess** ×2 — Transition reveals with wink teases, phone-over-face bikini bits
-- **@alanacho** — POV relationship understanding skit, gaming controller metaphor
-- **@jackyalvvarez** — Delivery arrival POV with ethnicity question
-- **@leony.music** — Bride + bridesmaids group dance entrance
-- **@callursister** — Exaggerated AI reaction dance on kitchen counter
-- **@ameliewyg** — Private vs public story bathroom mirror contrast
-- **@lexibrookerivera** — Obvious hints POV in designer setting
-- **@teganrollinson** — Direct question to men format (1.7M likes)
+- **@juliafilippo_** ×15 — POV skits, on-screen text confessions, car content, restaurant rejection loops, bedroom reveals, "me or the car" questions
+- **@itsbecsmith** ×4 — Self-aware POV humor, hidden talent reveals, "I've got a few screws loose" confession skits
+- **@realjadesnow** ×3 — Cosplay try-ons (doll aesthetic, pigtails), bikini comparison questions at pool
+- **@emelyelikeslemonade** ×2 — Beach bikini confidence walks, hair adjustment poses at sunset
+- **@kerstenco** ×2 — Bedroom mirror fit checks in casual tight fits, leopard print reveals
+- **@barbellinaa** ×2 — Beach bikini adjustment teases, sunset walk-and-look-back shots
+- **@babebellalynnx** ×2 — Cosplay character reveals (Cammy, devil costume), "does red look ok" question format
+- **@felicityymikaela** ×2 — Chest-forward framing in white ribbed wrap tops, "they look fake" text overlay defense
+- **@triciazurcher** ×2 — Refusing-to-make-it-official confession skit, toxic relationship POV loop
+- **@alanacho** ×1 — "You found a man that understands you" gaming POV skit
+- **@leony.music** ×1 — Bride + bridesmaids group dance entrance for collabs
+- **@hannahmina_twins** ×1 — "That text didn't sound like you... sike" reveal with friend reaction
+- **@ameliewyg** ×1 — Private story vs public story bathroom mirror selfie contrast
+- **@shelbyy.kim** ×1 — "Opposite but the same" POV skit with blue under-eye patches in car
+- **@norissavaldez** ×1 — "Which look is your favorite" multiple outfit reveals with numbered question
+- **@arikytsya** ×1 — "Me giving obvious signals that I like you" exaggerated street walk POV
 
 ## What he does NOT save
 
-- **Non-US creators or non-English content** — No UK, Canadian, Australian, or European girls; no foreign languages in captions or on-screen text; the playbook requires US-made, English-only reference content
-- **Men on camera** — No boyfriend reveals, no couples content, no male co-stars in the frame; even when the skit implies a guy (driving, off-camera voice), he's never shown
-- **Polished studio production** — No ring lights, no professional setups, no staged photoshoot aesthetics; everything is iPhone-casual with natural lighting in cars, bedrooms, beaches, bathrooms
-- **Pure thirst traps with no hook** — No static bikini poses without text or premise, no gym mirror selfies without motivational overlay, no content that's just body with no comment bait
-- **Long-form content or tutorials** — Nothing over 15 seconds, no storytelling arcs, no how-to formats, no talking-head rants longer than a single punchline
+- **Non-US creators or non-English content** — No UK, Canadian, Australian, or European accents; no foreign-language captions or on-screen text; the playbook is US-only
+- **Men on camera or couple content** — Solo women only; no boyfriends visible, no mixed-gender collabs, no "us" relationship content
+- **Polished studio production** — No ring lights, professional setups, or obvious staged shoots; everything is iPhone-casual with natural lighting
+- **Long-form or talking-head essays** — Nothing over 15 seconds; no storytimes, explainers, or multi-part series; hook and payoff must land in one short loop
+- **Fully-clothed modest content** — No conservative fits, turtlenecks, or baggy clothes; if it doesn't show skin or suggest body, it doesn't get saved
