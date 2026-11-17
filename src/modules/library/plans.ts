@@ -301,7 +301,8 @@ export function registerPlans(ctx: BotContext, deps: PlanDeps) {
       });
       if (r) await ctx.ops(MODULE, 'plan-rendered', { data: { plan: plan.slug, ...r }, text: `${plan.title}: ${r.sections} section thread(s) in <#${r.forum}>` });
       for (const model of ctx.models.all()) await deliverTo(model, plan).catch((err) => ctx.log.warn({ err, model: model.slug }, 'plan delivery failed'));
-      await deps.learn().catch((err) => ctx.log.warn({ err }, 'learn after plan import failed'));
+      // relearn only after a real batch — learn() commits knowledge/taste.md, which restarts the bot
+      if (t.filed >= 5) await deps.learn().catch((err) => ctx.log.warn({ err }, 'learn after plan import failed'));
     } finally {
       running = false;
     }
@@ -395,14 +396,15 @@ export function registerPlans(ctx: BotContext, deps: PlanDeps) {
     }
 
     // overview, pinned, created last so it sits on top
-    const total = items.filter((r) => r.status === 'filed').length;
+    const filedRows = items.filter((r) => r.status === 'filed');
+    const total = new Set(filedRows.map((r) => r.url)).size;
     const toc = plan.sections
       .filter((s) => threadIds.has(s.name))
       .map((s) => {
         const n = s.lines.length || items.filter((r) => r.section === s.name && r.status === 'filed').length;
         return `• <#${threadIds.get(s.name)}> — ${s.lines.length ? `${n} caption(s)` : `${n} video(s)`}${s.person ? ` · ${cap(s.person)}'s own list` : ''}`;
       });
-    const overview = await upsertThread(forum, known.get(OVERVIEW), `${plan.emoji} ${plan.title} — start here`.slice(0, 100), [`## ${plan.title}`, plan.intro, `**${total}** videos filed across **${threadIds.size}** sections.`].filter(Boolean).join('\n'), chunk(toc), me);
+    const overview = await upsertThread(forum, known.get(OVERVIEW), `${plan.emoji} ${plan.title} — start here`.slice(0, 100), [`## ${plan.title}`, plan.intro, `**${total}** videos filed across **${threadIds.size}** sections (${filedRows.length} list entries — many videos are on more than one list).`].filter(Boolean).join('\n'), chunk(toc), me);
     if (overview) {
       await sql`INSERT INTO bot.plan_threads (plan, section, thread_id, rendered_at) VALUES (${plan.slug}, ${OVERVIEW}, ${overview.id}, now()) ON CONFLICT (plan, section) DO UPDATE SET thread_id = EXCLUDED.thread_id, rendered_at = now()`;
       if (!overview.flags.has('Pinned')) await overview.pin().catch(() => undefined);

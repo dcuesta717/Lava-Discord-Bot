@@ -648,7 +648,12 @@ export function register(ctx: BotContext) {
     const images: ImageInput[] = [];
     if (cand.thumbnailUrl) await fetchImageAsBase64(cand.thumbnailUrl).then((img) => images.push(img)).catch(() => undefined);
     const prompt = loadPrompt('library.classify', { genres: desc, industry: industryLens(), references: cfg.scout.reference_accounts.map((a) => `@${a}`).join(' ') || '(none configured)', hint: hint ? `HINT from the person who saved it: ${hint}` : '', candidates: line });
-    const out = await ctx.api.claude.json<Classified[] | Classified>(prompt, { maxTokens: 600 }, images.length ? images : undefined);
+    const out = await ctx.api.claude.json<Classified[] | Classified>(prompt, { maxTokens: 600 }, images.length ? images : undefined).catch(async (err: Error) => {
+      // a cover frame the vision API refuses (> 8000 px, odd format) must not sink the video — judge from the caption alone
+      if (!images.length || !/image/i.test(err.message)) throw err;
+      ctx.log.warn({ err: err.message.slice(0, 160), url: cand.url }, 'classify: cover frame rejected, retrying without it');
+      return ctx.api.claude.json<Classified[] | Classified>(prompt, { maxTokens: 600 });
+    });
     const c = Array.isArray(out) ? out[0] : out;
     if (!c || typeof c.genre !== 'string') return undefined;
     c.url = cand.url;
