@@ -60,8 +60,11 @@ Rules:
 - Read the cover frame's on-screen text first: if it is not English, keep=false. If you cannot tell the country and the caption gives no US signal, keep=false.
 - Comments count is worth more than likes; likes more than views. A modest video with a high comment ratio beats a viral one nobody talks to — but engagement never rescues a video that fails the ACCEPT rules.
 - `title` is what shows in a gallery grid — make it the format, not a description of her ("golf swing fails → 'rate my swing' text" not "girl playing golf").
-- If the caption or hint names a folder, respect it unless it is clearly wrong. A hint never overrides a REJECT rule.
+- If the caption or hint names a folder, respect it unless it is clearly wrong. A hint never overrides a REJECT rule — except hand-picked mode below.
 - If `text_on_screen` is true and the primary genre is something else, add `words-on-screen` to `also`.
+
+## Hand-picked mode
+When the hint contains "HAND-PICKED", the owners already chose this video for a shoot list and it will be filed whatever you answer. Then: return keep=true with the best folder; write `why` and `copy` as the version the girls film (girl-only, English, on the sexy side, in the setting the owners' note names); and if a REJECT rule would normally fire, do not reject — put it in `reject_reason` as a ≤ 8-word heads-up for the girls (e.g. "man on camera — recast with a girl", "modest fit — go sexier").
 
 {{hint}}
 

@@ -79,6 +79,36 @@ Dan has years of Instagram "saved" collections (Bryce to do, Leah, Bryce collabs
 
 Costs for the first import (~800 videos): Apify ≈ $2–3, Claude ≈ $8–12, ~2–3 hours of background posting.
 
+## Content plans — the owners' shoot lists (Content House — December)
+
+Added Nov 17, 2026 (Dan: "we want all of this data built into the discord bot… it needs to all be into discord"). The owners plan a shoot in a
+Google Sheet with one tab per section — shared formats (All girls, Skits, Duo, Trio, Group, Podcast style, Beach / pool, …), a
+Captions tab, and one tab per girl (Bryce, Morgan, Leah, Madi, Kalena, Desy, Naomi). `library/plans/<slug>.yaml` is that sheet,
+section by section (`src/modules/library/plans.ts` reads it; `library/plans/content-house-dec.yaml` is the first one: 25 sections,
+341 entries, 273 different videos — the same reel is often on several tabs).
+
+- **Import** — `/library plan` (owners), chat "import the content house plan" (`import_content_plan`), or the boot job
+  `plan:<slug>` in `bot.settings → library.boot_jobs`. Every link → Apify → Claude notes → filed in its folder like any other
+  video (`origin = 'plan'`), tagged with the plan + section as its `collection`. **`keep_all: true` = never rejected**: the owners
+  already chose these, so Claude's REJECT rules turn into a ⚠️ heads-up at the top of "why it works" (prompt: hand-picked mode in
+  `prompts/library.classify.md`; code: `IngestOpts.keepAll` in `index.ts`). A section's `folder` forces the library folder, `hint`
+  steers the notes, `{url, note}` carries the owners' note from the sheet, `ideas` are text-only ideas, `lines` is a text section
+  (the caption bank). A video on several tabs is fetched once; every section row points at the one library post.
+- **Queue** — `bot.plan_items (plan, section, url)` with `status` queued | filed | failed | skipped, `item_id`, `detail`. Durable:
+  a restart resumes (`library.plan.active`); re-running only fetches links that are still queued; `/library purge origin:plan`
+  puts them back to queued.
+- **Render** — one forum per plan under 🎬 CONTENT LIBRARY (`🏠-content-house-dec`, list view), one thread per section
+  (numbered list: title · folder · @author, _why_, _do_, 📝 owners' note, link to the library post + the original), plus a pinned
+  "start here" overview linking every section. Threads are created girls-first so the newest-first forum reads shared formats →
+  each girl. Re-render (`/library plan render:true`, `render_content_plan`) edits the header and replaces the bot's list messages;
+  replies from the girls stay. Thread ids live in `bot.plan_threads`.
+- **Her list → her board** — a section with `person: bryce` lands on Bryce's reels board (with a brief each, via the same
+  `library:copy` path as 📋) the moment the import finishes if she is live, or on `model:live` when she is onboarded; name matches
+  the model slug, its first part, or her first name. `bot.library_deliveries` keeps it once per video per girl.
+- **Learning** — the plan's videos count as owner-saved for `learn()` (seed accounts from repeat authors, `knowledge/taste.md`).
+- Owners never touch the yaml: Discord shows everything. Adding a video = paste it in `#📥-library-inbox`; changing the plan = tell
+  Claude, who edits the yaml (a restart, ~2 min).
+
 ## Cost
 
 Apify `apify/instagram-scraper` is pay-per-result (≈ $2.30 / 1 000 results at the time of writing). Defaults: 14 genres × (3 hashtags × 15 + N accounts × 6). With ~5 seed accounts per genre that is ≈ 1 000 results/day ≈ $2–3/day, so budget **$50–90/month**; halve it with `per_hashtag: 8` or a `0 9 * * 1,3,5` cron. Claude classification is ~120 small vision calls/day, well under $1/day.

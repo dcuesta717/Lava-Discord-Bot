@@ -30,6 +30,7 @@ import { marketFilter } from '../../lib/market-filter.js';
 import { industryLens } from '../../lib/industry.js';
 import { loadPrompt } from '../../lib/prompts.js';
 import { registerSavedImport } from './saved.js';
+import { listPlans, registerPlans } from './plans.js';
 
 /**
  * Content Library — the agency-wide inspiration folders (Dan's "saved folder, fixed").
@@ -45,6 +46,8 @@ import { registerSavedImport } from './saved.js';
  *   learn:  🔥/👎 nudge the weight of the seed account the video came from.
  *   saved:  Dan's Instagram saved collections (Google Sheet → bot.saved_imports) → filed by collection, then the bot learns
  *           from the set: repeat authors → seed accounts, knowledge/taste.md → every classify/idea prompt (saved.ts).
+ *   plans:  hand-picked shoot lists (library/plans/<slug>.yaml, e.g. Content House — December) → every link filed with notes,
+ *           never rejected; one forum per plan with a thread per section; a girl's own section → her board (plans.ts).
  *
  * Everything is stored in bot.library_items / library_sources / library_votes; channel ids in bot.settings (library.*).
  */
@@ -54,6 +57,7 @@ const INBOX_NAME = '📥-library-inbox';
 const NO_MODEL = '-'; // custom-id slot the router reserves for a model slug; the library is agency-wide
 const URL_RE = /https?:\/\/\S+/g;
 const SOCIAL_RE = /instagram\.com|tiktok\.com/;
+const FALLBACK_GENRE = 'personality'; // keep-all imports only: where a video goes when Claude names a folder that does not exist
 
 interface Classified {
   url: string;
@@ -88,11 +92,13 @@ export interface ItemRow {
 }
 
 export interface IngestOpts {
-  origin: 'inbox' | 'command' | 'scout' | 'saved';
+  origin: 'inbox' | 'command' | 'scout' | 'saved' | 'plan';
   addedBy?: string;
   hint?: string;
   forceGenre?: string;
   candidates?: ReelCandidate[];
+  /** Hand-picked by the owners: Claude still writes the notes, but the video is filed no matter what (a concern becomes a ⚠️ in the notes). */
+  keepAll?: boolean;
 }
 
 export interface IngestResult {
@@ -136,6 +142,11 @@ export function register(ctx: BotContext) {
       } else if (kind === 'import') {
         const r = await saved.start({ only: arg || undefined });
         await ctx.ops(MODULE, 'saved-import-boot', { data: { job, started: r.started }, text: r.message });
+      } else if (kind === 'plan') {
+        const slug = arg || listPlans()[0];
+        if (!slug) continue;
+        const r = await plans.start({ slug });
+        await ctx.ops(MODULE, 'plan-import-boot', { data: { job, started: r.started }, text: r.message });
       } else ctx.log.warn({ job }, 'unknown library boot job');
     }
   }
@@ -181,6 +192,10 @@ export function register(ctx: BotContext) {
 
   // ── /library ───────────────────────────────────────────────────────────────
   const genreChoices = () => genres().map((g) => ({ name: `${g.emoji} ${g.name}`, value: g.slug }));
+  const planChoices = () => {
+    const slugs = listPlans().slice(0, 25);
+    return slugs.length ? slugs.map((s) => ({ name: s, value: s })) : [{ name: '(no plans yet)', value: '-' }];
+  };
   ctx.command(
     new SlashCommandBuilder()
       .setName('library')
@@ -219,9 +234,17 @@ export function register(ctx: BotContext) {
       .addSubcommand((s) => s.setName('import').setDescription('Import the owner’s Instagram saved collections from the Google Sheet (owners)').addStringOption((o) => o.setName('collection').setDescription('Only this collection (partial name)')).addBooleanOption((o) => o.setName('status').setDescription('Just show progress')))
       .addSubcommand((s) =>
         s
+          .setName('plan')
+          .setDescription('Import a content plan — the owners’ shoot list, e.g. Content House — December (owners)')
+          .addStringOption((o) => o.setName('name').setDescription('Which plan').addChoices(...planChoices()))
+          .addBooleanOption((o) => o.setName('status').setDescription('Just show progress'))
+          .addBooleanOption((o) => o.setName('render').setDescription('Only rebuild the forum threads from what is already imported')),
+      )
+      .addSubcommand((s) =>
+        s
           .setName('purge')
           .setDescription('Remove videos from the library folders (owners) — e.g. everything the scout filed')
-          .addStringOption((o) => o.setName('origin').setDescription('Which videos').setRequired(true).addChoices({ name: 'scout (daily Apify finds)', value: 'scout' }, { name: 'inbox (pasted links)', value: 'inbox' }, { name: 'saved (Dan’s collections)', value: 'saved' }, { name: 'everything', value: 'all' }))
+          .addStringOption((o) => o.setName('origin').setDescription('Which videos').setRequired(true).addChoices({ name: 'scout (daily Apify finds)', value: 'scout' }, { name: 'inbox (pasted links)', value: 'inbox' }, { name: 'saved (Dan’s collections)', value: 'saved' }, { name: 'plan (content plans / shoot lists)', value: 'plan' }, { name: 'everything', value: 'all' }))
           .addBooleanOption((o) => o.setName('confirm').setDescription('Yes, delete them').setRequired(true)),
       ),
     async (i) => {
@@ -295,6 +318,21 @@ export function register(ctx: BotContext) {
         if (i.options.getBoolean('status')) return i.editReply(await saved.status());
         if (!ctx.api.apify.enabled) return i.editReply('`APIFY_TOKEN` is not set yet — I can’t download videos.');
         const r = await saved.start({ only: i.options.getString('collection') ?? undefined, actor: i.user.id });
+        return i.editReply(r.message);
+      }
+
+      if (sub === 'plan') {
+        if (!ctx.isOwner(i.user.id)) return i.reply({ content: 'owners only', flags: MessageFlags.Ephemeral });
+        await i.deferReply({ flags: MessageFlags.Ephemeral });
+        const slug = i.options.getString('name') ?? listPlans()[0];
+        if (!slug || slug === '-' || !listPlans().includes(slug)) return i.editReply(`no such plan — have: ${listPlans().join(', ') || 'none yet'}`);
+        if (i.options.getBoolean('status')) return i.editReply(await plans.status(slug));
+        if (i.options.getBoolean('render')) {
+          const r = await plans.render(slug);
+          return i.editReply(r ? `rebuilt ${r.sections} section thread(s) in <#${r.forum}>` : 'could not render — the Content Library category is missing');
+        }
+        if (!ctx.api.apify.enabled) return i.editReply('`APIFY_TOKEN` is not set yet — I can’t download videos.');
+        const r = await plans.start({ slug, actor: i.user.id });
         return i.editReply(r.message);
       }
 
@@ -404,6 +442,7 @@ export function register(ctx: BotContext) {
     const ids = rows.map((r) => r.id);
     if (ids.length) {
       await sql`UPDATE bot.saved_imports SET status = 'queued', item_id = NULL, genre = NULL, note = NULL WHERE item_id = ANY(${ids})`;
+      await sql`UPDATE bot.plan_items SET status = 'queued', item_id = NULL, genre = NULL, detail = NULL WHERE item_id = ANY(${ids})`;
       await sql`DELETE FROM bot.library_items WHERE id = ANY(${ids})`;
     }
     return { items: ids.length, threads };
@@ -415,6 +454,17 @@ export function register(ctx: BotContext) {
     genreExists: (slug) => Boolean(genre(slug)),
     itemByUrl: async (canonical) => (await sql<ItemRow[]>`SELECT * FROM bot.library_items WHERE source_url = ${canonical}`)[0],
     sendToBoard,
+  });
+
+  // ── content plans (hand-picked shoot lists) → library + their own forum ────
+  const plans = registerPlans(ctx, {
+    ingest,
+    genreExists: (slug) => Boolean(genre(slug)),
+    genreLabel: (slug) => (genre(slug) ? `${genre(slug)!.emoji} ${genre(slug)!.name}` : slug),
+    itemByUrl: async (canonical) => (await sql<ItemRow[]>`SELECT * FROM bot.library_items WHERE source_url = ${canonical}`)[0],
+    sendToBoard,
+    ensureForum,
+    learn: () => saved.learn(),
   });
 
   function parseSources(values: string[]) {
@@ -557,6 +607,15 @@ export function register(ctx: BotContext) {
         if (opts.forceGenre && genre(opts.forceGenre)) {
           c.genre = opts.forceGenre;
           c.also = (c.also ?? []).filter((s) => s !== c.genre);
+        }
+        if (opts.keepAll) {
+          // the owners chose this one — file it; keep Claude's concern as a heads-up instead of a rejection
+          if (!genre(c.genre)) c.genre = (c.also ?? []).find((s) => genre(s)) ?? FALLBACK_GENRE;
+          c.also = (c.also ?? []).filter((s) => s !== c.genre);
+          if (!c.keep) {
+            c.keep = true;
+            if (c.reject_reason) c.why = `⚠️ ${c.reject_reason} — film the girl-only, sexier version. ${c.why ?? ''}`.trim().slice(0, 400);
+          }
         }
         if (!c.keep || !genre(c.genre)) {
           result.skipped++;
@@ -842,15 +901,12 @@ export function register(ctx: BotContext) {
 
 
   // ── structure ──────────────────────────────────────────────────────────────
-  async function ensureLibrary() {
-    cfg = loadLibrary();
-    const guild = await ctx.client.guilds.fetch(ctx.env.DISCORD_GUILD_ID);
-    await guild.channels.fetch();
+  /** The three permission shapes the library uses (category / forum / inbox), clamped to what the bot can grant. */
+  async function perms(guild: Guild) {
     const me = ctx.client.user!.id;
     const owners = ctx.ownerIds();
     const clamp = await clampToBot(guild);
     const everyone = guild.roles.everyone.id;
-
     const catOverwrites = clamp([
       { id: everyone, type: ROLE, allow: [PermissionFlagsBits.ViewChannel] },
       { id: me, type: MEMBER, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ManageThreads, PermissionFlagsBits.CreatePublicThreads, PermissionFlagsBits.SendMessagesInThreads, PermissionFlagsBits.AttachFiles, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AddReactions, PermissionFlagsBits.ReadMessageHistory] },
@@ -864,6 +920,40 @@ export function register(ctx: BotContext) {
       { id: everyone, type: ROLE, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AddReactions] },
       { id: me, type: MEMBER, allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages, PermissionFlagsBits.ReadMessageHistory, PermissionFlagsBits.EmbedLinks, PermissionFlagsBits.AddReactions] },
     ]);
+    return { catOverwrites, forumOverwrites, inboxOverwrites };
+  }
+
+  /** A forum under the library category that is not a genre folder (content plans). Idempotent: found by saved id, then by name. */
+  async function ensureForum(name: string, topic: string, settingsKey: string, layout: ForumLayoutType): Promise<ForumChannel | undefined> {
+    const guild = await ctx.client.guilds.fetch(ctx.env.DISCORD_GUILD_ID);
+    await guild.channels.fetch();
+    const cat = guild.channels.cache.get(ctx.settings.getString('library.category'));
+    if (!cat || cat.type !== ChannelType.GuildCategory) return undefined;
+    const { forumOverwrites } = await perms(guild);
+    let forum = guild.channels.cache.get(ctx.settings.getString(settingsKey)) as ForumChannel | undefined;
+    if (!forum || forum.type !== ChannelType.GuildForum) forum = guild.channels.cache.find((c) => c.type === ChannelType.GuildForum && c.parentId === cat.id && c.name === name) as ForumChannel | undefined;
+    if (!forum) {
+      forum = await guild.channels.create({
+        name,
+        type: ChannelType.GuildForum,
+        parent: cat.id,
+        topic,
+        defaultForumLayout: layout,
+        defaultSortOrder: SortOrderType.CreationDate,
+        defaultReactionEmoji: { id: null, name: '🔥' },
+        permissionOverwrites: forumOverwrites,
+      });
+      await ctx.ops(MODULE, 'folders-created', { data: { created: [name] } });
+    } else await forum.permissionOverwrites.set(forumOverwrites).catch((err) => ctx.log.warn({ err, forum: name }, 'plan forum perms'));
+    if (ctx.settings.getString(settingsKey) !== forum.id) await ctx.settings.set(settingsKey, forum.id);
+    return forum;
+  }
+
+  async function ensureLibrary() {
+    cfg = loadLibrary();
+    const guild = await ctx.client.guilds.fetch(ctx.env.DISCORD_GUILD_ID);
+    await guild.channels.fetch();
+    const { catOverwrites, forumOverwrites, inboxOverwrites } = await perms(guild);
 
     // category
     let cat = guild.channels.cache.get(ctx.settings.getString('library.category')) as CategoryChannel | undefined;

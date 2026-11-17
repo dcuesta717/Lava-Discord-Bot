@@ -18,7 +18,7 @@ sheet: https://docs.google.com/spreadsheets/d/11aGFK5ATnunA9bglsBjUIHU7KJcCClYNu
 pace_ms: 3500          # pause between videos (Discord + Apify friendly)
 batch: 8               # videos per Apify call
 
-people: [leah, josie, amari, bryce, morgan, steve]
+people: [leah, josie, amari, bryce, morgan, steve, madi, kalena, desy, naomi]   # + the Content House girls (Nov 17)
 
 rules:
   - match: "skit"                                # best skit content, skits, new skits, funny skit

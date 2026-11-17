@@ -1,0 +1,479 @@
+# Content House — December (from the owners' Google Sheet "Content house december", 25 tabs, Nov 17 2026).
+# One section = one tab of the sheet = one thread in the 🏠 content-house forum. Every link is HAND-PICKED by the owners,
+# so the import files + annotates every one (keep_all) — it never rejects. `folder` forces the library folder, `hint` steers
+# Claude's notes, `person` = a girl's own list (lands on her reels board the moment she is onboarded; name matches the
+# model slug or first name). A url entry may be `{url, note}` to carry the owners' note from the sheet.
+# Re-import = add / fix a link here; links already imported are skipped. Owners never need this file — Discord shows it all.
+
+slug: content-house-dec
+title: "Content House — December"
+emoji: "🏠"
+intro: "Every video the owners picked for the December content house, sorted the way the planning sheet is: shared formats first, then each girl's own list. Each one links to its library post (video + why it works + how to copy it). Tap 📋 Copy this on any library post to put it on your board."
+keep_all: true
+pace_ms: 3500
+batch: 8
+
+sections:
+  - name: "All girls"
+    sheet_tab: "All girls"
+    hint: "a format EVERY girl in the content house films this month — pick the folder it belongs in"
+    urls:
+      - https://instagram.com/p/DfV5M_YSH-Z
+      - https://instagram.com/p/De5DKNvhLzq
+      - https://instagram.com/p/De25vxGBuHU
+      - https://instagram.com/p/DexUs_3BeGI
+      - https://instagram.com/p/DewydDchdzF
+      - https://instagram.com/p/DewW_m8hDr-
+      - https://instagram.com/p/Dero2y9Bd1D
+      - https://instagram.com/p/DerNXbShebO
+      - https://instagram.com/p/DeoogaIh2U0
+      - https://instagram.com/p/De_7xzHzut2
+      - https://instagram.com/p/De8KDODK6mB
+      - https://instagram.com/p/De5RKrKyIBy
+      - https://instagram.com/p/DamddR4wBPm
+      - https://instagram.com/p/DdQT3LxOrip
+      - https://instagram.com/p/DeVbe-gh_0A
+      - https://instagram.com/p/DeRdV9NhLvP
+      - https://instagram.com/p/DeaeG7WN6qI
+      - https://instagram.com/p/DfdERzrhpv3
+      - https://instagram.com/p/Depxrd6JsOi
+      - https://instagram.com/p/DfnV7RdAzZO
+      - https://instagram.com/p/DcGMKHuN8-M
+      - https://instagram.com/p/DdrmdIWuE72
+      - https://instagram.com/p/DfLKIwDqgFN
+      - https://instagram.com/p/DdPBKJuNUaA
+      - https://instagram.com/p/Dfha3-xhF7l
+      - https://instagram.com/p/DfqLAPMBQb3
+      - https://instagram.com/p/DboesJWBGZp
+      - https://instagram.com/p/DV_Q6jLkYUr
+      - https://instagram.com/p/DPpDQHBkllC
+      - https://instagram.com/p/Ddz5qbeyMad
+      - https://instagram.com/p/DdzllKdhMFA
+      - https://instagram.com/p/DeMvWh8i3KG
+      - https://instagram.com/p/DeQeHh5NhKb
+      - https://instagram.com/p/DdeQLVaRMBH
+      - https://instagram.com/p/DZ6nBVGNQ6u
+      - https://instagram.com/p/DXkhz5EgW_L
+      - https://instagram.com/p/DfinreRPn9i
+      - https://instagram.com/p/DfvOsQHBZEz
+      - https://instagram.com/p/DfytxFUtuyj
+  - name: "Skits"
+    sheet_tab: "Skits"
+    folder: skits
+    urls:
+      - https://instagram.com/p/Dfr_xCXNyHu
+      - https://instagram.com/p/DfnGY2tpXzP
+      - https://instagram.com/p/DfqW1FeB2Qg
+      - https://instagram.com/p/DeeP4CjNVOk
+      - https://instagram.com/p/DdpMrrZshZs
+      - https://instagram.com/p/DfkjWhpRJkQ
+      - https://instagram.com/p/DfknPehSpfY
+      - https://instagram.com/p/DfZ7r-oupfD
+      - https://instagram.com/p/DdbgyRgOVLE
+      - https://instagram.com/p/DefYqxXPCR1
+      - https://instagram.com/p/DbRNR98hK0G
+      - https://instagram.com/p/Dcj5rg2Ctou
+      - https://instagram.com/p/DezLFwdxIR9
+      - https://instagram.com/p/DcNtaZ-zGol
+      - https://instagram.com/p/DcAS1Zxz5S0
+      - https://instagram.com/p/DegayvcgNaD
+      - https://instagram.com/p/DeihDdmB8eM
+      - https://instagram.com/p/DedC-lORunc
+      - https://instagram.com/p/DeQAyJ2uOx5
+      - https://instagram.com/p/Dc8hAvpRmXL
+      - https://instagram.com/p/DczSTUwBm0L
+      - https://instagram.com/p/DZqp3ost9EW
+      - https://instagram.com/p/DbdIHiuRTk7
+      - https://instagram.com/p/Da65F2jM8Bp
+      - https://instagram.com/p/Dfkx-O0qryn
+      - https://instagram.com/p/DfdMMHvNFQz
+      - https://instagram.com/p/Deuf4REiUnz
+      - https://instagram.com/p/Df2awlbhaQV
+  - name: "Duo (two girls)"
+    sheet_tab: "duo"
+    folder: collabs
+    hint: "two girls together — the pairing is the format"
+    urls:
+      - https://instagram.com/p/DfI1pzHtiPu
+      - https://instagram.com/p/DcUZx9yRFvG
+      - https://instagram.com/p/DefRPGWyYb-
+      - https://instagram.com/p/DfTmZ-KynyJ
+      - https://instagram.com/p/DcK4729N4qt
+      - https://instagram.com/p/DcUXMlxhxkP
+      - https://instagram.com/p/Ddha5eKJ1Yr
+      - https://instagram.com/p/Deh2N6ohvFJ
+      - { url: https://instagram.com/p/DdsriW1PCtJ, note: "Need deck of cards" }
+      - https://instagram.com/p/DdcdCmIBzxt
+      - https://instagram.com/p/DbACer7SVu5
+      - https://instagram.com/p/DXHsE7pDdyn
+      - https://instagram.com/p/DXrstq1AVuM
+      - https://instagram.com/p/DYJUxxetbpj
+      - https://instagram.com/p/DV877MOjccr
+      - https://instagram.com/p/DUmf6LKjmLz
+      - https://instagram.com/p/DVoZyfjDZZm
+      - https://instagram.com/p/DT4ak7kjQ1O
+      - https://instagram.com/p/DVRizeeEhBK
+      - https://instagram.com/p/DSxlRFwjGwR
+      - https://instagram.com/p/DTxukHsiqso
+      - https://instagram.com/p/DSA1qtMClpW
+      - https://instagram.com/p/DSG1UgzDX13
+      - https://instagram.com/p/DSTuHaSDAx2
+      - https://instagram.com/p/DSOl9sAjbcv
+      - https://instagram.com/p/DUGqFn6DFYu
+      - https://instagram.com/p/DSG1Lb-kd1d
+      - https://instagram.com/p/DUtzpALCPyJ
+      - https://instagram.com/p/DTcD10jgHmq
+      - https://instagram.com/p/DP9VA1VkT3p
+      - https://instagram.com/p/DQ0GVUDARjz
+      - https://instagram.com/p/DSR_KJjEZuY
+      - https://instagram.com/p/DS8FR_qEdM_
+      - https://instagram.com/p/DNS8Wtptwj7
+      - https://instagram.com/p/DOYvIQBjFaq
+      - https://instagram.com/p/DSiF7Bdj4Fx
+      - https://instagram.com/p/DUGVd5FkeLy
+      - https://instagram.com/p/DOT2vVwALgb
+      - https://instagram.com/p/DShRX6ykh79
+      - https://instagram.com/p/DPPSnDjEtNC
+      - https://instagram.com/p/DOgPdHbEtKp
+      - https://instagram.com/p/DSberQADO-N
+      - https://instagram.com/p/DQKtJShASa0
+      - https://instagram.com/p/DQhRP4-keBf
+      - https://instagram.com/p/DTtI7C9ij07
+      - https://instagram.com/p/Df2VYQBTa5Q
+      - https://instagram.com/p/DfwGGvWRCIq
+  - name: "Trio (three girls)"
+    sheet_tab: "trio"
+    folder: collabs
+    hint: "three girls together — the group is the format"
+    urls:
+      - https://instagram.com/p/De0U9-RBkOE
+      - https://instagram.com/p/DfaGWVqM-Vh
+      - https://instagram.com/p/DfNRG2WvR3E
+      - https://instagram.com/p/DffQxmKxmfV
+      - https://instagram.com/p/DfSDtJjRFfT
+      - https://instagram.com/p/DfvYXprhH4v
+  - name: "Group"
+    sheet_tab: "group"
+    folder: collabs
+    hint: "the whole house together — group bit"
+    urls:
+      - https://instagram.com/p/DKzoJYXsPYC
+      - https://instagram.com/p/DcfZDlhhD3r
+      - https://instagram.com/p/DdjoCIeBGjZ
+      - https://instagram.com/p/Dc312_ijd9K
+      - https://instagram.com/p/DfsM7NAK3pC
+      - https://instagram.com/p/DcGw1Btgu5w
+      - https://instagram.com/p/Deahh79uUwH
+      - https://instagram.com/p/DdgI8pHM6jr
+      - https://instagram.com/p/DdrEVSgsIY_
+      - https://instagram.com/p/DdmYgbBPmP2
+      - https://instagram.com/p/Ddbw86Ap40_
+      - https://instagram.com/p/DdMfMCeOXdc
+      - https://instagram.com/p/DdZ_WI0hbIU
+      - https://instagram.com/p/DdKx0SXsdE9
+      - https://instagram.com/p/DdXWCFEBQrU
+      - https://instagram.com/p/DUyLXU0EVct
+      - https://instagram.com/p/DUWE_LFkTa8
+      - https://instagram.com/p/DOQEeIDDp-N
+      - https://instagram.com/p/DPWYWGfCNFr
+      - https://instagram.com/p/DM7sMbHtZS9
+      - https://instagram.com/p/DekJWv2PJO5
+      - { url: https://instagram.com/p/DfxX6jtvPpq, note: "Blind fold funny stomp" }
+      - https://instagram.com/p/Df0iDFVBYcg
+      - { url: https://instagram.com/p/Df0zwJAhIPw, note: "Christmas" }
+      - { url: https://instagram.com/p/DfzadvThjV7, note: "Christmas" }
+      - https://instagram.com/p/Df2GJ4KJeFw
+      - https://instagram.com/p/DfvblqwTyer
+  - name: "Podcast style"
+    sheet_tab: "Podcast style"
+    folder: podcast-questions
+    hint: "mic-in-hand / street-interview format — note the exact question"
+    urls:
+      - https://instagram.com/p/DffPkoVhQYm
+      - https://instagram.com/p/Dey7uD5hiXA
+      - https://instagram.com/p/DepmUbfhBKE
+      - https://instagram.com/p/Dfm-f7Yh1p2
+      - { url: https://instagram.com/p/Dez1n8XyHyZ, note: "Street interviews" }
+      - https://instagram.com/p/DfRGwkmTiOu
+      - https://instagram.com/p/DeS6xadIOYn
+      - https://instagram.com/p/DfROV4mh7Ih
+  - name: "Beach / pool"
+    sheet_tab: "Beach  pool  etc"
+    hint: "beach or pool setting — file by the setting (beach vs pool); swimwear content"
+    urls:
+      - https://instagram.com/p/Dfm-32bv9TC
+      - https://instagram.com/p/Dfk8xgTtY-d
+      - https://instagram.com/p/DfnhqnSSMJA
+      - https://instagram.com/p/DfpHd90NdIQ
+      - https://instagram.com/p/DfhN4w2N4Lb
+      - https://instagram.com/p/Dfsp2i9zsvj
+      - https://instagram.com/p/Dfnw6MChGu5
+      - https://instagram.com/p/DfspeVaSehY
+      - https://instagram.com/p/Dfn4rVCTHZa
+      - https://instagram.com/p/DfSuxLCvY8H
+      - https://instagram.com/p/DfiiwK7hpry
+      - https://instagram.com/p/DfsxJg8tQEv
+      - https://instagram.com/p/Dfx5ZEhicLU
+      - https://instagram.com/p/DeNJrsxKg62
+  - name: "Words on screen"
+    sheet_tab: "Words on screen"
+    folder: words-on-screen
+    urls:
+      - https://instagram.com/p/DfsBfZhtb4T
+  - name: "Boob content"
+    sheet_tab: "Boob content"
+    folder: big-boobs
+    urls:
+      - https://instagram.com/p/DfdxvQ0A0Te
+      - https://instagram.com/p/DfrPPQnBdQR
+      - { url: https://instagram.com/p/DfYBbGChU0d, note: "Car" }
+      - https://instagram.com/p/DfiyI1chbZr
+      - https://instagram.com/p/DfgKSO5OKWL
+      - https://instagram.com/p/DfKhwZihcYg
+      - https://instagram.com/p/Dfd1_tqsV54
+  - name: "Cosplay"
+    sheet_tab: "Cosplay"
+    folder: cosplay
+    urls:
+      - https://instagram.com/p/DfQIfQkyoWe
+      - https://instagram.com/p/Dfe0KCjzCvK
+      - https://instagram.com/p/DfqAec-S5l7
+      - https://instagram.com/p/DfVXMrZJv_v
+      - https://instagram.com/p/DexQN5rBcPX
+      - https://instagram.com/p/DfXQ60yRmRa
+  - name: "Bedroom social media"
+    sheet_tab: "Bedroom social media"
+    folder: hot-girl-filler
+    hint: "filmed in the bedroom — quick everyday filler content"
+    urls:
+      - https://instagram.com/p/DfnkQHzhVQ3
+      - https://instagram.com/p/DfKSgMBN_4n
+      - https://instagram.com/p/DfnPKD5BZlr
+      - https://instagram.com/p/DfijpW4tvY5
+      - https://instagram.com/p/DfsOWLdhgFX
+      - https://instagram.com/p/DfajjadAy5v
+  - name: "GRWM style"
+    sheet_tab: "Grwm style"
+    folder: personality
+    hint: "get-ready-with-me talking format — she chats while getting ready"
+    ideas:
+      - "How I warm up food in microwave"
+    urls:
+      - { url: https://instagram.com/p/Df1bxh8vd_s, note: "How I put on a bikini" }
+  - name: "GRWM"
+    sheet_tab: "Grwm"
+    folder: personality
+    hint: "get-ready-with-me talking format"
+    urls:
+      - https://instagram.com/p/DfhczpBo-b_
+  - name: "Eating food"
+    sheet_tab: "Eating food"
+    hint: "eating-on-camera bit — the food is the prop, the tease is the point"
+    urls:
+      - { url: https://instagram.com/p/DfmaHTZNeZg, note: "Banana" }
+      - https://instagram.com/p/DfcGXnWtOvz
+  - name: "Long form ideas"
+    sheet_tab: "Long form ideas"
+    folder: personality
+    hint: "LONG-FORM talking format (reading mean messages, Q&A) — note the exact premise"
+    urls:
+      - https://instagram.com/p/DfcPSlrBGvZ
+      - https://instagram.com/p/De2lfL6yk2N
+      - https://instagram.com/p/DfTHGZKyuag
+      - { url: https://instagram.com/p/De4g1oLh8ue, note: "Reading mean messages" }
+      - { url: https://instagram.com/p/DexwKO5h20p, note: "Q&A - type of man" }
+      - https://instagram.com/p/DfXtPf2OXg1
+      - https://instagram.com/p/De2luI1yy2-
+      - https://instagram.com/p/DfWYs0ssCGi
+  - name: "NNN (No Nut November)"
+    sheet_tab: "NNN"
+    hint: "No-Nut-November bit — the joke / tease is the format"
+    urls:
+      - https://instagram.com/p/DfZqjaph3xk
+      - https://instagram.com/p/DfYfC6zBXhb
+      - https://instagram.com/p/DfYDglOBHIl
+  - name: "Christmas"
+    sheet_tab: "Christmas"
+    hint: "Christmas-themed — holiday outfit or setting; file by the format"
+    urls:
+      - https://instagram.com/p/DfatqKrTl7q
+      - https://instagram.com/p/DfVegwmndEO
+  - name: "Captions"
+    sheet_tab: "Captions"
+    lines:
+      - "Never in my likes, always in my views"
+      - "Someone at the dog park said \"good girl\" and I looked"
+      - "You're so hard to impress, yeah my dad isn't a loser"
+      - "Of course angels exist, I'm right here"
+      - "Unfortunately I can't be nonchalant, I have a huge rack and I'm funny"
+      - "I'm sad today, can you send me a cute pic front and back of your credit card please"
+      - "At least whatever is wrong with me made me addicted to sunsets and bikinis and not meth"
+      - "\"You can't do that\" aww no maybe you can't do that, I can do anything I want"
+      - "Wya?  My breaking point"
+      - "Yes I like being babied but ofc I still run ts"
+      - "\"Get a load of this guy\" I've been trying, trust me"
+      - "Unfortunately I'm worth every headache I give some pop in some ibuprofen bc it's about to be a doozy"
+      - "\"I've heard something about you\" it's all true, I'm terrible, bye"
+  - name: "Bryce"
+    sheet_tab: "bryce"
+    person: bryce
+    urls:
+      - https://instagram.com/p/DfgNZrnh3_-
+      - https://instagram.com/p/DMQ3H65yPDR
+      - https://instagram.com/p/DepECixBytr
+      - https://instagram.com/p/DeoogaIh2U0
+      - https://instagram.com/p/DenBkQjhPoB
+      - https://instagram.com/p/DcE4WQgSsRO
+      - https://instagram.com/p/DfVfSshoUN1
+      - https://instagram.com/p/De5RKrKyIBy
+      - https://instagram.com/p/DfFcuVvt17z
+      - https://instagram.com/p/DfpHQFvRROJ
+      - https://instagram.com/p/DboesJWBGZp
+      - https://instagram.com/p/DcxFBS3sQC2
+      - https://instagram.com/p/Dbbyr21NWC3
+      - https://instagram.com/p/Dcv-PkAOpLZ
+      - https://instagram.com/p/DaykCZ8R540
+      - https://instagram.com/p/DfvOsQHBZEz
+  - name: "Morgan"
+    sheet_tab: "morgan"
+    person: morgan
+    urls:
+      - https://instagram.com/p/Dfj9uQPhDdP
+      - https://instagram.com/p/DfiyOebhSC2
+      - https://instagram.com/p/DfiWvYnhFgh
+      - https://instagram.com/p/Dfh0Uz_hM77
+      - https://instagram.com/p/DfgNZrnh3_-
+      - https://instagram.com/p/DfdomNjBGrN
+      - https://instagram.com/p/DeoogaIh2U0
+      - https://instagram.com/p/DfkBcAyIWE6
+      - https://instagram.com/p/DfVfSshoUN1
+      - https://instagram.com/p/DfBPIHBODWs
+      - https://instagram.com/p/De5RKrKyIBy
+      - https://instagram.com/p/DfFcuVvt17z
+      - https://instagram.com/p/DfgSusuzrwi
+      - https://instagram.com/p/DfLLrBGI5RH
+      - https://instagram.com/p/DboesJWBGZp
+      - https://instagram.com/p/Dbbyr21NWC3
+      - https://instagram.com/p/Dcv-PkAOpLZ
+      - https://instagram.com/p/DaykCZ8R540
+      - https://instagram.com/p/DZ77qe6TgnJ
+      - https://instagram.com/p/Dfsdt0kI1Ur
+      - https://instagram.com/p/DfvOsQHBZEz
+  - name: "Leah"
+    sheet_tab: "leah"
+    person: leah
+    urls:
+      - https://instagram.com/p/DfkBcAyIWE6
+      - https://instagram.com/p/De5RKrKyIBy
+      - https://instagram.com/p/Dfpsq-Rz0t1
+      - https://instagram.com/p/DeSYLVCtXT7
+      - https://instagram.com/p/DeK29eIBOnA
+      - https://instagram.com/p/Dfaacqhs4jw
+      - https://instagram.com/p/DdkStj6O17A
+      - https://instagram.com/p/DdfC7Z6R7jB
+      - https://instagram.com/p/DcMmbYOBui1
+      - https://instagram.com/p/DdUppT7pv3u
+      - https://instagram.com/p/DabNGx6yFJ3
+      - https://instagram.com/p/DaWlB8wOFaC
+      - https://instagram.com/p/DdfSEP9Pkz6
+      - https://instagram.com/p/DZviUuMyApm
+      - https://instagram.com/p/DZ5fCGyNpyI
+      - https://instagram.com/p/DfknPehSpfY
+      - https://instagram.com/p/DfdLeAeiSuM
+      - https://instagram.com/p/DfDrP3uRLrb
+      - https://instagram.com/p/De-RJ7Gy_Eq
+      - https://instagram.com/p/DfDcnHOy5j5
+      - https://instagram.com/p/DeLrYBazaLe
+      - https://instagram.com/p/DefYqxXPCR1
+      - https://instagram.com/p/DafvTq0N47d
+      - https://instagram.com/p/Depl0lcyznD
+      - https://instagram.com/p/DezLFwdxIR9
+      - https://instagram.com/p/DeoyiW6xd3v
+      - https://instagram.com/p/DeFfaZUhDM1
+      - https://instagram.com/p/DdeXKfnB6EP
+      - https://instagram.com/p/Dd63uZIIbZ1
+      - https://instagram.com/p/Dehp7rNPcA9
+      - https://instagram.com/p/DegayvcgNaD
+      - https://instagram.com/p/DeihDdmB8eM
+      - https://instagram.com/p/DedC-lORunc
+      - https://instagram.com/p/DeQAyJ2uOx5
+      - https://instagram.com/p/DdozDH6iPcj
+      - https://instagram.com/p/DeKwPlMpJBE
+      - https://instagram.com/p/DcqjxRGozZo
+      - https://instagram.com/p/DdAE22oPuXF
+      - https://instagram.com/p/DczSTUwBm0L
+      - https://instagram.com/p/Dbbyr21NWC3
+      - https://instagram.com/p/Db4ThsrhmIX
+      - https://instagram.com/p/Dcv-PkAOpLZ
+      - https://instagram.com/p/DaT5PYAIKt-
+      - https://instagram.com/p/DbdIHiuRTk7
+      - https://instagram.com/p/DaykCZ8R540
+      - https://instagram.com/p/DZ77qe6TgnJ
+      - https://instagram.com/p/DcEBW-uMwmx
+      - https://instagram.com/p/DfnQJsxy5Mv
+  - name: "Madi"
+    sheet_tab: "madi"
+    person: madi
+    urls:
+      - https://instagram.com/p/DfTVa6Mhkqr
+      - https://instagram.com/p/De18B14B5qm
+      - https://instagram.com/p/DepECixBytr
+      - https://instagram.com/p/DenBkQjhPoB
+      - https://instagram.com/p/Dfk7HUHzlXh
+      - https://instagram.com/p/DcE4WQgSsRO
+      - https://instagram.com/p/DfkBcAyIWE6
+      - https://instagram.com/p/DfVfSshoUN1
+      - https://instagram.com/p/DfBPIHBODWs
+      - https://instagram.com/p/De5RKrKyIBy
+      - https://instagram.com/p/DfFcuVvt17z
+      - https://instagram.com/p/Dfnfu0JhDht
+      - https://instagram.com/p/DfpHQFvRROJ
+      - https://instagram.com/p/DZviUuMyApm
+      - https://instagram.com/p/DZ5fCGyNpyI
+      - https://instagram.com/p/DfZ7r-oupfD
+      - https://instagram.com/p/DboesJWBGZp
+      - https://instagram.com/p/DdEt8ZBR8Ig
+      - https://instagram.com/p/Dd9yYTwhfN6
+      - https://instagram.com/p/DeCVTdORco8
+      - https://instagram.com/p/DeQAMy1S68A
+      - https://instagram.com/p/DeZOD-2NXKg
+      - https://instagram.com/p/DexQN5rBcPX
+      - https://instagram.com/p/DafvTq0N47d
+      - https://instagram.com/p/DegayvcgNaD
+      - https://instagram.com/p/DeihDdmB8eM
+      - https://instagram.com/p/Dcv-PkAOpLZ
+      - https://instagram.com/p/DbdIHiuRTk7
+      - https://instagram.com/p/DaykCZ8R540
+      - https://instagram.com/p/DZ77qe6TgnJ
+  - name: "Kalena"
+    sheet_tab: "kalena"
+    person: kalena
+    urls:
+      - https://instagram.com/p/DcE4WQgSsRO
+      - https://instagram.com/p/DdnFgzTRCqz
+      - https://instagram.com/p/DboesJWBGZp
+      - https://instagram.com/p/DcxFBS3sQC2
+      - https://instagram.com/p/DbdIHiuRTk7
+      - https://instagram.com/p/DZ77qe6TgnJ
+      - https://instagram.com/p/Dfp3wgeSH9B
+      - https://instagram.com/p/DfvOsQHBZEz
+  - name: "Desy"
+    sheet_tab: "desy"
+    person: desy
+    urls:
+      - https://instagram.com/p/Dd63uZIIbZ1
+      - https://instagram.com/p/Dehp7rNPcA9
+      - https://instagram.com/p/DeihDdmB8eM
+      - https://instagram.com/p/DdozDH6iPcj
+      - https://instagram.com/p/DdAE22oPuXF
+      - https://instagram.com/p/DczSTUwBm0L
+  - name: "Naomi"
+    sheet_tab: "naomi"
+    person: naomi
+    urls:
+      - https://instagram.com/p/DfkBcAyIWE6
+      - https://instagram.com/p/DfVfSshoUN1
+      - https://instagram.com/p/DfBPIHBODWs
+      - https://instagram.com/p/De5RKrKyIBy
+      - https://instagram.com/p/Dcv-PkAOpLZ
+      - https://instagram.com/p/DbdIHiuRTk7
