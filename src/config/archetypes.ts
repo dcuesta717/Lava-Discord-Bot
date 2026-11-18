@@ -25,6 +25,7 @@ const bucketSchema = z.object({
   note: z.string().optional(),
 });
 const girlSchema = z.object({
+  instagram: handle.optional(), // her handle, for the record (onboarding still takes it from /model add)
   bucket: z.string().regex(/^[a-z0-9-]+$/).optional(),
   lanes: z.array(z.string().regex(/^[a-z0-9-]+$/)).optional(), // overrides the bucket's lanes when set
   references: z.array(handle).default([]), // her own inspirational pages, on top of the bucket's

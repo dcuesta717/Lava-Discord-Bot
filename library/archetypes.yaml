@@ -80,11 +80,15 @@ buckets:
     references: [georgieanderson__, emlouisecutie, sydneycolettee, tru.kait]
 
 girls:
-  # Lanes for girls without a bucket come from what the owners picked for them in the Content House sheet (Nov 17).
-  madi:   { bucket: young-playful, references: [vivylue], note: "Dan: cute girl, young girl vibe" }
-  bryce:  { bucket: personality-skit, lanes: [skits, personality, hot-girl-filler, words-on-screen, collabs, beach, pool] }
-  morgan: { lanes: [skits, hot-girl-filler, words-on-screen, personality, gym-girl] }
-  leah:   { bucket: yapper, lanes: [personality, skits, words-on-screen, long-form, funny] }
-  kalena: { lanes: [hot-girl-filler, personality, skits, funny, cosplay] }
-  desy:   { lanes: [personality, skits, words-on-screen] }
-  naomi:  { lanes: [skits, words-on-screen, funny] }
+  # Dan (Nov 18): "every girl has different niches" — lanes + reference creators per girl from Claude's review of her page
+  # (docs/girls-growth-plans.md has the reasoning). Lanes without a bucket came from her Content House picks (Nov 17).
+  morgan: { instagram: morganraebabe, bucket: bikini-gym, lanes: [hot-girl-filler, pool, beach, collabs, funny, gym-girl, words-on-screen], references: [summerxiris, neonrose.official, avaxreyess], note: "291k; short bikini/pool reels with text win (8k); flexible/split hook; posts only ~3/wk" }
+  bryce:  { instagram: brycetnelson, bucket: personality-skit, lanes: [skits, personality, hot-girl-filler, words-on-screen, collabs, beach, pool], references: [juliafilippo_, kyla.doddsss], note: "83k; 7 posts/wk; questions to camera ('do you like the view?') beat photographer reposts" }
+  leah:   { instagram: leahfennelly, bucket: yapper, lanes: [personality, long-form, podcast-questions, skits, words-on-screen, funny], references: [kyla.doddsss], note: "60k Tampa law grad, horse girl, luxury; 'Hot Girl Survival Tips' series; only 3 of 12 posts are video" }
+  desy:   { instagram: desygato, lanes: [hot-girl-filler, beach, pool, long-form, personality, collabs], references: [summerxiris, alesalaslopez, taylorwatson], note: "1.3M Miami; already does 2–3 min long-form; direct asks to camera get the comments; shoots with Morgan" }
+  kalena: { instagram: kalenakellyr, lanes: [cosplay, hot-girl-filler, beach, pool, personality, skits], references: [lisa.mancinerh, akiracozer, summerxiris], note: "49k; anime cosplay reel is her outlier (3x everything else); swim-week runway; brand codes" }
+  madi:   { instagram: realmadilynn, bucket: young-playful, references: [vivylue, alesalaslopez, neonrose.official], note: "41k Ohio petite blonde, braces; zero video, 1 post every 2 weeks; question captions work — Dan: cute girl, young girl vibe" }
+  naomi:  { instagram: justnaomijade, lanes: [words-on-screen, hot-girl-filler, funny, skits, collabs], references: [alesalaslopez, neonrose.official, arikytsya], note: "6k but 3% engagement; 10 reels/wk, 4–11 s question-on-screen formula already right; needs borrowed audiences" }
+  natt:   { instagram: spoilednatt, lanes: [hot-girl-filler, words-on-screen, collabs, personality], references: [kyla.doddsss, vivylue, kim__jule], note: "20k, 27 posts, barely posting; bedroom/babygirl aesthetic; duo video with a brunette friend" }
+  shannon: { instagram: moreshannonhenry, lanes: [words-on-screen, beach, hot-girl-filler, funny], references: [alesalaslopez, kyla.doddsss], note: "6k 'more fun' second page (main @shannon.henryy), Bali; meme-caption photos, no video yet" }
+  josie:  { instagram: thejosieleigh, bucket: yapper, lanes: [long-form, podcast-questions, personality, words-on-screen], references: [taylorwatson], note: "109k; 200–450 comments per post on long talking videos and podcast clips; ~1 post/wk" }
