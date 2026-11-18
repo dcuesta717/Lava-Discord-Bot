@@ -16,7 +16,11 @@ scout:
   min_score: 0.6             # Claude's "worth copying" bar (the prompt says < 0.6 = not worth posting)
   # The creators whose vibe IS the library (owners, 2026-09-17): every candidate is judged against them, and their profiles
   # are scanned every run and filed wherever they belong. Edit freely — handles without @.
-  reference_accounts: [cecerose, avaxreyess, sophieraiin, juliafilippo_, arikytsya, jellybeanbrains3, tak0bell]
+  # + Nov 18 (Dan): kyla.doddsss ("lifestyle normal cute girl… not super sexualized… a really good blend") and vivylue
+  # ("cute girl young girl vibe") — the softer end of the bar, scanned every run and sprinkled into the girls' picks.
+  reference_accounts: [cecerose, avaxreyess, sophieraiin, juliafilippo_, arikytsya, jellybeanbrains3, tak0bell, kyla.doddsss, vivylue]
+  # Per-folder daily quota: `keep:` on a genre overrides scout.keep. Dan (Nov 18): podcast, long-form and group content are
+  # long-term growth lanes — they get a bigger quota than the rest.
 
 genres:
   - slug: skits
@@ -34,8 +38,9 @@ genres:
   - slug: collabs
     name: Collabs
     emoji: "👯"
-    description: Group of girls (2+, usually 3+) doing a bit together — friend groups, trips, group trends. Men comment on the group and pick a favorite.
+    description: Group of girls (2+, usually 3+) doing a bit together — duos, trios, friend groups, trips, group trends, twin/sister bits. Men comment on the group and pick a favorite. Cute and playful counts here even when it is not overtly sexual, as long as men engage.
     hashtags: [girlsquad, girlstrip, besties]
+    keep: 5            # Dan Nov 18: group content is a focus lane
 
   - slug: pool
     name: Pool
@@ -64,8 +69,9 @@ genres:
   - slug: podcast-questions
     name: Podcast Questions
     emoji: "🎙️"
-    description: Mic in hand — street interviews, podcast-style questions to strangers or friends, hot-take answers men argue with in the comments.
+    description: Mic in hand — street interviews, podcast-style questions to strangers or friends, hot-take answers men argue with in the comments; she holds the mic or she is the one answering.
     hashtags: [streetinterview, podcastquestions, askingstrangers]
+    keep: 5            # Dan Nov 18: podcast content is a focus lane
 
   - slug: golf
     name: Golf
@@ -142,3 +148,13 @@ genres:
     emoji: "💅"
     description: The OF-creator personality play — she is the product; a recurring character, catchphrases, flirty chaos, direct-to-camera with the funnel in mind. Study the persona and how she keeps men coming back, not one video. (Talking-head storytime with no persona belongs in Personality.)
     hashtags: [itgirl, maincharacter, hotgirlsummer]
+
+  # Added 2026-11-18 (Dan: "podcast type of content, long form content, group content to be focused on… for long term growth and
+  # to add depth"). Genre #21: it gets a folder but no forum tag (Discord allows 20 tags per forum — the first 20 genres are tagged).
+  - slug: long-form
+    name: Long Form
+    emoji: "🎥"
+    description: 60 s – 3 min talking videos she carries alone to camera — storytime, Q&A ("type of man"), reading mean messages, GRWM with a story, hot-take rants, "get to know me"; depth and retention are the point, the fit and the flirt keep men watching to the end. (A 10-second talking clip belongs in Personality; a mic-and-questions format belongs in Podcast Questions.)
+    hashtags: [storytime, grwmstorytime, qanda]
+    keep: 5            # Dan Nov 18: long-form is a focus lane
+    classify_top: 12

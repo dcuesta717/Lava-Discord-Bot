@@ -8,7 +8,8 @@ import { importedSection, withImportedSection } from '../../lib/caption-examples
 import { ensureModelStructure } from '../../lib/model-structure.js';
 import { loadPrompt } from '../../lib/prompts.js';
 import { industryLens } from '../../lib/industry.js';
-import { computeStats, renderFiles, renderProfile, renderSourcing, renderVoice, keepStaffTail, tmpl, today, STAFF_MARKER, type Research, type Stats } from './render.js';
+import { computeStats, renderFiles, renderProfile, renderSourcing, renderVoice, keepStaffTail, seedsIn, tmpl, today, STAFF_MARKER, type Research, type Stats } from './render.js';
+import { rosterFor } from '../../config/archetypes.js';
 
 /**
  * Model onboarding — the front door for a new creator, from Discord, no laptop:
@@ -116,11 +117,12 @@ export function register(ctx: BotContext) {
         const { research, stats, profile, posts } = await runResearch({ displayName: model.display_name, instagram: model.socials.instagram, tiktok: model.socials.tiktok, timezone: model.timezone });
         const existingProfile = (await github.read(`models/${model.slug}/profile.md`)) ?? '';
         const existingExamples = (await github.read(`models/${model.slug}/voice/caption-examples.md`)) ?? tmpl('voice/caption-examples.md');
+        const seeds = await seedsFor(model.slug, model.display_name);
         await github.commitFiles(
           [
             { path: `models/${model.slug}/profile.md`, content: renderProfile({ name: model.display_name, instagram: model.socials.instagram, tiktok: model.socials.tiktok, research, stats, profile }, keepStaffTail(existingProfile), ctx.env.DEFAULT_TIMEZONE) },
             { path: `models/${model.slug}/voice/caption-examples.md`, content: withImportedSection(existingExamples, importedSection(posts)) },
-            { path: `models/${model.slug}/sourcing/reels-sources.yaml`, content: renderSourcing(research, model.socials.tiktok, ctx.env.DEFAULT_TIMEZONE) },
+            { path: `models/${model.slug}/sourcing/reels-sources.yaml`, content: renderSourcing(research, model.socials.tiktok, ctx.env.DEFAULT_TIMEZONE, seeds) },
           ],
           `Weekly refresh: ${model.display_name} (${model.slug})`,
         );
@@ -353,7 +355,8 @@ export function register(ctx: BotContext) {
       await sql`UPDATE bot.model_onboarding SET research = ${sql.json({ research, stats, profile: { ...profile, latestPosts: undefined } } as never)}, status = 'researched', updated_at = now() WHERE slug = ${slug}`;
 
       // 3. Files → GitHub
-      const files = renderFiles({ slug, name, userId: user.id, instagram, tiktok, timezone, ids, research, stats, profile, posts }, ctx.env.DEFAULT_TIMEZONE);
+      const roster = rosterFor(slug, name);
+      const files = renderFiles({ slug, name, userId: user.id, instagram, tiktok, timezone, ids, research, stats, profile, posts }, ctx.env.DEFAULT_TIMEZONE, roster ? { lanes: roster.lanes, seeds: roster.seeds } : undefined);
       if (!github.enabled) {
         return `⚠️ research done for ${name} and saved, but \`GITHUB_TOKEN\` isn't set so I can't write her files into the repo. Add it in Railway (docs/runbook.md) and run \`/model refresh slug:${slug}\` — it will commit everything then.`;
       }
@@ -362,7 +365,7 @@ export function register(ctx: BotContext) {
       await sql`UPDATE bot.model_onboarding SET commit_sha = ${sha}, status = 'committed', updated_at = now() WHERE slug = ${slug}`;
       await ctx.ops(MODULE, 'onboarded', { actor: o.actorId, data: { slug, sha, posts: stats.posts, lanes: research.lanes.map((l) => l.slug) } });
 
-      const lanes = research.lanes.map((l) => `${l.slug} (${Math.round(l.confidence * 100)}%)`).join(', ');
+      const lanes = roster?.lanes.length ? `${roster.lanes.join(', ')} (from her bucket${roster.bucket ? ` "${roster.bucket.name}"` : ''}${roster.seeds.length ? `; seed creators: ${roster.seeds.map((a) => '@' + a).join(' ')}` : ''})` : research.lanes.map((l) => `${l.slug} (${Math.round(l.confidence * 100)}%)`).join(', ');
       await postReview(slug, name, files).catch((err) => ctx.log.warn({ err, slug }, 'review post failed'));
       return [
         `✅ **${name}** is onboarded. Her channels are up and she goes live in about 2 minutes — I'll welcome her in <#${ids.channels.general}> and drop her first videos, picks and numbers right after.`,
@@ -401,13 +404,14 @@ export function register(ctx: BotContext) {
       files.push({ path: `models/${slug}/profile.md`, content: renderProfile({ name, instagram, tiktok, research, stats, profile }, keepStaffTail(existingProfile), ctx.env.DEFAULT_TIMEZONE) });
       const existingExamples = (await github.read(`models/${slug}/voice/caption-examples.md`)) ?? tmpl('voice/caption-examples.md');
       files.push({ path: `models/${slug}/voice/caption-examples.md`, content: withImportedSection(existingExamples, importedSection(posts)) });
-      files.push({ path: `models/${slug}/sourcing/reels-sources.yaml`, content: renderSourcing(research, tiktok) });
+      files.push({ path: `models/${slug}/sourcing/reels-sources.yaml`, content: renderSourcing(research, tiktok, ctx.env.DEFAULT_TIMEZONE, await seedsFor(slug, name)) });
       if (!model) {
         // researched earlier without a token — write the whole folder now
         const ids = row!.discord as unknown as Awaited<ReturnType<typeof ensureModelStructure>>;
         if (!ids?.channels?.general) throw new Error('her channels were never created — run /model add again');
         files.length = 0;
-        files.push(...renderFiles({ slug, name, userId: row!.user_id, instagram, tiktok, timezone, ids, research, stats, profile, posts }, ctx.env.DEFAULT_TIMEZONE));
+        const roster = rosterFor(slug, name);
+        files.push(...renderFiles({ slug, name, userId: row!.user_id, instagram, tiktok, timezone, ids, research, stats, profile, posts }, ctx.env.DEFAULT_TIMEZONE, roster ? { lanes: roster.lanes, seeds: roster.seeds } : undefined));
       }
       const sha = await github.commitFiles(files, `Refresh research for ${name} (${slug}) — /model refresh by ${i.user.tag}`);
       await sql`INSERT INTO bot.model_onboarding (slug, display_name, user_id, instagram, tiktok, timezone, status, research, commit_sha, requested_by)
@@ -557,7 +561,7 @@ export function register(ctx: BotContext) {
       const files: RepoFile[] = [
         { path: `models/${slug}/profile.md`, content: renderProfile({ name, instagram, tiktok: model?.socials.tiktok || '', research, stats, profile }, keepStaffTail(existingProfile), ctx.env.DEFAULT_TIMEZONE) },
         { path: `models/${slug}/voice/voice.md`, content: renderVoice(name, research, stats, ctx.env.DEFAULT_TIMEZONE) },
-        { path: `models/${slug}/sourcing/reels-sources.yaml`, content: renderSourcing(research, model?.socials.tiktok || '', ctx.env.DEFAULT_TIMEZONE) },
+        { path: `models/${slug}/sourcing/reels-sources.yaml`, content: renderSourcing(research, model?.socials.tiktok || '', ctx.env.DEFAULT_TIMEZONE, await seedsFor(slug, name)) },
       ];
       const sha = await github.commitFiles(files, `Redo research for ${name} (${slug}) — ${i.user.tag}`);
       await sql`UPDATE bot.model_onboarding SET research = ${sql.json({ research, stats, profile: { ...profile, latestPosts: undefined } } as never)}, commit_sha = ${sha}, updated_at = now() WHERE slug = ${slug}`;
@@ -586,6 +590,13 @@ export function register(ctx: BotContext) {
   });
 
   // ── research ───────────────────────────────────────────────────────────────
+  /** Her seed creators for a (re)render of sourcing/reels-sources.yaml: the roster (bucket + her own pages) + whatever is in the file now. */
+  async function seedsFor(slug: string, displayName: string): Promise<string[]> {
+    const roster = rosterFor(slug, displayName);
+    const existing = github.enabled ? seedsIn(await github.read(`models/${slug}/sourcing/reels-sources.yaml`).catch(() => undefined)) : [];
+    return [...new Set([...(roster?.seeds ?? []), ...existing])];
+  }
+
   async function runResearch(o: { displayName: string; instagram: string; tiktok: string; timezone: string }) {
     const profile = await ctx.api.apify.instagramProfile(o.instagram);
     if (!profile) throw new Error(`could not load instagram.com/${o.instagram} — private, misspelled, or Apify hiccup`);

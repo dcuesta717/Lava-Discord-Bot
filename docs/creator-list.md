@@ -113,3 +113,8 @@ trailing slash, `/reel/` folded to `/p/` (`canonicalUrl()` in `src/integrations/
 `row.url` verbatim, so a raw `https://www.instagram.com/p/<code>/` row is marked "not returned by Apify" every time even
 though Apify returned it. Then set `bot.settings → library.boot_jobs = ["import"]` and restart, or have an owner run
 `/library import`. Catarina's 5 reels: 4 filed into trad-wife by the strict judge, 1 in progress at 04:18 UTC.
+
+## Nov 18, 2026 — added by Dan / Claude (see docs/archetypes.md → "Nov 18 seed review" for the full vetting)
+- vivylue — Readable, 359k, for Madi (young playful bucket); kyla.doddsss — Readable, 593k ("kyle.doddsss" does not exist), girl-next-door bucket + reference creator.
+- golf: golfwithquinn, jennnbellee, clairehogle, carmellacuts · dance: ayiahsoufi, the.madison.b · transitions: onlyonealiya, kerina.wang · podcast: taylorwatson, da_rozie · collabs: burchtwins, rissandlou, summerxiris · words/filler: alesalaslopez, neonrose.official.
+- Dan's reels queued into the Content House plan: DY6W42Fv8tC (Duo — "cute, gets engagement, not overly sexual"), Df44GKgRbKO (Podcast style).

@@ -1,0 +1,90 @@
+# Creator archetypes ("buckets") + the roster of girls. Folders (genres.yaml) are FORMATS; a bucket is a creator PROFILE:
+# the folders it pulls from (her lanes — the first one is the primary folder) and the reference creators who do it best.
+#
+#   boot        every reference creator below is seeded into the daily scout under the bucket's PRIMARY lane — the first one — (bot.library_sources,
+#               weight 1.1, added_by "archetype") — nothing to run, no SQL.
+#   /model add  a girl on the roster gets her bucket's lanes and ALL reference creators (bucket + her own) as the seed accounts
+#               of her personal 10 AM reels scout, instead of the research guess. The weekly refresh keeps them.
+#   roster key  her model slug, its first part, or her first name — lowercase ("madi" matches madi, madi-ruve, "Madi Ruve").
+#
+# Dan (Nov 18, 2026): "make sure we have seed creators and versions for all of the girls and niches and constantly look for new
+# as well" — the scout now promotes creators it keeps videos from on its own (see docs/content-library.md → Discovery); this file
+# is for the ones the owners name. Handles without @. Locked (18+) creators are listed in docs/archetypes.md until the throwaway
+# Instagram account is connected; the logged-out scraper cannot see them.
+
+buckets:
+  - slug: young-playful
+    name: Young girl playful / cute
+    lanes: [hot-girl-filler, words-on-screen, personality, skits]
+    references: [vivylue]                 # Dan Nov 18: "the cute girl young girl vibe" (for Madi)
+
+  - slug: girl-next-door
+    name: Girl next door / soft lifestyle (OF funnel underneath)
+    lanes: [personality, hot-girl-filler, words-on-screen, funny, collabs]
+    references: [kyla.doddsss]            # Dan Nov 18: "lifestyle normal cute girl content… not super sexualized… a really good blend"
+    note: not overtly sexual but it gets men engaging — the judge keeps this blend (prompts/library.classify.md → girl-next-door)
+
+  - slug: personality-skit
+    name: Personality / Skit OF creator
+    lanes: [skits, personality, funny, words-on-screen]
+    references: [whoispiperpresley2.0, bblair.bear, kateluxxe, treena_berry_]
+
+  - slug: versatile
+    name: Versatile OF creator
+    lanes: [skits, funny, words-on-screen, personality, hot-girl-filler, collabs, transitions, pool, beach, gym-girl]
+    references: [madi.ruve, juliafilippo_, barbellinaa, xneleah, daisymaylilly, krystalharperxo]
+
+  - slug: words-on-screen
+    name: Words on screen OF creator
+    lanes: [words-on-screen, skits, personality]
+    references: [iamselinaamy, maddoxfaithwells, davisamanda_, alesalaslopez, neonrose.official]
+
+  - slug: big-boobs
+    name: Big boobs OF creator
+    lanes: [big-boobs, hot-girl-filler, pool, beach]
+    references: [jadeella2.0, jokesonella, alexisaevans]
+
+  - slug: car
+    name: Car OF creator
+    lanes: [car, hot-girl-filler]
+    references: [officiallykatierose, bbymorgz05]
+
+  - slug: golf-girl
+    name: Golf girl
+    lanes: [golf, hot-girl-filler, funny]
+    references: [golfwithquinn, jennnbellee, clairehogle, carmellacuts]
+
+  - slug: bikini-gym
+    name: Bikini / gym OF creator
+    lanes: [gym-girl, pool, beach, hot-girl-filler]
+    references: [barbellinaa, summerxiris]
+
+  - slug: petite-personality
+    name: Petite / Personality creator
+    lanes: [personality, hot-girl-filler]
+    references: [kim__jule, tessaa._x0]
+
+  - slug: yapper
+    name: Yapper / podcast / long-form talker
+    lanes: [podcast-questions, long-form, personality, of-personality]
+    references: [taylorwatson, juliafilippo_]
+
+  - slug: group
+    name: Group / duo / trio content
+    lanes: [collabs, funny, skits]
+    references: [hannahmina_twins, burchtwins, rissandlou, summerxiris]
+
+  - slug: niche
+    name: Niche content creator (quirky persona)
+    lanes: [personality, skits, funny, words-on-screen]
+    references: [georgieanderson__, emlouisecutie, sydneycolettee, tru.kait]
+
+girls:
+  # Lanes for girls without a bucket come from what the owners picked for them in the Content House sheet (Nov 17).
+  madi:   { bucket: young-playful, references: [vivylue], note: "Dan: cute girl, young girl vibe" }
+  bryce:  { bucket: personality-skit, lanes: [skits, personality, hot-girl-filler, words-on-screen, collabs, beach, pool] }
+  morgan: { lanes: [skits, hot-girl-filler, words-on-screen, personality, gym-girl] }
+  leah:   { bucket: yapper, lanes: [personality, skits, words-on-screen, long-form, funny] }
+  kalena: { lanes: [hot-girl-filler, personality, skits, funny, cosplay] }
+  desy:   { lanes: [personality, skits, words-on-screen] }
+  naomi:  { lanes: [skits, words-on-screen, funny] }

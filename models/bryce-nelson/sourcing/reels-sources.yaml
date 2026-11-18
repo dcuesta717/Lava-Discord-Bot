@@ -21,6 +21,11 @@ instagram:
     - beachvibes
     - girlstrip
     - contentcreator
-  seed_accounts: []
+  seed_accounts: # Nov 18: her bucket (personality-skit) in library/archetypes.yaml — a refresh keeps these
+    - whoispiperpresley2.0
+    - bblair.bear
+    - kateluxxe
+    - treena_berry_
+    - kyla.doddsss
   min_views: 5000
   results_per_query: 20

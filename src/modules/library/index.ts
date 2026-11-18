@@ -22,7 +22,8 @@ import {
 } from 'discord.js';
 import type { BotContext } from '../../discord/context.js';
 import type { Model } from '../../config/models.js';
-import { loadLibrary, type Genre, type LibraryConfig } from '../../config/library.js';
+import { loadLibrary, TAGGED_GENRES, type Genre, type LibraryConfig } from '../../config/library.js';
+import { referenceSeeds } from '../../config/archetypes.js';
 import { canonicalUrl, type ReelCandidate } from '../../integrations/apify.js';
 import { fetchImageAsBase64, type ImageInput } from '../../integrations/anthropic.js';
 import { MEMBER, ROLE, clampToBot } from '../../lib/overwrites.js';
@@ -126,8 +127,21 @@ export function register(ctx: BotContext) {
     } catch (err) {
       ctx.log.error({ err }, 'content library setup failed (bot still runs)');
     }
+    await syncArchetypeSeeds().catch((err) => ctx.log.error({ err }, 'archetype seed sync failed'));
     await runBootJobs().catch((err) => ctx.log.error({ err }, 'library boot jobs failed'));
   });
+
+  /** library/archetypes.yaml → every reference creator becomes a scout seed under the bucket's lanes (never lowers a weight a 🔥 raised). */
+  async function syncArchetypeSeeds() {
+    let added = 0;
+    for (const s of referenceSeeds()) {
+      if (!genre(s.genre)) continue;
+      const r = await sql`INSERT INTO bot.library_sources (genre, kind, value, weight, added_by) VALUES (${s.genre}, 'account', ${s.account}, 1.1, ${'archetype:' + s.who})
+                          ON CONFLICT (genre, kind, value) DO NOTHING RETURNING value`;
+      if (r.length) added++;
+    }
+    if (added) await ctx.ops(MODULE, 'archetype-seeds', { data: { added }, text: `${added} reference creator(s) from the archetypes file added to the scout lists` });
+  }
 
   /** One-off maintenance queued in bot.settings → library.boot_jobs (e.g. "purge:scout"); runs once on boot, then clears. */
   async function runBootJobs() {
@@ -147,6 +161,11 @@ export function register(ctx: BotContext) {
         if (!slug) continue;
         const r = await plans.start({ slug });
         await ctx.ops(MODULE, 'plan-import-boot', { data: { job, started: r.started }, text: r.message });
+      } else if (kind === 'scout') {
+        if (!ctx.api.apify.enabled) continue;
+        const s = await scout(arg || undefined);
+        await ctx.ops(MODULE, 'scouted', { data: { job, ...s }, text: `${s.posted} posted across ${s.genres} folders (boot job${arg ? `: ${arg}` : ''})` });
+        await afterScout();
       } else ctx.log.warn({ job }, 'unknown library boot job');
     }
   }
@@ -155,14 +174,45 @@ export function register(ctx: BotContext) {
     if (!ctx.api.apify.enabled) return;
     const summary = await scout();
     await ctx.ops(MODULE, 'scouted', { data: summary, text: `${summary.posted} posted across ${summary.genres} folders` });
-    const picks = await deliverPicks();
-    if (picks.delivered) await ctx.ops(MODULE, 'picks-delivered', { data: picks });
+    await afterScout();
     const trends = await radar().catch((err) => {
       ctx.log.warn({ err }, 'trend radar failed');
       return 0;
     });
     if (trends) await ctx.ops(MODULE, 'trends-alerted', { data: { trends } });
   });
+
+  /** After any scout run: the girls get their picks, and creators the judge kept become seeds (Dan: "constantly look for new"). */
+  async function afterScout() {
+    const picks = await deliverPicks().catch((err) => {
+      ctx.log.warn({ err }, 'picks failed');
+      return { delivered: 0 };
+    });
+    if (picks.delivered) await ctx.ops(MODULE, 'picks-delivered', { data: picks });
+    const found = await discover().catch((err) => {
+      ctx.log.warn({ err }, 'creator discovery failed');
+      return [] as { genre: string; value: string }[];
+    });
+    if (found.length) {
+      const line = found.map((f) => `@${f.value} → ${genre(f.genre)?.name ?? f.genre}`).join(' · ');
+      await ctx.ops(MODULE, 'creators-discovered', { data: { found }, text: line.slice(0, 1500) });
+      await ctx.send(ctx.ch('daily_report') || ctx.ch('bot_dev'), { content: `🧭 **new creators the scout found today** (now on the watch lists — 👎 their videos to drop them): ${line}`.slice(0, 1990), allowedMentions: { parse: [] } });
+    }
+  }
+
+  /** Any creator whose scouted video the judge kept today (score ≥ 0.75) and who is not yet a seed for that folder → seed at 0.8. */
+  async function discover() {
+    return sql<{ genre: string; value: string }[]>`
+      INSERT INTO bot.library_sources (genre, kind, value, weight, added_by)
+      SELECT li.genre, 'account', lower(li.author), 0.8, 'discovered'
+      FROM bot.library_items li
+      WHERE li.origin = 'scout' AND li.created_at > now() - interval '6 hours'
+        AND li.author IS NOT NULL AND li.author <> '' AND COALESCE(li.score, 0) >= 0.75
+        AND NOT EXISTS (SELECT 1 FROM bot.library_sources s WHERE s.genre = li.genre AND s.kind = 'account' AND s.value = lower(li.author))
+      GROUP BY li.genre, lower(li.author)
+      ON CONFLICT (genre, kind, value) DO NOTHING
+      RETURNING genre, value`;
+  }
 
   ctx.bus.on('model:live', ({ model }: { model: Model }) => {
     deliverPicks(model.slug).catch((err) => ctx.log.warn({ err, model: model.slug }, 'kickoff picks failed'));
@@ -299,8 +349,7 @@ export function register(ctx: BotContext) {
         void (async () => {
           const s = await scout(only);
           await ctx.ops(MODULE, 'scouted', { actor: i.user.id, data: s, text: `${s.genres} folder(s): ${s.candidates} candidates → ${s.posted} posted, ${s.dupes} dupes, ${s.skipped} skipped, ${s.filtered} off-market${s.errors ? `, ${s.errors} source errors` : ''}` });
-          const p = await deliverPicks();
-          if (p.delivered) await ctx.ops(MODULE, 'picks-delivered', { data: p });
+          await afterScout();
         })().catch((err) => ctx.log.error({ err }, 'manual scout failed'));
         return;
       }
@@ -367,8 +416,8 @@ export function register(ctx: BotContext) {
     run: async (input) => {
       if (!ctx.api.apify.enabled) return 'APIFY_TOKEN is not set';
       const s = await scout(input.folder ? String(input.folder) : undefined);
-      const p = await deliverPicks();
-      return `scouted ${s.genres} folder(s): ${s.candidates} candidates → ${s.posted} posted, ${s.dupes} already in, ${s.skipped} not library material, ${s.filtered} off-market (language/region); picks: ${p.delivered} sent to ${p.models} creator(s)`;
+      await afterScout();
+      return `scouted ${s.genres} folder(s): ${s.candidates} candidates → ${s.posted} posted, ${s.dupes} already in, ${s.skipped} not library material, ${s.filtered} off-market (language/region); picks and newly found creators are in #ops-log`;
     },
   });
   ctx.action('send_library_picks', {
@@ -718,24 +767,27 @@ export function register(ctx: BotContext) {
     for (const g of genres()) {
       if (only && g.slug !== only) continue;
       const mine = sources.filter((r) => r.genre === g.slug);
+      const accounts = mine.filter((r) => r.kind === 'account');
+      // a folder with few seed creators leans harder on hashtags until the discovery step fills it
+      const boost = accounts.length < 3 ? 2 : 1;
       const queries = [
-        ...mine.filter((r) => r.kind === 'account').map((r) => ({ kind: 'account' as const, value: r.value, n: cfg.scout.per_account })),
-        ...[...new Set([...g.hashtags, ...mine.filter((r) => r.kind === 'hashtag').map((r) => r.value)])].map((h) => ({ kind: 'hashtag' as const, value: h, n: cfg.scout.per_hashtag })),
+        ...accounts.map((r) => ({ kind: 'account' as const, value: r.value, n: cfg.scout.per_account })),
+        ...[...new Set([...g.hashtags, ...mine.filter((r) => r.kind === 'hashtag').map((r) => r.value)])].map((h) => ({ kind: 'hashtag' as const, value: h, n: cfg.scout.per_hashtag * boost })),
       ];
       if (!queries.length) continue;
       s.genres++;
-      await scoutQueries(s, g.slug, queries, `scouted for the ${g.name} folder`);
+      await scoutQueries(s, g.slug, queries, `scouted for the ${g.name} folder`, { keep: g.keep ?? cfg.scout.keep, top: g.classify_top ?? cfg.scout.classify_top });
     }
     // the reference creators: scanned every run, filed wherever Claude says they belong
     const refs = cfg.scout.reference_accounts;
     if (refs.length && (!only || only === 'reference')) {
       s.genres++;
-      await scoutQueries(s, 'reference', refs.map((value) => ({ kind: 'account' as const, value, n: cfg.scout.per_account })), 'from one of the REFERENCE creators — this is the vibe the agency wants; file it in the folder where it belongs');
+      await scoutQueries(s, 'reference', refs.map((value) => ({ kind: 'account' as const, value, n: cfg.scout.per_account })), 'from one of the REFERENCE creators — this is the vibe the agency wants; file it in the folder where it belongs', { keep: Math.max(cfg.scout.keep, 6), top: Math.max(cfg.scout.classify_top, 12) });
     }
     return s;
   }
 
-  async function scoutQueries(s: { candidates: number; posted: number; dupes: number; skipped: number; filtered: number; errors: number }, label: string, queries: { kind: 'account' | 'hashtag'; value: string; n: number }[], hint: string) {
+  async function scoutQueries(s: { candidates: number; posted: number; dupes: number; skipped: number; filtered: number; errors: number }, label: string, queries: { kind: 'account' | 'hashtag'; value: string; n: number }[], hint: string, quota: { keep: number; top: number } = { keep: cfg.scout.keep, top: cfg.scout.classify_top }) {
     const pool: ReelCandidate[] = [];
     for (const q of queries) {
       const items = await ctx.api.apify.instagramPage(q.kind, q.value, q.n, cfg.scout.newer_than).catch((err) => {
@@ -767,7 +819,7 @@ export function register(ctx: BotContext) {
     s.candidates += fresh.length;
     if (label !== 'reference') await recordSignals(label, fresh).catch((err) => ctx.log.warn({ err }, 'trend signals failed'));
     fresh.sort((a, b) => engagement(b) - engagement(a));
-    const top = fresh.slice(0, cfg.scout.classify_top);
+    const top = fresh.slice(0, quota.top);
     const classified: { cand: ReelCandidate; c: Classified }[] = [];
     for (const cand of top) {
       const c = await classify(cand, hint).catch(() => undefined);
@@ -776,7 +828,7 @@ export function register(ctx: BotContext) {
       else s.skipped++;
     }
     classified.sort((a, b) => b.c.score - a.c.score || engagement(b.cand) - engagement(a.cand));
-    for (const { cand, c } of classified.slice(0, cfg.scout.keep)) {
+    for (const { cand, c } of classified.slice(0, quota.keep)) {
       const posted = await post(cand, c, 'scout').catch((err) => {
         ctx.log.warn({ err, url: cand.url }, 'scout post failed');
         return undefined;
@@ -977,8 +1029,10 @@ export function register(ctx: BotContext) {
     } else if (inbox.type === ChannelType.GuildText) await inbox.permissionOverwrites.set(inboxOverwrites).catch((err) => ctx.log.warn({ err }, 'library inbox perms'));
     if (inboxId() !== inbox.id) await ctx.settings.set('library.inbox', inbox.id);
 
-    // one forum per genre, gallery view, every genre also available as a tag
-    const tags: GuildForumTagData[] = genres().map((g) => ({ name: g.name, emoji: { id: null, name: g.emoji.replace(/️/g, '') } }));
+    // one forum per genre, gallery view; the first TAGGED_GENRES genres are also tags on every forum (Discord allows 20 per forum)
+    const tags: GuildForumTagData[] = genres()
+      .slice(0, TAGGED_GENRES)
+      .map((g) => ({ name: g.name, emoji: { id: null, name: g.emoji.replace(/️/g, '') } }));
     const created: string[] = [];
     for (const g of genres()) {
       const name = channelName(g);

@@ -13,6 +13,8 @@ const genreSchema = z.object({
   description: z.string().min(1),
   hashtags: z.array(z.string()).default([]),
   active: z.boolean().default(true),
+  keep: z.number().int().min(1).max(10).optional(), // per-folder daily quota (default scout.keep) — the owners' focus folders get more
+  classify_top: z.number().int().min(1).max(20).optional(), // candidates Claude judges for this folder (default scout.classify_top)
 });
 
 const schema = z.object({
@@ -29,8 +31,10 @@ const schema = z.object({
       reference_accounts: z.array(z.string().regex(/^[A-Za-z0-9._]+$/)).default([]), // creators whose vibe defines "library material"; scanned every run + named in the classify prompt
     })
     .default({}),
-  genres: z.array(genreSchema).min(1).max(20), // 20 = Discord's forum-tag limit (every genre is also a tag)
+  genres: z.array(genreSchema).min(1).max(30), // the first 20 genres are also forum tags (Discord's limit); genres 21+ get folders but no tag
 });
+/** Discord allows 20 tags per forum: only the first TAGGED_GENRES genres become tags (secondary-folder filtering); later ones still get a folder. */
+export const TAGGED_GENRES = 20;
 
 export type Genre = z.infer<typeof genreSchema>;
 export type LibraryConfig = z.infer<typeof schema>;

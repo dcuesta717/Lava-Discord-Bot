@@ -3,11 +3,14 @@ display_name: Bryce Nelson
 code: BRY
 timezone: America/New_York
 active: true
-lanes:
+lanes: # Nov 18: from library/archetypes.yaml (her Content House picks: skits, personality, filler) — was collabs/beach/pool/words-on-screen
+  - skits
+  - personality
+  - hot-girl-filler
+  - words-on-screen
   - collabs
   - beach
   - pool
-  - words-on-screen
 discord:
   category_id: "1550566631103533207"
   role_id: "1550566628348002437"

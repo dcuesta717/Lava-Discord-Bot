@@ -119,7 +119,7 @@ export function renderFiles(o: {
   stats: Stats;
   profile: InstagramProfile;
   posts: ReelCandidate[];
-}, tz = 'America/New_York'): RepoFile[] {
+}, tz = 'America/New_York', roster?: { lanes?: string[]; seeds?: string[] }): RepoFile[] {
   const { research, stats } = o;
   const budgets = captionBudgets(stats.caption);
   const yamlObj = {
@@ -127,7 +127,8 @@ export function renderFiles(o: {
     code: (o.slug.replace(/[^a-z]/g, '').slice(0, 3) || 'xxx').toUpperCase().padEnd(3, 'X'),
     timezone: o.timezone,
     active: true,
-    lanes: research.lanes.map((l) => l.slug),
+    // library/archetypes.yaml (her bucket) wins over the research guess when she is on the roster
+    lanes: roster?.lanes?.length ? roster.lanes : research.lanes.map((l) => l.slug),
     discord: {
       category_id: o.ids.category_id,
       role_id: o.ids.role_id,
@@ -152,7 +153,7 @@ export function renderFiles(o: {
     { path: `${dir}/voice/caption-examples.md`, content: withImportedSection(tmpl('voice/caption-examples.md'), importedSection(o.posts)) },
     { path: `${dir}/voice/hooks.md`, content: `# Hooks / openers that have worked for her\n\nFrom the onboarding research (${today(tz)}). Add a line each time a post pops; remove stale ones.\n\n${research.hooks.map((h) => `- ${h}`).join('\n')}\n` },
     { path: `${dir}/voice/banned-phrases.md`, content: `${tmpl('voice/banned-phrases.md')}\n# from research — words that would sound wrong for her\n${(research.caption_style?.slang_avoid ?? []).map((w) => w.trim()).filter(Boolean).join('\n')}\n` },
-    { path: `${dir}/sourcing/reels-sources.yaml`, content: renderSourcing(research, o.tiktok, tz) },
+    { path: `${dir}/sourcing/reels-sources.yaml`, content: renderSourcing(research, o.tiktok, tz, roster?.seeds ?? []) },
     { path: `${dir}/notes.md`, content: renderNotes(o.name, research, tz) },
     { path: `${dir}/playbooks/README.md`, content: tmpl('playbooks/README.md') || '# Playbooks\n' },
   ];
@@ -269,17 +270,32 @@ export function renderVoice(name: string, r: Research, s: Stats, tz = 'America/N
   ].join('\n');
 }
 
-export function renderSourcing(r: Research, tiktok: string, tz = 'America/New_York'): string {
+/** `seeds` = her seed creators (archetype references + her own inspirational pages + whatever a human added before) — never dropped by a refresh. */
+export function renderSourcing(r: Research, tiktok: string, tz = 'America/New_York', seeds: string[] = []): string {
   const tags = r.seed_hashtags.map((h) => h.replace(/^#/, '').toLowerCase()).filter(Boolean);
+  const accounts = [...new Set(seeds.map((a) => a.replace(/^@/, '').toLowerCase()).filter(Boolean))];
   return [
     '# Where the daily reels scout (Apify) looks for videos worth recreating for THIS model.',
-    `# Seeded by /model add on ${today(tz)} from her lanes. Keep it tight: 5–10 seed accounts in her exact lane beat 50 hashtags.`,
+    `# Hashtags refreshed by the bot on ${today(tz)} from her lanes; seed_accounts come from library/archetypes.yaml (her bucket + her own`,
+    '# inspirational pages) plus anything added here by hand — a refresh keeps them. Keep it tight: 5–10 seed accounts beat 50 hashtags.',
     '',
     YAML.stringify({
       tiktok: { hashtags: tiktok ? tags.slice(0, 5) : [], seed_accounts: [], min_views: 30000, results_per_query: 20 },
-      instagram: { hashtags: tags, seed_accounts: [], min_views: 5000, results_per_query: 20 },
+      instagram: { hashtags: tags, seed_accounts: accounts, min_views: 5000, results_per_query: 20 },
     }),
   ].join('\n');
+}
+
+/** The Instagram seed accounts already in a sourcing yaml (so a refresh can keep what humans or the roster put there). */
+export function seedsIn(sourcingYaml: string | undefined | null): string[] {
+  if (!sourcingYaml) return [];
+  try {
+    const doc = YAML.parse(sourcingYaml) as { instagram?: { seed_accounts?: unknown } } | null;
+    const list = doc?.instagram?.seed_accounts;
+    return Array.isArray(list) ? list.map(String).map((a) => a.replace(/^@/, '').toLowerCase()).filter(Boolean) : [];
+  } catch {
+    return [];
+  }
 }
 
 export function renderNotes(name: string, r: Research, tz = 'America/New_York'): string {

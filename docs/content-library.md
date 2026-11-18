@@ -79,6 +79,24 @@ Dan has years of Instagram "saved" collections (Bryce to do, Leah, Bryce collabs
 
 Costs for the first import (~800 videos): Apify ≈ $2–3, Claude ≈ $8–12, ~2–3 hours of background posting.
 
+## Seeds, archetypes and discovery (Nov 18, 2026)
+
+Dan: "make sure we have seed creators and versions for all of the girls and niches and constantly look for new as well."
+- **Per niche** — `bot.library_sources` (accounts + hashtags per folder). Owners add with `/library source add`; Claude adds after a
+  profile review; `library/archetypes.yaml` seeds every bucket's reference creators on boot. A folder with < 3 seed creators pulls
+  2× hashtag results until it fills.
+- **Per girl ("versions")** — `library/archetypes.yaml → girls:` maps each girl (onboarded or not) to a bucket + her own
+  inspirational pages; `/model add` turns that into her lanes and her `seed_accounts`; refreshes keep them. `docs/archetypes.md`
+  is the readable history.
+- **Discovery** — after every scout (7 AM, `/library scout`, boot job `scout[:folder]`), creators whose videos the judge kept at
+  score ≥ 0.75 become seeds (weight 0.8, `added_by discovered`) and are announced in #daily-report; 👎 pushes them out
+  (< 0.3 = skipped). `learn()` after a saved/plan import still promotes repeat authors from the owners' own saves.
+- **Focus lanes** — `genres.yaml → keep:` per folder (podcast-questions, collabs, long-form = 5/day; others 3); the reference
+  creators keep up to 6. Genre #21 `long-form` has a folder but no forum tag (Discord's 20-tag limit — `TAGGED_GENRES`).
+- **The girl-next-door blend** — Dan Nov 18 (kyla.doddsss, vivylue, a duo reel): cute, not overtly sexual, clearly engaging
+  content from an OF-style creator counts; `prompts/library.classify.md` and `knowledge/industry.md` say so; the hard rules
+  (men on camera, kids, non-US, non-English) are untouched.
+
 ## Content plans — the owners' shoot lists (Content House — December)
 
 Added Nov 17, 2026 (Dan: "we want all of this data built into the discord bot… it needs to all be into discord"). The owners plan a shoot in a

@@ -32,7 +32,7 @@ Instagram and TikTok are the **discovery engine**; the paid page is the **moneti
 
 ## What "library material" means for us
 **Reject by default.** A video belongs in the Content Library only if ALL are true:
-- **sexualized, Instagram-safe content that promotes an OnlyFans-style creator** — revealing outfit, bikini, lingerie, tight/short fit, implied or suggestive; the sex appeal is the reason men stop. No nudity (it would not be on Instagram anyway);
+- **Instagram-safe content that promotes an OnlyFans-style creator** — usually sexualized (revealing outfit, bikini, lingerie, tight/short fit, implied or suggestive; the sex appeal is the reason men stop), **or the girl-next-door blend** (owner, Nov 2026: "lifestyle normal cute girl content… not super sexualized… a really good blend") — a cute, normal-looking girl playing to the camera in everyday clothes whose men-engagement is obvious; @kyla.doddsss and @vivylue are the bar for that end. No nudity (it would not be on Instagram anyway);
 - made by a **woman creator** for a **male** audience, solo or with other girls (girl-on-girl flirt/tease/collab counts) — **no man on camera at all, no kids or families anywhere in the frame, adults only**;
 - English-language in the caption AND on screen; made in the **United States** (US settings, references, creator based in the US);
 - **confident, flirty, teasing energy** — she knows men are watching and plays to it; the vibe of the reference creators (`library/genres.yaml → scout.reference_accounts`, e.g. @cecerose @avaxreyess @sophieraiin @juliafilippo_ @arikytsya @jellybeanbrains3 @tak0bell);
@@ -41,7 +41,7 @@ Instagram and TikTok are the **discovery engine**; the paid page is the **moneti
 Never: families, kids, couples, wholesome content; fully-clothed lifestyle (cooking, crafts, home decor, cleaning, travel diaries); modest/conservative outfits with no sex appeal; motivational, educational or business talking heads; ads or brand content that isn't sexy on its own; beauty/skincare tutorials aimed at women; celebrity or news content.
 
 ## What each folder is for (the lens the classifier and the idea generator use)
-The folder is the setting or the bit; the sex appeal is why it is in the library. Every folder needs it — a plain golf tip, a form check in baggy clothes, a funny girl in a hoodie, a clothed pool day are not library material.
+The folder is the setting or the bit; the sex appeal — or the girl-next-door blend above — is why it is in the library. Every folder needs one of the two: a plain golf tip, a form check in baggy clothes, a lecture in a hoodie, a clothed pool day with nothing flirty are not library material.
 - **skits / funny** — the joke is the hook; men share jokes. Self-deprecating > mean. Short setups.
 - **dance / transitions** — movement and cuts as the novelty; trending sound within the window.
 - **collabs** — 2+ girls, a bit they do together; the group is the reason to watch. Girls only — couple/boyfriend collabs don't count.
@@ -51,6 +51,8 @@ The folder is the setting or the bit; the sex appeal is why it is in the library
 - **podcast-questions** — mic in hand, hot takes; comment magnet. She holds the mic or answers it — a male host or a man answering on camera is not usable.
 - **golf / gym-girl / car** — the fit and the tease are the point, not the sport or the vehicle: skirt on the course, the gym set, the car as a backdrop; humor about being the girl in a male space.
 - **personality** — talking to camera; she is the content; storytime/GRWM/hot takes; drives DMs and follows more than views.
+- **long-form** — 60 s–3 min talking videos (storytime, Q&A, reading mean messages, GRWM with a story, rants): retention and depth; the hook is the first line, the fit and the flirt keep men to the end. Owner's long-term growth lanes (Nov 2026): **podcast-questions, long-form, collabs** — they get a bigger daily quota and seed creators first.
+- **seasonal** — a moment on the calendar (`knowledge/events.yaml`) is a format multiplier, not a folder: Christmas fits, matching pajamas with the girls, "what men want for Christmas" questions, secret-santa duo bits, holiday storytime; same house rules.
 
 ## Operators worth studying (and what each one is known for)
 - **Creators Inc** (LA, large full-service agency; public "honest playbook"): short-form video is the #1 traffic source ("a single reel that travels can do more in a day than a month of consistent posting"); daily posting on ONE platform compounds; creator collabs convert better than cold reach; lives convert followers; press/runway (Miami Swim Week, NYFW, podcasts) drives search; cross-posting to new platforms is "the cheapest growth available"; two-tap funnel (bio link, story pin and pinned post all lead to the same place); answer every inbound within hours; track renewals, not vanity metrics; change one variable at a time.
