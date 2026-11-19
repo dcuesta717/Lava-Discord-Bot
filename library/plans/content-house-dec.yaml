@@ -310,7 +310,7 @@ sections:
       - https://instagram.com/p/DfYfC6zBXhb
       - https://instagram.com/p/DfYDglOBHIl
   - name: "Christmas"
-    grow: "keyword:christmas|santa|xmas|holiday|mistletoe|elf"
+    grow: "keyword:\\y(christmas|santa|xmas|holidays?|mistletoe|elf|elves|reindeer|stocking)\\y"   # Postgres word boundaries (\y) — plain "elf" matched "self"
     sheet_tab: "Christmas"
     hint: "Christmas-themed — holiday outfit or setting; file by the format"
     urls:

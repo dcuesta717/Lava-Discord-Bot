@@ -454,13 +454,13 @@ export function registerPlans(ctx: BotContext, deps: PlanDeps) {
 
   // ── grow: keep every list fed with similar videos ────────────────────────────
   /** Where a section's "similar content" comes from. */
-  function growSources(s: PlanSection): { kind: 'off' | 'genres' | 'keyword'; genres: string[]; keyword?: RegExp; refs: string[] } {
+  function growSources(s: PlanSection): { kind: 'off' | 'genres' | 'keyword'; genres: string[]; keyword?: string; refs: string[] } {
     const none = { kind: 'off' as const, genres: [], refs: [] };
     if (s.lines.length || s.grow === 'off') return none;
     const roster = s.person ? rosterFor(s.person, s.person) : undefined;
     const refs = roster?.seeds ?? [];
     if (Array.isArray(s.grow)) return { kind: 'genres', genres: s.grow.filter((g) => deps.genreExists(g)), refs };
-    if (typeof s.grow === 'string' && s.grow.startsWith('keyword:')) return { kind: 'keyword', genres: [], keyword: new RegExp(s.grow.slice(8), 'i'), refs };
+    if (typeof s.grow === 'string' && s.grow.startsWith('keyword:')) return { kind: 'keyword', genres: [], keyword: s.grow.slice(8), refs }; // Postgres regex (~*), e.g. \y(christmas|santa)\y
     if (s.grow === 'lanes' || (s.person && !s.folder)) return roster?.lanes.length ? { kind: 'genres', genres: roster.lanes.filter((g) => deps.genreExists(g)), refs } : none;
     if (s.folder && deps.genreExists(s.folder)) return { kind: 'genres', genres: [s.folder], refs };
     return none;
@@ -485,7 +485,7 @@ export function registerPlans(ctx: BotContext, deps: PlanDeps) {
         WHERE li.created_at > now() - make_interval(hours => ${hours})
           AND li.origin IN ('scout', 'inbox', 'command')
           AND COALESCE(li.score, 0) >= ${plan.grow.min_score}
-          AND ${src.kind === 'keyword' ? sql`(li.title ~* ${src.keyword!.source} OR li.caption ~* ${src.keyword!.source})` : sql`(li.genre = ANY(${src.genres}) OR li.tags && ${src.genres})`}
+          AND ${src.kind === 'keyword' ? sql`(li.title ~* ${src.keyword!} OR li.caption ~* ${src.keyword!})` : sql`(li.genre = ANY(${src.genres}) OR li.tags && ${src.genres})`}
           AND NOT EXISTS (SELECT 1 FROM bot.plan_items pi WHERE pi.plan = ${plan.slug} AND pi.item_id = li.id)
         ORDER BY (lower(COALESCE(li.author, '')) = ANY(${refs})) DESC, COALESCE(li.score, 0) DESC, (li.up - li.down) DESC, li.created_at DESC
         LIMIT ${plan.grow.per_section}`;
