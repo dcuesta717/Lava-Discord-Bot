@@ -12,9 +12,18 @@ intro: "Every video the owners picked for the December content house, sorted the
 keep_all: true
 pace_ms: 3500
 batch: 8
+# Dan (Nov 19): "continue to add similar content" — after every scout each section takes the best new library videos that fit it
+# (its folder, or a girl's lanes with her reference creators first), appended to its thread marked ➕. Per section `grow:` =
+# genre slugs, "lanes", "keyword:<regex>" (title/caption) or "off"; default = the section's folder / her lanes.
+grow:
+  enabled: true
+  per_section: 3
+  min_score: 0.75
+  max_age_hours: 36
 
 sections:
   - name: "All girls"
+    grow: [skits, words-on-screen, hot-girl-filler, personality, funny, collabs]
     sheet_tab: "All girls"
     hint: "a format EVERY girl in the content house films this month — pick the folder it belongs in"
     urls:
@@ -200,6 +209,7 @@ sections:
       - https://instagram.com/p/DeS6xadIOYn
       - https://instagram.com/p/DfROV4mh7Ih
   - name: "Beach / pool"
+    grow: [beach, pool]
     sheet_tab: "Beach  pool  etc"
     hint: "beach or pool setting — file by the setting (beach vs pool); swimwear content"
     urls:
@@ -255,6 +265,7 @@ sections:
       - https://instagram.com/p/DfsOWLdhgFX
       - https://instagram.com/p/DfajjadAy5v
   - name: "GRWM style"
+    grow: [personality, hot-girl-filler]
     sheet_tab: "Grwm style"
     folder: personality
     hint: "get-ready-with-me talking format — she chats while getting ready"
@@ -263,18 +274,21 @@ sections:
     urls:
       - { url: https://instagram.com/p/Df1bxh8vd_s, note: "How I put on a bikini" }
   - name: "GRWM"
+    grow: off
     sheet_tab: "Grwm"
     folder: personality
     hint: "get-ready-with-me talking format"
     urls:
       - https://instagram.com/p/DfhczpBo-b_
   - name: "Eating food"
+    grow: off
     sheet_tab: "Eating food"
     hint: "eating-on-camera bit — the food is the prop, the tease is the point"
     urls:
       - { url: https://instagram.com/p/DfmaHTZNeZg, note: "Banana" }
       - https://instagram.com/p/DfcGXnWtOvz
   - name: "Long form ideas"
+    grow: [long-form, personality]
     sheet_tab: "Long form ideas"
     folder: personality
     hint: "LONG-FORM talking format (reading mean messages, Q&A) — note the exact premise"
@@ -288,6 +302,7 @@ sections:
       - https://instagram.com/p/De2luI1yy2-
       - https://instagram.com/p/DfWYs0ssCGi
   - name: "NNN (No Nut November)"
+    grow: off
     sheet_tab: "NNN"
     hint: "No-Nut-November bit — the joke / tease is the format"
     urls:
@@ -295,6 +310,7 @@ sections:
       - https://instagram.com/p/DfYfC6zBXhb
       - https://instagram.com/p/DfYDglOBHIl
   - name: "Christmas"
+    grow: "keyword:christmas|santa|xmas|holiday|mistletoe|elf"
     sheet_tab: "Christmas"
     hint: "Christmas-themed — holiday outfit or setting; file by the format"
     urls:

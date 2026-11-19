@@ -6,6 +6,7 @@ import { z } from 'zod';
 import type { BotContext } from '../../discord/context.js';
 import type { Model } from '../../config/models.js';
 import { canonicalUrl, type ReelCandidate } from '../../integrations/apify.js';
+import { rosterFor } from '../../config/archetypes.js';
 import type { IngestOpts, IngestResult, ItemRow } from './index.js';
 
 /**
@@ -21,16 +22,29 @@ import type { IngestOpts, IngestResult, ItemRow } from './index.js';
  *   render   one forum under 🎬 CONTENT LIBRARY (🏠-content-house-dec), one thread per section listing every video with its
  *            notes + a link to the library post (the video lives there, with 🔥/👎/📋), and a pinned overview thread.
  *   deliver  a girl's own section lands on her reels board the moment she is onboarded (model slug / first name match).
+ *   grow     Dan (Nov 19): "continue to add similar content" — after every scout, each section takes the best new library
+ *            videos from its folder(s) (a girl's section: her lanes, her reference creators first), appends them to its thread
+ *            marked ➕, capped per day (plan.grow); a link pasted in #library-inbox with a section word ("duo", "madi") lands
+ *            on that list too.
  */
 const MODULE = 'library';
 const DIR = join(process.cwd(), 'library', 'plans');
 const ACTIVE_KEY = 'library.plan.active';
 const OVERVIEW = '__overview';
+const GROWN = 'added by the bot'; // plan_items.detail prefix for rows the bot added (grow / inbox), rendered with ➕
 
 const urlEntry = z.union([z.string().url(), z.object({ url: z.string().url(), note: z.string().optional() })]);
+const growSchema = z.object({
+  enabled: z.boolean().default(true),
+  per_section: z.number().int().min(1).max(10).default(3), // new videos per section per run
+  min_score: z.number().min(0).max(1).default(0.75),
+  max_age_hours: z.number().int().min(1).max(168).default(36), // only videos the library got recently
+});
 const sectionSchema = z.object({
   name: z.string().min(1).max(90),
   sheet_tab: z.string().optional(),
+  /** where "similar content" comes from: genre slugs, "lanes" (the girl's roster lanes), "keyword:<regex>" on title/caption, or "off". Default: the section's folder, or her lanes. */
+  grow: z.union([z.array(z.string().regex(/^[a-z0-9-]+$/)), z.literal('lanes'), z.literal('off'), z.string().regex(/^keyword:.+/)]).optional(),
   person: z
     .string()
     .regex(/^[a-z0-9-]+$/)
@@ -49,6 +63,7 @@ const schema = z.object({
   keep_all: z.boolean().default(true),
   pace_ms: z.number().int().min(500).max(60_000).default(3500),
   batch: z.number().int().min(1).max(20).default(8),
+  grow: growSchema.default({}),
   sections: z.array(sectionSchema).min(1),
 });
 export type Plan = z.infer<typeof schema>;
@@ -157,6 +172,19 @@ export function registerPlans(ctx: BotContext, deps: PlanDeps) {
       if (!slug) return `which plan? have: ${listPlans().join(', ') || 'none'}`;
       const r = await render(loadPlan(slug));
       return r ? `rendered ${r.sections} section thread(s) in <#${r.forum}>` : 'could not render — is the Content Library set up?';
+    },
+  });
+
+  ctx.action('grow_content_plan', {
+    description: 'Add the newest similar library videos to every section of a content plan now (the scout does this automatically each morning): each section takes the best new videos from its folder(s), a girl\'s section from her lanes, appended to the section thread marked ➕.',
+    input: { type: 'object', properties: { plan: { type: 'string', description: 'plan slug (optional when there is one plan)' } } },
+    ownersOnly: true,
+    slow: true,
+    run: async (input) => {
+      const slug = input.plan ? String(input.plan) : defaultPlan();
+      if (!slug) return `which plan? have: ${listPlans().join(', ') || 'none'}`;
+      const r = await grow(slug);
+      return r.added ? `${r.title}: +${r.added} video(s) — ${r.lines.join(', ')}` : `${r.title}: nothing new that fits (the next scout may find some)`;
     },
   });
 
@@ -359,33 +387,8 @@ export function registerPlans(ctx: BotContext, deps: PlanDeps) {
     for (const s of sections) {
       const mine = items.filter((r) => r.section === s.name);
       if (!mine.length && !s.lines.length && !s.ideas.length) continue;
-      const filed = mine.filter((r) => r.status === 'filed' && r.item_id);
-      const header = [
-        `## ${s.name}${s.person ? ` — ${cap(s.person)}'s own list` : ''}`,
-        s.lines.length ? `${s.lines.length} caption(s) the owners wrote — use them as they are or in your own words.` : `**${filed.length}** video(s)${mine.length !== filed.length ? ` (${mine.length - filed.length} still to fetch)` : ''}${s.folder ? ` · folder: ${deps.genreLabel(s.folder)}` : ''}`,
-        s.hint && !s.lines.length ? `_${s.hint}_` : '',
-        s.ideas.length ? `💡 ideas from the sheet (no link): ${s.ideas.map((i) => `"${i}"`).join(' · ')}` : '',
-        `Every number below is a library post — open it for the video, 🔥 it if you'd film it, 📋 Copy this puts it on your board.`,
-      ]
-        .filter(Boolean)
-        .join('\n');
-
-      const lines: string[] = s.lines.length
-        ? s.lines.map((l, k) => `**${k + 1}.** ${l}`)
-        : mine.map((r, k) => {
-            const n = `**${k + 1}.`;
-            if (r.status !== 'filed' || !r.item_id) return `${n}** ⚠️ not fetched yet — <${r.url}>${r.note ? ` · 📝 ${r.note}` : ''}${r.detail ? ` _(${r.detail})_` : ''}`;
-            const post = r.posts?.[0];
-            return [
-              `${n} ${r.title ?? 'untitled'}** · ${r.genre ? deps.genreLabel(r.genre) : ''}${r.author ? ` · @${r.author}` : ''}`,
-              r.why ? `_why:_ ${r.why}` : '',
-              r.copy_brief ? `_do:_ ${r.copy_brief}` : '',
-              r.note ? `📝 owners: ${r.note}` : '',
-              `${post ? guildUrl(post.thread_id) : ''} · <${r.url}>`,
-            ]
-              .filter(Boolean)
-              .join('\n');
-          });
+      const header = sectionHeader(s, mine);
+      const lines: string[] = s.lines.length ? s.lines.map((l, k) => `**${k + 1}.** ${l}`) : mine.map((r, k) => itemLine(r, k + 1));
 
       const thread = await upsertThread(forum, known.get(s.name), `${s.name}${s.person ? ' — her list' : ''}`.slice(0, 100), header, chunk(lines), me);
       if (thread) {
@@ -396,6 +399,44 @@ export function registerPlans(ctx: BotContext, deps: PlanDeps) {
     }
 
     // overview, pinned, created last so it sits on top
+    await renderOverview(plan, forum, threadIds, known.get(OVERVIEW), items, me);
+    return { forum: forum.id, sections: threadIds.size };
+  }
+
+  type Line = PlanRow & { title: string | null; why: string | null; copy_brief: string | null; genre: string | null; posts: ItemRow['posts'] | null; author: string | null };
+
+  function sectionHeader(s: PlanSection, mine: PlanRow[]) {
+    const filed = mine.filter((r) => r.status === 'filed' && r.item_id);
+    const grown = mine.filter((r) => r.detail?.startsWith(GROWN)).length;
+    return [
+      `## ${s.name}${s.person ? ` — ${cap(s.person)}'s own list` : ''}`,
+      s.lines.length
+        ? `${s.lines.length} caption(s) the owners wrote — use them as they are or in your own words.`
+        : `**${filed.length}** video(s)${mine.length !== filed.length ? ` (${mine.length - filed.length} still to fetch)` : ''}${s.folder ? ` · folder: ${deps.genreLabel(s.folder)}` : ''}${grown ? ` · ${grown} added by the scout (marked ➕ below)` : ''}`,
+      s.hint && !s.lines.length ? `_${s.hint}_` : '',
+      s.ideas.length ? `💡 ideas from the sheet (no link): ${s.ideas.map((i) => `"${i}"`).join(' · ')}` : '',
+      `Every number below is a library post — open it for the video, 🔥 it if you'd film it, 📋 Copy this puts it on your board.${growSources(s).kind !== 'off' ? ' New similar videos are added at the bottom every morning.' : ''}`,
+    ]
+      .filter(Boolean)
+      .join('\n');
+  }
+
+  function itemLine(r: Line, k: number) {
+    const n = `${r.detail?.startsWith(GROWN) ? '➕ ' : ''}**${k}.`;
+    if (r.status !== 'filed' || !r.item_id) return `${n}** ⚠️ not fetched yet — <${r.url}>${r.note ? ` · 📝 ${r.note}` : ''}${r.detail ? ` _(${r.detail})_` : ''}`;
+    const post = r.posts?.[0];
+    return [
+      `${n} ${r.title ?? 'untitled'}** · ${r.genre ? deps.genreLabel(r.genre) : ''}${r.author ? ` · @${r.author}` : ''}`,
+      r.why ? `_why:_ ${r.why}` : '',
+      r.copy_brief ? `_do:_ ${r.copy_brief}` : '',
+      r.note ? `📝 owners: ${r.note}` : '',
+      `${post ? guildUrl(post.thread_id) : ''} · <${r.url}>`,
+    ]
+      .filter(Boolean)
+      .join('\n');
+  }
+
+  async function renderOverview(plan: Plan, forum: ForumChannel, threadIds: Map<string, string>, existingId: string | undefined, items: PlanRow[], me: string) {
     const filedRows = items.filter((r) => r.status === 'filed');
     const total = new Set(filedRows.map((r) => r.url)).size;
     const toc = plan.sections
@@ -404,12 +445,128 @@ export function registerPlans(ctx: BotContext, deps: PlanDeps) {
         const n = s.lines.length || items.filter((r) => r.section === s.name && r.status === 'filed').length;
         return `• <#${threadIds.get(s.name)}> — ${s.lines.length ? `${n} caption(s)` : `${n} video(s)`}${s.person ? ` · ${cap(s.person)}'s own list` : ''}`;
       });
-    const overview = await upsertThread(forum, known.get(OVERVIEW), `${plan.emoji} ${plan.title} — start here`.slice(0, 100), [`## ${plan.title}`, plan.intro, `**${total}** videos filed across **${threadIds.size}** sections (${filedRows.length} list entries — many videos are on more than one list).`].filter(Boolean).join('\n'), chunk(toc), me);
+    const overview = await upsertThread(forum, existingId, `${plan.emoji} ${plan.title} — start here`.slice(0, 100), [`## ${plan.title}`, plan.intro, `**${total}** videos filed across **${threadIds.size}** sections (${filedRows.length} list entries — many videos are on more than one list).${plan.grow.enabled ? ' The lists keep growing: every morning the scout adds the best new videos that fit each section, marked ➕.' : ''}`].filter(Boolean).join('\n'), chunk(toc), me);
     if (overview) {
       await sql`INSERT INTO bot.plan_threads (plan, section, thread_id, rendered_at) VALUES (${plan.slug}, ${OVERVIEW}, ${overview.id}, now()) ON CONFLICT (plan, section) DO UPDATE SET thread_id = EXCLUDED.thread_id, rendered_at = now()`;
       if (!overview.flags.has('Pinned')) await overview.pin().catch(() => undefined);
     }
-    return { forum: forum.id, sections: threadIds.size };
+  }
+
+  // ── grow: keep every list fed with similar videos ────────────────────────────
+  /** Where a section's "similar content" comes from. */
+  function growSources(s: PlanSection): { kind: 'off' | 'genres' | 'keyword'; genres: string[]; keyword?: RegExp; refs: string[] } {
+    const none = { kind: 'off' as const, genres: [], refs: [] };
+    if (s.lines.length || s.grow === 'off') return none;
+    const roster = s.person ? rosterFor(s.person, s.person) : undefined;
+    const refs = roster?.seeds ?? [];
+    if (Array.isArray(s.grow)) return { kind: 'genres', genres: s.grow.filter((g) => deps.genreExists(g)), refs };
+    if (typeof s.grow === 'string' && s.grow.startsWith('keyword:')) return { kind: 'keyword', genres: [], keyword: new RegExp(s.grow.slice(8), 'i'), refs };
+    if (s.grow === 'lanes' || (s.person && !s.folder)) return roster?.lanes.length ? { kind: 'genres', genres: roster.lanes.filter((g) => deps.genreExists(g)), refs } : none;
+    if (s.folder && deps.genreExists(s.folder)) return { kind: 'genres', genres: [s.folder], refs };
+    return none;
+  }
+
+  /** One pass over a plan: each growable section gets up to plan.grow.per_section new library videos, appended to its thread. */
+  async function grow(slug: string): Promise<{ title: string; added: number; lines: string[] }> {
+    const plan = loadPlan(slug);
+    const out = { title: plan.title, added: 0, lines: [] as string[] };
+    if (!plan.grow.enabled) return out;
+    const forum = await deps.ensureForum(`${plan.emoji.replace(/️/g, '')}-${plan.slug}`, `${plan.title} — the owners' shoot list, one thread per section. ${plan.intro}`.slice(0, 1024), `library.plan.${plan.slug}.forum`, ForumLayoutType.ListView);
+    if (!forum) return out;
+    const me = ctx.client.user!.id;
+    const known = new Map((await sql<{ section: string; thread_id: string }[]>`SELECT section, thread_id FROM bot.plan_threads WHERE plan = ${plan.slug}`).map((r) => [r.section, r.thread_id]));
+    const hours = plan.grow.max_age_hours;
+    for (const s of plan.sections) {
+      const src = growSources(s);
+      if (src.kind === 'off') continue;
+      const refs = src.refs;
+      const picks = await sql<ItemRow[]>`
+        SELECT li.* FROM bot.library_items li
+        WHERE li.created_at > now() - make_interval(hours => ${hours})
+          AND li.origin IN ('scout', 'inbox', 'command')
+          AND COALESCE(li.score, 0) >= ${plan.grow.min_score}
+          AND ${src.kind === 'keyword' ? sql`(li.title ~* ${src.keyword!.source} OR li.caption ~* ${src.keyword!.source})` : sql`(li.genre = ANY(${src.genres}) OR li.tags && ${src.genres})`}
+          AND NOT EXISTS (SELECT 1 FROM bot.plan_items pi WHERE pi.plan = ${plan.slug} AND pi.item_id = li.id)
+        ORDER BY (lower(COALESCE(li.author, '')) = ANY(${refs})) DESC, COALESCE(li.score, 0) DESC, (li.up - li.down) DESC, li.created_at DESC
+        LIMIT ${plan.grow.per_section}`;
+      if (!picks.length) continue;
+      const added = await addToSection(plan, s, picks, forum, known.get(s.name), me);
+      if (added) {
+        out.added += added;
+        out.lines.push(`${s.name} +${added}`);
+      }
+      await new Promise((r) => setTimeout(r, 900));
+    }
+    if (out.added) {
+      const items = await sql<PlanRow[]>`SELECT plan, section, url, position, note, status, item_id::text, detail FROM bot.plan_items WHERE plan = ${plan.slug}`;
+      const threadIds = new Map([...known.entries()].filter(([k]) => k !== OVERVIEW));
+      await renderOverview(plan, forum, threadIds, known.get(OVERVIEW), items, me).catch((err) => ctx.log.warn({ err }, 'plan overview refresh failed'));
+      await ctx.ops(MODULE, 'plan-grown', { data: { plan: plan.slug, added: out.added, sections: out.lines }, text: `${plan.title} grew by ${out.added}: ${out.lines.join(', ')}` });
+      await ctx.send(ctx.ch('daily_report') || ctx.ch('bot_dev'), { content: `🏠 **${plan.title}** grew by ${out.added} video(s) today: ${out.lines.join(' · ')}${forum ? ` — <#${forum.id}>` : ''}`.slice(0, 1990), allowedMentions: { parse: [] } });
+    }
+    return out;
+  }
+
+  /** Put library items on a section's list (rows + a ➕ message in its thread + the header count). */
+  async function addToSection(plan: Plan, s: PlanSection, items: ItemRow[], forum: ForumChannel, threadId: string | undefined, me: string, note?: string): Promise<number> {
+    const [{ next }] = await sql<{ next: number }[]>`SELECT COALESCE(MAX(position), -1) + 1 AS next FROM bot.plan_items WHERE plan = ${plan.slug} AND section = ${s.name}`;
+    let pos = Number(next);
+    const rows: Line[] = [];
+    for (const it of items) {
+      const r = await sql<{ url: string }[]>`
+        INSERT INTO bot.plan_items (plan, section, url, position, note, status, item_id, genre, detail, imported_at)
+        VALUES (${plan.slug}, ${s.name}, ${it.source_url}, ${pos}, ${note ?? null}, 'filed', ${it.id}, ${it.genre}, ${GROWN + (note ? ' (pasted in the inbox)' : ' — similar to this list')}, now())
+        ON CONFLICT (plan, section, url) DO NOTHING RETURNING url`;
+      if (!r.length) continue;
+      rows.push({ plan: plan.slug, section: s.name, url: it.source_url, position: pos, note: note ?? null, status: 'filed', item_id: String(it.id), detail: GROWN, title: it.title, why: it.why, copy_brief: it.copy_brief, genre: it.genre, posts: it.posts, author: it.author });
+      await sql`UPDATE bot.library_items SET collection = COALESCE(collection, ${`${plan.title} · ${s.name}`}) WHERE id = ${it.id}`;
+      pos++;
+    }
+    if (!rows.length) return 0;
+    // the thread: append, never re-render (keeps the girls' replies and the numbering)
+    let thread = threadId ? ((await ctx.client.channels.fetch(threadId).catch(() => null)) as ThreadChannel | null) : null;
+    if (thread && (!thread.isThread() || thread.parentId !== forum.id)) thread = null;
+    if (thread) {
+      if (thread.archived) await thread.setArchived(false).catch(() => undefined);
+      const mine = await sql<PlanRow[]>`SELECT plan, section, url, position, note, status, item_id::text, detail FROM bot.plan_items WHERE plan = ${plan.slug} AND section = ${s.name} ORDER BY position NULLS LAST, created_at`;
+      const start = mine.length - rows.length + 1;
+      const when = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const body = [`➕ **added ${when}** — ${note ? 'pasted in the inbox' : 'found by the scout, similar to this list'}`, ...rows.map((r, k) => itemLine(r, start + k))];
+      for (const c of chunk(body)) {
+        await thread.send({ content: c, allowedMentions: { parse: [] } }).catch((err) => ctx.log.warn({ err, section: s.name }, 'plan append failed'));
+        await new Promise((r) => setTimeout(r, 600));
+      }
+      const starter = await thread.fetchStarterMessage().catch(() => null);
+      const header = sectionHeader(s, mine).slice(0, 1990);
+      if (starter && starter.content !== header) await starter.edit({ content: header, allowedMentions: { parse: [] } }).catch(() => undefined);
+    }
+    return rows.length;
+  }
+
+  /** A link pasted in #library-inbox with a section word ("duo", "skits", "madi") also lands on that list. Returns one line per list it joined. */
+  async function fromInbox(hint: string, urls: string[]): Promise<string[]> {
+    const words = hint.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length >= 3);
+    if (!words.length || !urls.length) return [];
+    const out: string[] = [];
+    for (const slug of listPlans()) {
+      const plan = loadPlan(slug);
+      const sections = plan.sections.filter((s) => {
+        if (s.lines.length) return false;
+        const keys = new Set([...s.name.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length >= 3), ...(s.person ? [s.person] : [])]);
+        return words.some((w) => keys.has(w));
+      });
+      if (!sections.length) continue;
+      const items = (await Promise.all(urls.map((u) => deps.itemByUrl(canonicalUrl(u))))).filter((i): i is ItemRow => Boolean(i));
+      if (!items.length) continue;
+      const forum = await deps.ensureForum(`${plan.emoji.replace(/️/g, '')}-${plan.slug}`, `${plan.title} — the owners' shoot list, one thread per section. ${plan.intro}`.slice(0, 1024), `library.plan.${plan.slug}.forum`, ForumLayoutType.ListView);
+      if (!forum) continue;
+      const known = new Map((await sql<{ section: string; thread_id: string }[]>`SELECT section, thread_id FROM bot.plan_threads WHERE plan = ${plan.slug}`).map((r) => [r.section, r.thread_id]));
+      for (const s of sections) {
+        const n = await addToSection(plan, s, items, forum, known.get(s.name), ctx.client.user!.id, `pasted in #library-inbox: ${hint.slice(0, 120)}`);
+        if (n) out.push(`➕ also on **${plan.title} → ${s.name}**${known.get(s.name) ? ` (<#${known.get(s.name)}>)` : ''}`);
+      }
+    }
+    return out;
   }
 
   /** Create the section thread, or refresh it in place: edit the header, replace the bot's list messages, keep everyone's replies. */
@@ -465,7 +622,7 @@ export function registerPlans(ctx: BotContext, deps: PlanDeps) {
     }
   }
 
-  return { start, status, render: (slug: string) => render(loadPlan(slug)), deliverTo, list: listPlans };
+  return { start, status, render: (slug: string) => render(loadPlan(slug)), deliverTo, list: listPlans, grow, growAll: async () => { for (const slug of listPlans()) await grow(slug).catch((err) => ctx.log.warn({ err, plan: slug }, 'plan grow failed')); }, fromInbox };
 }
 
 function cap(s: string) {

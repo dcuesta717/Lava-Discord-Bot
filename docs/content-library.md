@@ -124,8 +124,16 @@ section by section (`src/modules/library/plans.ts` reads it; `library/plans/cont
   `library:copy` path as 📋) the moment the import finishes if she is live, or on `model:live` when she is onboarded; name matches
   the model slug, its first part, or her first name. `bot.library_deliveries` keeps it once per video per girl.
 - **Learning** — the plan's videos count as owner-saved for `learn()` (seed accounts from repeat authors, `knowledge/taste.md`).
-- Owners never touch the yaml: Discord shows everything. Adding a video = paste it in `#📥-library-inbox`; changing the plan = tell
-  Claude, who edits the yaml (a restart, ~2 min).
+- **Grow** (Dan, Nov 19: "continue to add similar content") — after every scout (and boot job `grow`, `/library plan grow:true`,
+  chat `grow_content_plan`) each section takes up to `grow.per_section` new library videos (score ≥ `grow.min_score`, newer than
+  `grow.max_age_hours`, not already on the plan) from its sources — the section's `folder`, an explicit `grow: [genres]`,
+  `grow: lanes` (a girl's roster lanes, her reference creators first), `grow: "keyword:<regex>"` (Christmas), or `off` — and
+  appends them to its thread as a ➕ message (never a re-render, so replies and numbering stay); the header count and the
+  overview update; #daily-report gets one line. Rows the bot added have `detail` starting "added by the bot".
+- **Inbox → list** — a link pasted in `#📥-library-inbox` with a section word next to it ("duo", "podcast", "madi") is filed
+  as usual AND added to that section (`plans.fromInbox`); the reply says which list it joined.
+- Owners never touch the yaml: Discord shows everything. Adding a video = paste it in `#📥-library-inbox` (with the list's name
+  to put it on a list); changing the plan = tell Claude, who edits the yaml (a restart, ~2 min).
 
 ## Cost
 

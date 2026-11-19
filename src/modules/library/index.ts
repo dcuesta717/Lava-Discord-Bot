@@ -161,6 +161,8 @@ export function register(ctx: BotContext) {
         if (!slug) continue;
         const r = await plans.start({ slug });
         await ctx.ops(MODULE, 'plan-import-boot', { data: { job, started: r.started }, text: r.message });
+      } else if (kind === 'grow') {
+        await plans.growAll();
       } else if (kind === 'scout') {
         if (!ctx.api.apify.enabled) continue;
         const s = await scout(arg || undefined);
@@ -193,6 +195,7 @@ export function register(ctx: BotContext) {
       ctx.log.warn({ err }, 'creator discovery failed');
       return [] as { genre: string; value: string }[];
     });
+    await plans.growAll().catch((err) => ctx.log.warn({ err }, 'plan grow failed'));
     if (found.length) {
       const line = found.map((f) => `@${f.value} → ${genre(f.genre)?.name ?? f.genre}`).join(' · ');
       await ctx.ops(MODULE, 'creators-discovered', { data: { found }, text: line.slice(0, 1500) });
@@ -237,7 +240,9 @@ export function register(ctx: BotContext) {
     const r = await ingest(urls, { origin: 'inbox', addedBy: msg.author.id, hint });
     await msg.reactions.cache.get('⏳')?.users.remove(ctx.client.user!.id).catch(() => undefined);
     await msg.react(r.posted.length ? '✅' : r.dupes ? '♻️' : '🚫').catch(() => undefined);
-    await msg.reply({ content: summarize(r), allowedMentions: { parse: [] } }).catch(() => undefined);
+    // a section word next to the link ("duo", "podcast", "madi") also puts it on that Content House list
+    const lists = hint && (r.posted.length || r.dupes) ? await plans.fromInbox(hint, urls).catch(() => [] as string[]) : [];
+    await msg.reply({ content: [summarize(r), ...lists].join('\n').slice(0, 1990), allowedMentions: { parse: [] } }).catch(() => undefined);
   }
 
   // ── /library ───────────────────────────────────────────────────────────────
@@ -288,7 +293,8 @@ export function register(ctx: BotContext) {
           .setDescription('Import a content plan — the owners’ shoot list, e.g. Content House — December (owners)')
           .addStringOption((o) => o.setName('name').setDescription('Which plan').addChoices(...planChoices()))
           .addBooleanOption((o) => o.setName('status').setDescription('Just show progress'))
-          .addBooleanOption((o) => o.setName('render').setDescription('Only rebuild the forum threads from what is already imported')),
+          .addBooleanOption((o) => o.setName('render').setDescription('Only rebuild the forum threads from what is already imported'))
+          .addBooleanOption((o) => o.setName('grow').setDescription('Add the newest similar library videos to every section now')),
       )
       .addSubcommand((s) =>
         s
@@ -379,6 +385,10 @@ export function register(ctx: BotContext) {
         if (i.options.getBoolean('render')) {
           const r = await plans.render(slug);
           return i.editReply(r ? `rebuilt ${r.sections} section thread(s) in <#${r.forum}>` : 'could not render — the Content Library category is missing');
+        }
+        if (i.options.getBoolean('grow')) {
+          const r = await plans.grow(slug);
+          return i.editReply(r.added ? `${r.title}: +${r.added} video(s) — ${r.lines.join(', ')}` : `${r.title}: nothing new that fits yet — the next scout may find some`);
         }
         if (!ctx.api.apify.enabled) return i.editReply('`APIFY_TOKEN` is not set yet — I can’t download videos.');
         const r = await plans.start({ slug, actor: i.user.id });
