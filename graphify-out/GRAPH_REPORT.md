@@ -1,15 +1,15 @@
-# Graph Report - Lava-Discord-Bot  (2026-11-19)
+# Graph Report - Lava-Discord-Bot  (2026-11-20)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
 
 ## Summary
-- 1235 nodes · 2045 edges · 111 communities (80 shown, 31 thin omitted)
-- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 143 edges (avg confidence: 0.88)
+- 1249 nodes · 2086 edges · 118 communities (92 shown, 26 thin omitted)
+- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 149 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `474eff70`
+- Built from commit: `880999c2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -18,19 +18,19 @@
 - package.json
 - aaron-pilk/model.yaml
 - Apify
-- loadPrompt
+- captions/index.ts
 - 2. Frame-by-frame walkthrough
-- loadPrompt
+- insights/index.ts
 - Bryce Nelson — profile
 - bryce-nelson/model.yaml
 - compilerOptions
-- saved.ts
+- plans.ts
 - dependencies
-- CLAUDE.md — working rules for Claude Code in this repo
+- src/index.ts
 - Caption voice system — how captions don't sound like AI
 - Voice — <display name>
 - deploy
-- industryLens
+- events/index.ts
 - register
 - _template/voice/banned-phrases.md
 - discord.js
@@ -94,28 +94,35 @@
 - away/index.ts
 - scripts
 - register
-- Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)
-- canonicalUrl
+- PlanDeps
+- saved.ts
 - market-filter.ts
-- Backlog — after the tuning window (verified against main @ 01bbe2b, 2026-09-18)
+- setup-server.ts
 - buckets
 - bryce
-- Creator watch list — the accounts Dan wants the scout to follow
+- models.ts
 - girls
 - josie
 - leah
 - morgan
-- 2. Restart & concurrency resilience
+- archetypes.ts
 - The girls — niches and growth plans (Claude's review, Nov 18, 2026)
 - kalena
 - madi
 - naomi
 - natt
 - shannon
-- Notion schema (optional mirror)
-- apify-client
-- pino-pretty@^11.2.2
-- postgres
+- Content Library — the agency inspiration folders
+- discord.js
+- register-commands.ts
+- library/index.ts
+- Zernio
+- 4. Build blueprint for Lava Mgmt (Discord + Claude + Notion + GitHub + Drive)
+- Runbook
+- Nivo HQ — Discord + "Larry The Bot" Teardown & Build Blueprint
+- register
+- register
+- Architecture
 
 ## God Nodes (most connected - your core abstractions)
 1. `register()` - 48 edges
@@ -123,32 +130,32 @@
 3. `BotContext` - 39 edges
 4. `loadPrompt()` - 36 edges
 5. `discord.js` - 27 edges
-6. `canonicalUrl()` - 23 edges
-7. `main()` - 22 edges
-8. `Model` - 20 edges
-9. `register()` - 19 edges
+6. `registerPlans()` - 24 edges
+7. `canonicalUrl()` - 24 edges
+8. `main()` - 22 edges
+9. `Model` - 20 edges
 10. `register()` - 19 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `House rules — reject by default; US, English, women only, sex appeal required` --references--> `classify()`  [INFERRED]
   docs/content-library.md → src/modules/library/index.ts
-- `Why it could happen (root causes, all still present by the owner's order)` --references--> `purge()`  [INFERRED]
-  docs/incidents/2026-09-17-library-wipe.md → src/modules/library/index.ts
+- `Build order (each is a day or less)` --references--> `normalize()`  [INFERRED]
+  docs/architecture.md → src/integrations/apify.ts
+- `Adding integrations` --references--> `normalize()`  [INFERRED]
+  docs/runbook.md → src/integrations/apify.ts
 - `5. Still open (everything else is decided — see §4.0)` --references--> `normalize()`  [INFERRED]
   docs/source-analysis/Nivo-Discord-Bot-Analysis.md → src/integrations/apify.ts
 - `Request flows` --references--> `generateCaption()`  [INFERRED]
   docs/architecture.md → src/modules/captions/generate.ts
-- `Could not confirm (kept out of the tables or marked partial)` --references--> `canonicalUrl()`  [INFERRED]
-  docs/backlog-post-tuning.md → src/integrations/apify.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (111 total, 31 thin omitted)
+## Communities (118 total, 26 thin omitted)
 
 ### Community 0 - "BotContext"
-Cohesion: 0.15
-Nodes (15): Gotchas, BotContext, register(), register(), register(), register(), classifyAndPost(), postToBoard() (+7 more)
+Cohesion: 0.19
+Nodes (5): BotContext, register(), register(), register(), register()
 
 ### Community 1 - "package.json"
 Cohesion: 0.16
@@ -159,20 +166,20 @@ Cohesion: 0.05
 Nodes (43): active, caption, lowercase, max_chars, max_emoji, max_hashtags, custom, general (+35 more)
 
 ### Community 3 - "Apify"
-Cohesion: 0.07
-Nodes (18): Architecture, Build order (each is a day or less), Deliberate non-goals, Request flows, Adding integrations, Daily ops for Dan/Marissa, Deploy, First run (+10 more)
+Cohesion: 0.29
+Nodes (3): Apify, normalize(), num()
 
-### Community 4 - "loadPrompt"
-Cohesion: 0.07
-Nodes (33): client, db, env, model, settings, [slug, userId], staffIds, anthropicKey (+25 more)
+### Community 4 - "captions/index.ts"
+Cohesion: 0.21
+Nodes (13): CaptionRun, CriticResult, generateCaption(), sampleExamples(), CaptionRow, card(), register(), learnCaption() (+5 more)
 
 ### Community 5 - "2. Frame-by-frame walkthrough"
-Cohesion: 0.07
-Nodes (26): 0. TL;DR — what they actually have, 1. Audio transcript (creator's narration, timestamps in seconds), 2.10 — 1:26–1:45 · Google Drive "Content House" folder, 2.11 — 1:47–1:52 · Back to Discord → `#💵-invoices`, 2.1 — 0:00–0:03 · Server sidebar, 2.2 — 0:03–0:14 · `#💬-general-chat` (scrolled bottom → top), 2.3 — 0:14–0:27 · `reels-copy-board` (Forum channel), 2.4 — 0:27–0:29 · `#🌸-custom` (+18 more)
+Cohesion: 0.17
+Nodes (12): 2.10 — 1:26–1:45 · Google Drive "Content House" folder, 2.11 — 1:47–1:52 · Back to Discord → `#💵-invoices`, 2.1 — 0:00–0:03 · Server sidebar, 2.2 — 0:03–0:14 · `#💬-general-chat` (scrolled bottom → top), 2.3 — 0:14–0:27 · `reels-copy-board` (Forum channel), 2.4 — 0:27–0:29 · `#🌸-custom`, 2.5 — 0:29–0:39 · `#🔔-notification`, 2.6 — 0:39–0:47 · `#📚-ressources` (+4 more)
 
-### Community 6 - "loadPrompt"
-Cohesion: 0.13
-Nodes (14): runAgent(), cache, loadPrompt(), PROMPTS_DIR, previousWeekRange(), MetricRow, Parsed, register() (+6 more)
+### Community 6 - "insights/index.ts"
+Cohesion: 0.43
+Nodes (7): fetchImageAsBase64(), previousWeekRange(), MetricRow, Parsed, register(), format(), handleScreenshot()
 
 ### Community 7 - "Bryce Nelson — profile"
 Cohesion: 0.12
@@ -186,17 +193,17 @@ Nodes (43): active, caption, lowercase, max_chars, max_emoji, max_hashtags, cust
 Cohesion: 0.15
 Nodes (12): compilerOptions, esModuleInterop, forceConsistentCasingInFileNames, module, moduleResolution, outDir, resolveJsonModule, rootDir (+4 more)
 
-### Community 10 - "saved.ts"
-Cohesion: 0.06
-Nodes (42): Genre, genreSchema, LIBRARY_FILE, LibraryConfig, schema, TAGGED_GENRES, ensureModelStructure(), ModelStructureIds (+34 more)
+### Community 10 - "plans.ts"
+Cohesion: 0.09
+Nodes (42): CLAUDE.md — working rules for Claude Code in this repo, Conventions, How to work with the owners (permanent), Knowledge graph (graphify) — use it before grepping, Known sharp edges (documented, unfixed by order — see the backlog for line numbers), Non-negotiables, STANDING ORDERS (read first), What this is (+34 more)
 
 ### Community 11 - "dependencies"
-Cohesion: 0.12
-Nodes (16): dependencies, cron@^3.1.7, discord.js@^14.16.3, dotenv@^16.4.5, googleapis@^144.0.0, luxon@^3.5.0, @notionhq/client@^2.2.15, pino@^9.4.0 (+8 more)
+Cohesion: 0.13
+Nodes (15): dependencies, apify-client@^2.9.5, cron@^3.1.7, discord.js@^14.16.3, dotenv@^16.4.5, pino@^9.4.0, pino-pretty@^11.2.2, postgres@^3.4.9 (+7 more)
 
-### Community 12 - "CLAUDE.md — working rules for Claude Code in this repo"
-Cohesion: 0.18
-Nodes (10): CLAUDE.md — working rules for Claude Code in this repo, Conventions, How to work with the owners (permanent), Knowledge graph (graphify) — use it before grepping, Known sharp edges (documented, unfixed by order — see the backlog for line numbers), Non-negotiables, STANDING ORDERS (read first), What this is (+2 more)
+### Community 12 - "src/index.ts"
+Cohesion: 0.15
+Nodes (10): googleapis@^144.0.0, @notionhq/client@^2.2.15, googleapis, @notionhq/client, createClient(), attachRouter(), log, Logger (+2 more)
 
 ### Community 13 - "Caption voice system — how captions don't sound like AI"
 Cohesion: 0.22
@@ -210,21 +217,21 @@ Nodes (8): 3 captions someone wrote for her that she HATED (so we know the failu
 Cohesion: 0.22
 Nodes (8): build, buildCommand, builder, deploy, restartPolicyMaxRetries, restartPolicyType, startCommand, $schema
 
-### Community 16 - "industryLens"
-Cohesion: 0.05
-Nodes (46): RFC-4180, Classification, Content Library — the agency inspiration folders, Content plans — the owners' shoot lists (Content House — December), Cost, Dan's saved collections → the library (and what the bot learns from them), Data, House rules — reject by default; US, English, women only, sex appeal required (+38 more)
+### Community 16 - "events/index.ts"
+Cohesion: 0.18
+Nodes (17): EventDef, EVENTS_FILE, eventSchema, EventsConfig, loadEvents(), nextOccurrence(), nthWeekday(), ruleSchema (+9 more)
 
 ### Community 17 - "register"
-Cohesion: 0.06
-Nodes (65): 6. Spam & duplicate sends, yaml, apify, env, limit, model, path, posts (+57 more)
+Cohesion: 0.08
+Nodes (52): 6. Spam & duplicate sends, yaml, apify, env, limit, model, path, posts (+44 more)
 
 ### Community 18 - "_template/voice/banned-phrases.md"
 Cohesion: 0.25
 Nodes (7): allow: obsessed, "allow: <phrase>" whitelists a GLOBAL rule for this model (e.g. she genuinely says "obsessed")., examples — replace with hers, One per line. Plain text = case-insensitive substring. "re:" prefix = regex., Per-model banned phrases (adds to prompts/slop-blocklist.txt), re:\bgirls? night\b, so cute
 
 ### Community 19 - "discord.js"
-Cohesion: 0.17
-Nodes (13): discord.js, luxon, Model, fmtLocal(), minutesFromNow(), nowIso(), register(), Session (+5 more)
+Cohesion: 0.23
+Nodes (10): cache, loadPrompt(), PROMPTS_DIR, fmtLocal(), minutesFromNow(), nowIso(), register(), register() (+2 more)
 
 ### Community 20 - "caption.generate.md"
 Cohesion: 0.29
@@ -239,16 +246,16 @@ Cohesion: 0.29
 Nodes (6): Knowledge graph (graphify), lava-discord-bot, Layout, Modules, Quick start, Roles
 
 ### Community 23 - "src/index.ts"
-Cohesion: 0.13
-Nodes (9): ModelRegistry, migrate(), openDb(), createClient(), attachRouter(), explainDbError(), explainDiscordError(), main() (+1 more)
+Cohesion: 0.16
+Nodes (5): ModelRegistry, explainDbError(), explainDiscordError(), main(), Timers
 
 ### Community 24 - "_template/model.yaml"
 Cohesion: 0.05
 Nodes (42): active, caption, lowercase, max_chars, max_emoji, max_hashtags, custom, general (+34 more)
 
 ### Community 25 - "register"
-Cohesion: 0.15
-Nodes (23): 7. For Claude / the technical partner, fetchImageAsBase64(), register(), afterScout(), buttons(), classify(), deliverPicks(), discover() (+15 more)
+Cohesion: 0.05
+Nodes (59): 1. Safety / destructive actions, 2. Restart & concurrency resilience, 3. Data integrity, 4. Silent failures & visibility, 5. Learning & classification tuning *(owner decisions; nothing changes during the window)*, 7. Config & human-ownership, Added while reading, Backlog — after the tuning window (verified against main @ 01bbe2b, 2026-09-18) (+51 more)
 
 ### Community 26 - "Discord server template"
 Cohesion: 0.40
@@ -291,8 +298,8 @@ Cohesion: 0.22
 Nodes (8): 3 captions someone wrote for her that she HATED (so we know the failure mode), 5 captions of hers that are PERFECT examples of her voice (verbatim), How she actually types, Platform differences, Things she would never say, Voice — Aaron Pilk, What her captions are usually about, Who she is in one line
 
 ### Community 50 - "sections"
-Cohesion: 0.11
-Nodes (18): batch, emoji, intro, keep_all, pace_ms, sections, folder, hint (+10 more)
+Cohesion: 0.08
+Nodes (24): batch, emoji, grow, enabled, max_age_hours, min_score, per_section, intro (+16 more)
 
 ### Community 52 - "Voice — Bryce Nelson"
 Cohesion: 0.22
@@ -342,6 +349,10 @@ Nodes (3): How to behave, Things you cannot do (say so, don't pretend), What you
 Cohesion: 0.12
 Nodes (15): jobs, typecheck, name, on, pull_request, push, branches, name (+7 more)
 
+### Community 72 - "Drive"
+Cohesion: 0.17
+Nodes (4): Notion schema (optional mirror), Integrations, Drive, Notion
+
 ### Community 73 - "events"
 Cohesion: 0.13
 Nodes (14): defaults, ideas, lead_days, events, angle, date, lanes, lead_days (+6 more)
@@ -355,7 +366,7 @@ Cohesion: 0.18
 Nodes (10): instagram, hashtags, min_views, results_per_query, seed_accounts, tiktok, hashtags, min_views (+2 more)
 
 ### Community 76 - "anthropic.ts"
-Cohesion: 0.20
+Cohesion: 0.22
 Nodes (9): @anthropic-ai/sdk@^0.30.0, jsonrepair@^3.15.0, @anthropic-ai/sdk, jsonrepair, AgentResult, AgentTool, ClaudeOpts, ImageInput (+1 more)
 
 ### Community 77 - "Creator archetypes ("buckets") — Dan's niche profiles for the girls"
@@ -379,8 +390,8 @@ Cohesion: 0.29
 Nodes (6): Admin, Content & posting, FAQ — what Lava Bot may answer on Dan's behalf, Lives, Never answer (always escalate to Dan/Marissa), Requests from the team
 
 ### Community 85 - "context.ts"
-Cohesion: 0.09
-Nodes (21): body, client, ctx, db, env, rest, Env, DB (+13 more)
+Cohesion: 0.13
+Nodes (12): Env, DB, logEvent(), migrate(), MIGRATIONS_DIR, openDb(), Action, CommandBuilder (+4 more)
 
 ### Community 86 - "away/index.ts"
 Cohesion: 0.33
@@ -391,24 +402,24 @@ Cohesion: 0.22
 Nodes (9): scripts, build, dev, import-captions, new-model, register-commands, setup-server, start (+1 more)
 
 ### Community 88 - "register"
-Cohesion: 0.46
-Nodes (8): register(), describe(), labelPosts(), loadWindow(), modelReport(), ownersDigest(), snapshotAll(), snapshotModel()
+Cohesion: 0.22
+Nodes (13): luxon@^3.5.0, luxon, chunk(), PostRow, register(), describe(), labelPosts(), loadWindow() (+5 more)
 
-### Community 89 - "Incident — the Content Library folders emptied twice (Sep 17, 2026, evening)"
-Cohesion: 0.25
-Nodes (7): Addendum — how the re-run ended (01:37–01:41 UTC Sep 18), Incident — the Content Library folders emptied twice (Sep 17, 2026, evening), Lesson (now a standing rule in CLAUDE.md), Related, Timeline (UTC; New York = UTC−4), What the numbers mean (as of 00:21 UTC Sep 18), Why it could happen (root causes, all still present by the owner's order)
+### Community 89 - "PlanDeps"
+Cohesion: 0.16
+Nodes (5): IngestOpts, IngestResult, ItemRow, PlanDeps, SavedDeps
 
-### Community 90 - "canonicalUrl"
-Cohesion: 0.31
-Nodes (10): 3. Data integrity, canonicalUrl(), loadCollections(), registerSavedImport(), deliverPersonCollection(), learn(), mark(), queued() (+2 more)
+### Community 90 - "saved.ts"
+Cohesion: 0.16
+Nodes (13): RFC-4180, INDUSTRY, industryLens(), read(), TASTE, CollectionsConfig, FILE, parseCsv() (+5 more)
 
 ### Community 91 - "market-filter.ts"
-Cohesion: 0.24
-Nodes (9): AMBIGUOUS, ENGLISH_STOPWORDS, EXCLUDE_FILE, excludeWords(), FOREIGN_STOPWORDS, foreignLanguage(), marketFilter(), MarketVerdict (+1 more)
+Cohesion: 0.12
+Nodes (13): dst, [slug, displayName, code], src, yaml, yamlPath, AMBIGUOUS, ENGLISH_STOPWORDS, EXCLUDE_FILE (+5 more)
 
-### Community 92 - "Backlog — after the tuning window (verified against main @ 01bbe2b, 2026-09-18)"
-Cohesion: 0.20
-Nodes (8): 1. Safety / destructive actions, 4. Silent failures & visibility, 5. Learning & classification tuning *(owner decisions; nothing changes during the window)*, 7. Config & human-ownership, Added while reading, Backlog — after the tuning window (verified against main @ 01bbe2b, 2026-09-18), Could not confirm (kept out of the tables or marked partial), Recommended order when the tuning window ends (P0s)
+### Community 92 - "setup-server.ts"
+Cohesion: 0.14
+Nodes (13): client, db, env, model, settings, [slug, userId], staffIds, anthropicKey (+5 more)
 
 ### Community 93 - "buckets"
 Cohesion: 0.29
@@ -418,9 +429,9 @@ Nodes (6): buckets, lanes, name, note, references, slug
 Cohesion: 0.33
 Nodes (6): bucket, instagram, lanes, note, references, bryce
 
-### Community 95 - "Creator watch list — the accounts Dan wants the scout to follow"
-Cohesion: 0.29
-Nodes (6): Creator watch list — the accounts Dan wants the scout to follow, How to add one (Claude, no restart), How to queue specific reels by hand (Claude, no restart — learned the hard way 2026-09-18), Learned from Dan's saves (2026-09-18 04:09 UTC, `learn()` on the full 288-video set), Nov 18, 2026 — added by Dan / Claude (see docs/archetypes.md → "Nov 18 seed review" for the full vetting), Reference creators (`library/genres.yaml → scout.reference_accounts`) — scraper check 2026-09-18
+### Community 95 - "models.ts"
+Cohesion: 0.17
+Nodes (12): channels, loadModels(), Model, ModelConfig, ModelFiles, MODELS_DIR, modelSchema, readIf() (+4 more)
 
 ### Community 96 - "girls"
 Cohesion: 0.33
@@ -438,9 +449,9 @@ Nodes (6): leah, bucket, instagram, lanes, note, references
 Cohesion: 0.33
 Nodes (6): morgan, bucket, instagram, lanes, note, references
 
-### Community 100 - "2. Restart & concurrency resilience"
-Cohesion: 0.40
-Nodes (5): 2. Restart & concurrency resilience, channelName(), ensureForum(), ensureLibrary(), perms()
+### Community 100 - "archetypes.ts"
+Cohesion: 0.17
+Nodes (12): zod@^3.23.8, zod, ARCHETYPES_FILE, ArchetypesConfig, Bucket, bucketSchema, girlSchema, handle (+4 more)
 
 ### Community 101 - "The girls — niches and growth plans (Claude's review, Nov 18, 2026)"
 Cohesion: 0.40
@@ -466,25 +477,69 @@ Nodes (5): natt, instagram, lanes, note, references
 Cohesion: 0.40
 Nodes (5): shannon, instagram, lanes, note, references
 
+### Community 107 - "Content Library — the agency inspiration folders"
+Cohesion: 0.18
+Nodes (10): Classification, Content Library — the agency inspiration folders, Cost, Dan's saved collections → the library (and what the bot learns from them), Data, House rules — reject by default; US, English, women only, sex appeal required, Not (yet) done, Seeds, archetypes and discovery (Nov 18, 2026) (+2 more)
+
+### Community 108 - "discord.js"
+Cohesion: 0.35
+Nodes (8): discord.js, ensureModelStructure(), ModelStructureIds, clampToBot(), MEMBER, ROLE, AGENCY, STAFF
+
+### Community 109 - "register-commands.ts"
+Cohesion: 0.20
+Nodes (7): body, client, ctx, db, env, rest, register()
+
+### Community 110 - "library/index.ts"
+Cohesion: 0.25
+Nodes (9): Genre, genreSchema, LIBRARY_FILE, LibraryConfig, loadLibrary(), schema, TAGGED_GENRES, Classified (+1 more)
+
+### Community 111 - "Zernio"
+Cohesion: 0.22
+Nodes (4): Zernio, ZernioAccount, ZernioCreatePost, ZernioPlatformTarget
+
+### Community 112 - "4. Build blueprint for Lava Mgmt (Discord + Claude + Notion + GitHub + Drive)"
+Cohesion: 0.25
+Nodes (8): 4.0 Decisions locked (Aaron, Sept 17) — and what changed, 4.1 Stack, 4.2 Discord server template (per creator, private), 4.3 Bot modules (build in this order), 4.4 Notion databases (schema sketch), 4.5 Repo layout (GitHub), 4.6 Guardrails / gotchas, 4. Build blueprint for Lava Mgmt (Discord + Claude + Notion + GitHub + Drive)
+
+### Community 113 - "Runbook"
+Cohesion: 0.29
+Nodes (6): Adding integrations, Daily ops for Dan/Marissa, Deploy, First run, Runbook, Supabase notes
+
+### Community 114 - "Nivo HQ — Discord + "Larry The Bot" Teardown & Build Blueprint"
+Cohesion: 0.29
+Nodes (6): 0. TL;DR — what they actually have, 1. Audio transcript (creator's narration, timestamps in seconds), 3. Reconstructed architecture of THEIR system, 5. Still open (everything else is decided — see §4.0), Design choices worth copying, Nivo HQ — Discord + "Larry The Bot" Teardown & Build Blueprint
+
+### Community 115 - "register"
+Cohesion: 0.53
+Nodes (6): Gotchas, register(), classifyAndPost(), postToBoard(), scoutModel(), threadForCategory()
+
+### Community 116 - "register"
+Cohesion: 0.47
+Nodes (4): register(), ensureCategory(), ensureStructure(), ensureText()
+
+### Community 117 - "Architecture"
+Cohesion: 0.40
+Nodes (4): Architecture, Build order (each is a day or less), Deliberate non-goals, Request flows
+
 ## Knowledge Gaps
 - **1 isolated node(s):** `RFC-4180`
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 728 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 733 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `register()` connect `register` to `BotContext`, `2. Restart & concurrency resilience`, `loadPrompt`, `saved.ts`, `industryLens`, `register`, `src/index.ts`, `canonicalUrl`, `market-filter.ts`?**
-  _High betweenness centrality (0.030) - this node is a cross-community bridge._
+- **Why does `register()` connect `register` to `BotContext`, `archetypes.ts`, `insights/index.ts`, `plans.ts`, `src/index.ts`, `discord.js`, `library/index.ts`, `discord.js`, `register`, `saved.ts`?**
+  _High betweenness centrality (0.031) - this node is a cross-community bridge._
 - **Are the 9 inferred relationships involving `register()` (e.g. with `.action()` and `.ch()`) actually correct?**
   _`register()` has 9 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `RFC-4180` to the rest of the system?**
   _1 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `BotContext` be split into smaller, more focused modules?**
-  _Cohesion score 0.14919354838709678 - nodes in this community are weakly interconnected._
-- **Why does `industryLens()` connect `industryLens` to `saved.ts`, `CLAUDE.md — working rules for Claude Code in this repo`, `register`, `register`, `canonicalUrl`?**
-  _High betweenness centrality (0.029) - this node is a cross-community bridge._
-- **Are the 12 inferred relationships involving `register()` (e.g. with `.action()` and `.ch()`) actually correct?**
-  _`register()` has 12 INFERRED edges - model-reasoned connections that need verification._
 - **Should `aaron-pilk/model.yaml` be split into smaller, more focused modules?**
   _Cohesion score 0.045454545454545456 - nodes in this community are weakly interconnected._
+- **Why does `discord.js` connect `discord.js` to `package.json`, `captions/index.ts`, `insights/index.ts`, `plans.ts`, `dependencies`, `src/index.ts`, `register-commands.ts`, `library/index.ts`, `anthropic.ts`, `events/index.ts`, `register`, `discord.js`, `context.ts`, `away/index.ts`, `register`, `saved.ts`, `setup-server.ts`, `models.ts`?**
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
+- **Are the 12 inferred relationships involving `register()` (e.g. with `.action()` and `.ch()`) actually correct?**
+  _`register()` has 12 INFERRED edges - model-reasoned connections that need verification._
+- **Should `Bryce Nelson — profile` be split into smaller, more focused modules?**
+  _Cohesion score 0.125 - nodes in this community are weakly interconnected._
