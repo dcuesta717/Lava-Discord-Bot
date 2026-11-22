@@ -12,63 +12,65 @@ Three sections, all read by the generator:
 -
 
 ## Imported (auto — rewritten by import-captions / model add; do not edit)
-<!-- stats: n=59 · median length 29 chars / 6 words · 24% use hashtags · 68% use emoji · 10% all-lowercase -->
-- what a putt🫡⛳️ #golf #golfgirls #trend  <!-- tiktok · reel · ❤️ 10,800 · 💬 595 · ▶️ 645,900 -->
-- Love to soak up the sun ☀️  <!-- instagram · reel · ❤️ 3,624 · 💬 85 · ▶️ 79,812 -->
-- Who ya taking???  <!-- instagram · reel · ❤️ 1,338 · 💬 472 · ▶️ 124,120 -->
-- Valid  <!-- instagram · reel · ❤️ 1,816 · 💬 49 · ▶️ 161,661 -->
-- BTS - can’t wait for you to see what we have been up to 😂😘  <!-- instagram · reel · ❤️ 1,349 · 💬 60 · ▶️ 115,183 -->
-- Did you catch it … 😂😉  <!-- instagram · reel · ❤️ 1,302 · 💬 43 · ▶️ 48,378 -->
-- Missing @Kalena Kelly and @Desy Gato @Morgan Rae but they’ll be in the next ones soon😈  <!-- tiktok · reel · ❤️ 1,292 · 💬 9 · ▶️ 63,900 -->
-- Sandy toes #beach  <!-- instagram · reel · ❤️ 1,017 · 💬 21 · ▶️ 39,018 -->
-- Pray harder sweethearts 😘  <!-- instagram · reel · ❤️ 833 · 💬 34 · ▶️ 56,824 -->
-- Safety first  <!-- instagram · reel · ❤️ 720 · 💬 20 · ▶️ 111,038 -->
-- Volume up! What is going on at my neighbors house? Wrong answers only. 😂  <!-- instagram · reel · ❤️ 659 · 💬 29 · ▶️ 34,028 -->
-- Beach day🩷🍊🌺  <!-- tiktok · reel · ❤️ 426 · 💬 11 · ▶️ 5,292 -->
-- Bikini malfunction 👙 🤪  <!-- instagram · reel · ❤️ 336 · 💬 26 · ▶️ 21,306 -->
-- Knock knock … 😂  <!-- instagram · reel · ❤️ 371 · 💬 11 · ▶️ 22,348 -->
-- Hate when that happens 😂 hiiiii lol  <!-- instagram · reel · ❤️ 333 · 💬 9 · ▶️ 63,928 -->
-- Wouldn’t change it for anything 😍  <!-- instagram · reel · ❤️ 303 · 💬 14 · ▶️ 29,407 -->
-- I mean real  <!-- tiktok · reel · ❤️ 290 · 💬 9 · ▶️ 4,238 -->
-- … Or by the pool  <!-- instagram · reel · ❤️ 190 · 💬 21 · ▶️ 16,243 -->
-- What’s it gonna be? ☀️or👨  <!-- instagram · reel · ❤️ 248 · 💬 9 · ▶️ 14,376 -->
-- #CapCut  <!-- tiktok · reel · ❤️ 205 · 💬 10 · ▶️ 2,058 -->
-- Hi 👋- say it back 🥹  <!-- instagram · reel · ❤️ 188 · 💬 10 · ▶️ 16,678 -->
-- #CapCut  <!-- tiktok · reel · ❤️ 195 · 💬 8 · ▶️ 1,420 -->
-- Just bopping around the pool on a hot Friday  <!-- instagram · reel · ❤️ 176 · 💬 11 · ▶️ 3,960 -->
-- You’re welcome 😉  <!-- instagram · reel · ❤️ 179 · 💬 9 · ▶️ 17,159 -->
-- What is even happening because please let us know because we don’t either 🤪😂😘  <!-- instagram · reel · ❤️ 137 · 💬 17 · ▶️ 13,242 -->
-- Found some cute seashells ❤️  <!-- instagram · reel · ❤️ 205 · 💬 2 · ▶️ 15,364 -->
-- Let’s hear your best pick up lines 😘  <!-- instagram · reel · ❤️ 149 · 💬 13 · ▶️ 13,179 -->
-- I’ll even settle for a large glass of water too ❤️😘  <!-- instagram · reel · ❤️ 167 · 💬 9 · ▶️ 12,876 -->
-- Stop when you find the one 😍  <!-- instagram · reel · ❤️ 120 · 💬 16 · ▶️ 13,407 -->
-- BTS - shout out your favorites 😘  <!-- instagram · reel · ❤️ 104 · 💬 18 · ▶️ 14,321 -->
-- #fyp  <!-- tiktok · reel · ❤️ 169 · 💬 5 · ▶️ 1,029 -->
-- Can u tell we have no brain cells left @Kalena Kelly #CapCut #fyp #trending  <!-- tiktok · reel · ❤️ 135 · 💬 8 · ▶️ 1,909 -->
-- Who you risking it all on … 😂  <!-- instagram · reel · ❤️ 52 · 💬 22 · ▶️ 1,667 -->
-- Which is ur favorite outfit?☺️😛  <!-- tiktok · reel · ❤️ 122 · 💬 8 · ▶️ 1,795 -->
-- Lil cardio in my make shift sauna aka my garage  <!-- tiktok · reel · ❤️ 141 · 💬 2 · ▶️ 2,168 -->
-- #CapCut @Kalena Kelly  <!-- tiktok · reel · ❤️ 127 · 💬 4 · ▶️ 1,867 -->
-- I mean someone’s gotta know! @Kalena Kelly #CapCut #fyp #trending #fypシ゚viral #relatable  <!-- tiktok · reel · ❤️ 116 · 💬 5 · ▶️ 1,644 -->
-- CARRY ON🤌🏻🎀🩷 @Leah Fennelly @Kalena Kelly @just_naomijade @Desy Gato #CapCut #fyp #trending #fypシ゚viral  <!-- tiktok · reel · ❤️ 111 · 💬 6 · ▶️ 1,605 -->
-- Content house!!!  <!-- tiktok · reel · ❤️ 109 · 💬 6 · ▶️ 1,435 -->
-- @Kalena Kelly pov you are ur bestie are two of the same but different fronts #ftpシ #fyp #trending  <!-- tiktok · reel · ❤️ 98 · 💬 7 · ▶️ 1,324 -->
-- 🩵  <!-- tiktok · reel · ❤️ 105 · 💬 5 · ▶️ 1,409 -->
-- If it’s free, it’s for meeee 😂💋😘  <!-- instagram · reel · ❤️ 107 · 💬 4 · ▶️ 14,465 -->
-- Fr 🩷 #CapCut #trending #trend  <!-- tiktok · reel · ❤️ 101 · 💬 5 · ▶️ 853 -->
-- Love me a short king 😍  <!-- instagram · reel · ❤️ 50 · 💬 14 · ▶️ 9,156 -->
-- @Kalena Kelly 🩷 #CapCut #fyp #trending  <!-- tiktok · reel · ❤️ 70 · 💬 7 · ▶️ 1,377 -->
-- House tour?🥰  <!-- tiktok · reel · ❤️ 68 · 💬 6 · ▶️ 491 -->
-- JUST HAVING FUN‼️🩷 #fyp @Kalena Kelly  <!-- tiktok · reel · ❤️ 77 · 💬 4 · ▶️ 1,025 -->
-- What would you do? 😂🤪  <!-- instagram · reel · ❤️ 72 · 💬 4 · ▶️ 9,199 -->
-- @just_naomijade girlssss nightttttt  <!-- tiktok · reel · ❤️ 80 · 💬 2 · ▶️ 1,169 -->
-- You’re taking me out or …..  <!-- instagram · reel · ❤️ 48 · 💬 7 · ▶️ 1,683 -->
-- looking at pictures helps but I miss her bad. Love my girl forever.🐾  <!-- tiktok · reel · ❤️ 49 · 💬 6 · ▶️ 987 -->
-- Reminded how thankful to have made it through with u @Kalena Kelly and of course @Desy Gato too #fyp  <!-- tiktok · reel · ❤️ 48 · 💬 6 · ▶️ 706 -->
-- 😘muah!!!!  <!-- instagram · reel · ❤️ 67 · 💬 1 · ▶️ 2,047 -->
-- BTS content house - volume up 😂  <!-- instagram · reel · ❤️ 46 · 💬 4 · ▶️ 1,963 -->
-- … she doesn’t count 😘  <!-- instagram · reel · ❤️ 58 · 💬 1 · ▶️ 4,768 -->
-- life would suck without you🩷 @Kalena Kelly  <!-- tiktok · reel · ❤️ 38 · 💬 5 · ▶️ 1,396 -->
-- Anyone else vibe with different parts of a song based on their mood😂😂😂  <!-- instagram · reel · ❤️ 38 · 💬 3 · ▶️ 1,496 -->
-- What’s the worst that could happen??? 🤪  <!-- instagram · reel · ❤️ 39 · 💬 2 · ▶️ 3,055 -->
-- Dinners served 😘  <!-- instagram · reel · ❤️ 30 · 💬 1 · ▶️ 4,379 -->
+<!-- stats: n=61 · median length 25 chars / 5 words · 30% use hashtags · 57% use emoji · 7% all-lowercase -->
+- what a putt🫡⛳️ #golf #golfgirls #trend  <!-- tiktok · reel · ❤️ 10,900 · 💬 589 · ▶️ 656,800 -->
+- Which cake is your favorite?? 🤞😍  <!-- instagram · reel · ❤️ 10,607 · 💬 297 · ▶️ 428,050 -->
+- Wifey or … ????  <!-- instagram · reel · ❤️ 2,842 · 💬 179 · ▶️ 182,234 -->
+- Princess Angel Bryce reporting for duty! 👑😇🫡  <!-- instagram · reel · ❤️ 1,845 · 💬 95 · ▶️ 69,146 -->
+- Big day coming …  <!-- instagram · reel · ❤️ 1,272 · 💬 152 -->
+- Try it and see …  <!-- instagram · reel · ❤️ 1,517 · 💬 58 · ▶️ 109,456 -->
+- I’ll freeze in the outfit as long as you like it 😘  <!-- instagram · reel · ❤️ 1,345 · 💬 68 · ▶️ 61,588 -->
+- Missing @Kalena Kelly and @Desy Gato @Morgan Rae but they’ll be in the next ones soon😈  <!-- tiktok · reel · ❤️ 1,365 · 💬 10 · ▶️ 66,600 -->
+- Period  <!-- instagram · reel · ❤️ 541 · 💬 49 · ▶️ 16,188 -->
+- Peekaboo 💋  <!-- instagram · reel · ❤️ 606 · 💬 31 · ▶️ 19,605 -->
+- Bark for me …  <!-- instagram · reel · ❤️ 575 · 💬 25 · ▶️ 32,017 -->
+- It is my bday soooo ….  <!-- instagram · reel · ❤️ 442 · 💬 51 · ▶️ 21,255 -->
+- I need to know …  <!-- instagram · reel · ❤️ 381 · 💬 56 · ▶️ 13,083 -->
+- Hurry up … 💋  <!-- instagram · reel · ❤️ 488 · 💬 33 · ▶️ 24,038 -->
+- Hi!!!  <!-- instagram · reel · ❤️ 530 · 💬 19 · ▶️ 22,258 -->
+- It’s free … 😘  <!-- instagram · reel · ❤️ 400 · 💬 38 · ▶️ 18,214 -->
+- Running to us or running from us 💋🔪 … choose wisely  <!-- instagram · reel · ❤️ 417 · 💬 28 · ▶️ 27,200 -->
+- This should cause a few arguments 🍿  <!-- instagram · reel · ❤️ 306 · 💬 48 -->
+- Does anyone know … ?  <!-- instagram · reel · ❤️ 358 · 💬 32 · ▶️ 10,336 -->
+- Exhibit A  <!-- instagram · reel · ❤️ 298 · 💬 23 · ▶️ 11,479 -->
+- Who did it better??? 😍  <!-- instagram · reel · ❤️ 228 · 💬 32 -->
+- Obsess  <!-- instagram · reel · ❤️ 294 · 💬 18 -->
+- Bryce beans reporting for duty 🫡  <!-- instagram · reel · ❤️ 281 · 💬 19 -->
+- What’s your fav fry? 😇  <!-- instagram · reel · ❤️ 193 · 💬 36 · ▶️ 14,160 -->
+- More fun with more friends 😍😈  <!-- instagram · reel · ❤️ 303 · 💬 12 -->
+- Put cha name on it … 🎂😍  <!-- instagram · reel · ❤️ 235 · 💬 21 · ▶️ 17,723 -->
+- Here wolfie … here boy … 🥹❤️  <!-- instagram · reel · ❤️ 176 · 💬 30 -->
+- True  <!-- tiktok · reel · ❤️ 272 · 💬 8 · ▶️ 1,723 -->
+- Girls just wanna have fun 🤩  <!-- instagram · reel · ❤️ 231 · 💬 12 -->
+- Do you feel lucky? 🍀  <!-- instagram · reel · ❤️ 206 · 💬 15 -->
+- Anything you’d like to tell me … ? 🎂🎉  <!-- instagram · reel · ❤️ 129 · 💬 24 · ▶️ 13,601 -->
+- Does anyone else know why?  <!-- instagram · reel · ❤️ 143 · 💬 21 · ▶️ 8,194 -->
+- What type of content would you like more of?  <!-- instagram · reel · ❤️ 173 · 💬 14 -->
+- Tee hee 👻🎃  <!-- instagram · reel · ❤️ 117 · 💬 25 · ▶️ 10,358 -->
+- I mean fair #fyp  <!-- tiktok · reel · ❤️ 202 · 💬 4 · ▶️ 1,906 -->
+- 🥰  <!-- tiktok · reel · ❤️ 170 · 💬 7 · ▶️ 1,625 -->
+- Lil red❤️‍🔥 #fyp #halloween  <!-- tiktok · reel · ❤️ 163 · 💬 7 · ▶️ 1,778 -->
+- Girls night 🥂  <!-- instagram · carousel · ❤️ 125 · 💬 12 -->
+- Boats and hooooooooss #CapCut #fyp  <!-- tiktok · reel · ❤️ 159 · 💬 3 · ▶️ 1,362 -->
+- #CapCut  <!-- tiktok · reel · ❤️ 155 · 💬 2 · ▶️ 1,553 -->
+- Fav outfit by @Boca Babes ❤️‍🔥❤️‍🔥❤️‍🔥 #CapCut #musteatinmycity #fyp  <!-- tiktok · reel · ❤️ 125 · 💬 7 · ▶️ 1,443 -->
+- lil red riding hood❤️‍🔥 #halloween #fyp  <!-- tiktok · reel · ❤️ 109 · 💬 7 · ▶️ 1,112 -->
+- #CapCut  <!-- tiktok · reel · ❤️ 107 · 💬 7 · ▶️ 1,158 -->
+- Ur ref reporting for duty🖤 #fyp #halloween  <!-- tiktok · reel · ❤️ 119 · 💬 3 · ▶️ 1,457 -->
+- I know who I’m picking ❤️  <!-- instagram · reel · ❤️ 77 · 💬 11 · ▶️ 8,084 -->
+- @Boca Babes runway for Breast cancer🩷🤍 #fyp #runway #breastcancer  <!-- tiktok · reel · ❤️ 107 · 💬 3 · ▶️ 1,095 -->
+- @Akimota.art 🩷🩷🩷 Feeling powerful wearing art🛫 #CapCut #musteatinmycity #fyp  <!-- tiktok · reel · ❤️ 89 · 💬 6 · ▶️ 998 -->
+- Look who made it into the game!!! 😍💋  <!-- instagram · photo · ❤️ 74 · 💬 7 -->
+- fav pink dress🥰🥰 #CapCut #fyp  <!-- tiktok · reel · ❤️ 82 · 💬 4 · ▶️ 892 -->
+- My vocal stim lately….  <!-- tiktok · reel · ❤️ 72 · 💬 5 · ▶️ 958 -->
+- These are so fun now🥳🩷 #fyp  <!-- tiktok · reel · ❤️ 81 · 💬 3 · ▶️ 1,215 -->
+- Halloween timeeeeeeeee #fyp #halloween #scream #CapCut  <!-- tiktok · reel · ❤️ 64 · 💬 5 · ▶️ 1,310 -->
+- Just girls!!! @Kalena Kelly #fyp #breastcancer  <!-- tiktok · reel · ❤️ 70 · 💬 3 · ▶️ 1,126 -->
+- Be my own housewife✨ @Boca Babes #CapCut #fyp  <!-- tiktok · reel · ❤️ 55 · 💬 4 · ▶️ 938 -->
+- dnd✨🖤  <!-- tiktok · reel · ❤️ 53 · 💬 4 · ▶️ 708 -->
+- BOW @Kalena Kelly @Boca Babes #fyp #runway  <!-- tiktok · reel · ❤️ 62 · 💬 2 · ▶️ 1,028 -->
+- True.. #CapCut #fyp  <!-- tiktok · reel · ❤️ 60 · 💬 0 · ▶️ 1,063 -->
+- Such a fun event thanks to @Sarah Grove ‼️🩷 @AltSocial Club 🩷  <!-- tiktok · reel · ❤️ 13 · 💬 3 · ▶️ 242 -->
+- Try it and see …  <!-- instagram · reel · ❤️ 13 · 💬 1 · ▶️ 1,776 -->
+- Choose wisely …  <!-- instagram · reel · ❤️ 4 · 💬 0 · ▶️ 53 -->
+- Wyd … ?  <!-- instagram · reel · ❤️ 1 · 💬 0 · ▶️ 44 -->
