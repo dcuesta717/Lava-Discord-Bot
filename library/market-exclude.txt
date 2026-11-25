@@ -25,12 +25,53 @@ xiaohongshu
 #kontenhiburan
 #masukberanda
 #fyppp
-// dress-code / cultural markers the owners asked to exclude (other-market content)
-hijab
-hijabi
-abaya
-bhabhi
-saree
+// (five dress-code words removed 2026-11-25 — backlog AG: the filter is country, language, on-camera gender and content type only)
+// family / parenting content (Dan, Nov 25 2026: "stop sending me content with families in it or for families") — content-type
+// terms; '#tag' = whole hashtag, plain words = substring of the caption. The judge prompt has the same rule for what the
+// frame shows.
+#momlife
+#momsofinstagram
+#momsofig
+#momtok
+#momhumor
+#momcontent
+#boymom
+#girlmom
+#toddlermom
+#newmom
+#mommy
+#motherhood
+#family
+#familytime
+#familyfun
+#familygoals
+#familyvlog
+#kids
+#kidsofinstagram
+#toddler
+#toddlerlife
+#baby
+#babiesofinstagram
+#newborn
+#pregnant
+#pregnancy
+#bumpdate
+#husband
+#hubby
+#wifelife
+#marriedlife
+#dadlife
+#parenting
+#parentsofinstagram
+momlife
+motherhood
+my toddler
+my kids
+my husband
+my hubby
+my son
+my daughter
+pregnan
 // countries / cities outside the US (Dan: United States only)
 #uk
 #london

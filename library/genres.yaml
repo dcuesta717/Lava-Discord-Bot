@@ -32,8 +32,9 @@ genres:
   - slug: dance
     name: Dance
     emoji: "💃"
-    description: Dance trend / choreography / dance challenge with a trending sound; the movement is the content.
-    hashtags: [dancechallenge, dancetrend, dancereels]
+    description: Easy trend dance with a trending sound that a non-dancer copies in one take — a walk-in, a hip sway, a two-move trend; the movement is the content. Most of our girls do not dance (Dan, Nov 25), so this is a small lane — no choreography, no dance-team skill.
+    hashtags: [dancetrend]
+    keep: 1            # Dan Nov 25: less dance
 
   - slug: collabs
     name: Collabs
